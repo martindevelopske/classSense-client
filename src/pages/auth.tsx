@@ -15,18 +15,15 @@ export function Auth() {
   return (
     <div className="border border-green-500 w-full min-h-screen flex items-center justify-center">
       <Tabs defaultValue="account" className="w-[400px] p-2">
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-2 border border-green-800">
           <TabsTrigger value="account">Sign In</TabsTrigger>
           <TabsTrigger value="password">Sign Up</TabsTrigger>
         </TabsList>
         <TabsContent value="account">
           <Card>
             <CardHeader>
-              <CardTitle className="bg-green-300">
-                {" "}
-                Sign in to your account
-              </CardTitle>
-              <CardDescription></CardDescription>
+              <CardTitle className=""> Sign in to your account</CardTitle>
+              <CardDescription>Kazi ya kijiko na remote</CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
               <div className="space-y-1">
