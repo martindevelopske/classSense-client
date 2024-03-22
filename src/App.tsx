@@ -1,12 +1,20 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
-import { Auth } from "./pages/auth";
 import LoginSignupPage from "./pages/test";
+import StudentView from "./views/student";
 
 const router = createBrowserRouter([
   {
-    path: "/auth",
+    path: "/",
     element: <LoginSignupPage />,
+  },
+  {
+    path: "/student",
+    element: <StudentView />,
+  },
+  {
+    path: "/instructor",
+    element: <StudentView />,
   },
 ]);
 

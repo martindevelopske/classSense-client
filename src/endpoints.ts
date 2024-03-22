@@ -1,8 +1,8 @@
-const api = "localhost:8000";
+const api = "http://localhost:8000";
 export const login = `${api}/login`;
 export const logout = `${api}/logout`;
 
-export const signup = `${api}/`;
+export const signup = `${api}/users`;
 export const createInstructor = `${api}/instructors`;
 
 //attendance

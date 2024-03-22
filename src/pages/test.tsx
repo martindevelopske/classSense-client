@@ -25,7 +25,7 @@ const LoginSignupPage = () => {
           <Button
             onClick={() => showTab("signup")}
             variant={activeTab == "signup" ? "default" : "secondary"}
-            className={`w-1/2 border py-2 px-4 hover:text-black hover:border rounded-tr-lg rounded-br-lg`}
+            className={`w-1/2 py-2 px-4 hover:text-black hover:border rounded-tr-lg rounded-br-lg`}
           >
             Sign Up
           </Button>
