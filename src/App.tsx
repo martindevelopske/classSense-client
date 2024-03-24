@@ -2,21 +2,29 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
 import LoginSignupPage from "./pages/test";
 import StudentView from "./views/student";
+import InstructorView from "./views/instructor";
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <LoginSignupPage />, // Login page for both instructors and students
+    },
+    {
+      path: "/instructor",
+      element: <InstructorView />, // Accessible only after successful login
+    },
+    {
+      path: "/student",
+      element: <StudentView />, // Accessible only after successful login
+    },
+  ],
   {
-    path: "/",
-    element: <LoginSignupPage />,
-  },
-  {
-    path: "/student",
-    element: <StudentView />,
-  },
-  {
-    path: "/instructor",
-    element: <StudentView />,
-  },
-]);
+    future: {
+      v7_normalizeFormMethod: true,
+    },
+  }
+);
 
 function App() {
   return (

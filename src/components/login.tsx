@@ -13,7 +13,9 @@ import { Label } from "@/components/ui/label";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { login } from "@/endpoints";
 import { LoadingButton } from "./LoadingButton";
-import { redirect, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
+import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 
 export function LoginForm() {
   const [values, setValues] = useState({
@@ -24,9 +26,15 @@ export function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [redirect, setRedirect] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
+  //toggle show password
+  const handleTogglePassword = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
   //check prev page
   useEffect(() => {
     const redirectState = location?.state;
@@ -66,13 +74,20 @@ export function LoginForm() {
           const userType = res.data.userType;
           console.log(userType);
           setSuccess(true);
-          if (userType == "student") {
-            !redirect && setRedirect("student");
-            navigate(redirect);
-          } else if (userType == "instructor") {
-            !redirect && setRedirect("instructor");
-            navigate(redirect);
-          }
+          //   if (userType == "student") {
+          //     !redirect && setRedirect("student");
+          //     console.log(redirect);
+
+          //     navigate(redirect);
+          //   } else if (userType == "instructor") {
+          //     !redirect && setRedirect("instructor");
+          //     navigate(redirect);
+          //   }
+
+          // Handle redirect based on userType
+          const redirectPath =
+            userType === "student" ? "/student" : "/instructor";
+          navigate(redirectPath);
         });
     } catch (error: any) {
       console.log(error.response);
@@ -90,6 +105,10 @@ export function LoginForm() {
 
   return (
     <Card className="w-[350px]">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Login</title>
+      </Helmet>
       <form onSubmit={handleSubmit}>
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
@@ -119,13 +138,18 @@ export function LoginForm() {
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Password</Label>
-              <Input
-                required
-                type="password"
-                name="password"
-                placeholder="Password"
-                onChange={handleChange}
-              />
+              <div className="flex gap-2 items-center ">
+                <Input
+                  required
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="Password"
+                  onChange={handleChange}
+                />
+                <button type="button" onClick={handleTogglePassword}>
+                  {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
+                </button>
+              </div>
             </div>
           </div>
         </CardContent>
