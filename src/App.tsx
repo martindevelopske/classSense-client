@@ -29,7 +29,7 @@ const router = createBrowserRouter(
 function App() {
   return (
     <>
-      <div className="w-full min-h-screen text-base">
+      <div className="w-screen min-h-screen h-screen text-base box-sizing: border-box overflow-hidden">
         <RouterProvider router={router} />
       </div>
     </>

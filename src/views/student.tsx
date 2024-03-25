@@ -1,3 +1,5 @@
+import Navbar from "@/components/Header";
+import Wrapper from "@/components/wrapper";
 import { Helmet } from "react-helmet";
 
 export default function StudentView() {
@@ -7,7 +9,9 @@ export default function StudentView() {
         <meta charSet="utf-8" />
         <title>Student Dashboard</title>
       </Helmet>
-      <div>StudentView</div>
+      {/* <Navbar role="student" />
+        <div>student view</div> */}
+      <Wrapper />
     </>
   );
 }

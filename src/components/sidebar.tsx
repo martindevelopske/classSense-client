@@ -1,4 +1,3 @@
-// Navbar.js
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -16,7 +15,7 @@ const Navbar = ({ role }) => {
         ];
 
   return (
-    <nav className="h-[100px] bg-grayish">
+    <nav className="border h-32 bg-orange-500 w-[100px]">
       <ul>
         {links.map((link, index) => (
           <li key={index}>
