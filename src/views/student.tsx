@@ -1,4 +1,4 @@
-import Navbar from "@/components/Header";
+import Session from "@/components/Sessions";
 import Wrapper from "@/components/wrapper";
 import { Helmet } from "react-helmet";
 
@@ -9,9 +9,7 @@ export default function StudentView() {
         <meta charSet="utf-8" />
         <title>Student Dashboard</title>
       </Helmet>
-      {/* <Navbar role="student" />
-        <div>student view</div> */}
-      <Wrapper />
+      <Wrapper role={<Session />} />
     </>
   );
 }
