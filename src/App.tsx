@@ -1,22 +1,29 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "./App.css";
 import LoginSignupPage from "./pages/test";
-import StudentView from "./views/student";
-import InstructorView from "./views/instructor";
+import StudentView from "./views/student/student";
+import InstructorView from "./views/instructor/instructor";
+
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Wrapper from "./components/wrapper";
 
 const router = createBrowserRouter(
   [
     {
       path: "/",
-      element: <LoginSignupPage />, // Login page for both instructors and students
-    },
-    {
-      path: "/instructor",
-      element: <InstructorView />, // Accessible only after successful login
-    },
-    {
-      path: "/student",
-      element: <StudentView />, // Accessible only after successful login
+      element: <Wrapper />,
+      children: [
+        {
+          path: "/login",
+          element: <LoginSignupPage />, // Login page for both instructors and students
+        },
+        {
+          path: "/instructor",
+          element: <InstructorView />, // Accessible only after successful login
+        },
+        {
+          path: "/student",
+          element: <StudentView />, // Accessible only after successful login
+        },
+      ],
     },
   ],
   {
@@ -26,14 +33,12 @@ const router = createBrowserRouter(
   }
 );
 
-function App() {
+export default function App() {
   return (
     <>
-      <div className="w-screen min-h-screen h-screen text-base box-sizing: border-box overflow-hidden">
-        <RouterProvider router={router} />
+      <div>
+        <RouterProvider router={router}></RouterProvider>
       </div>
     </>
   );
 }
-
-export default App;

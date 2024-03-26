@@ -1,18 +1,32 @@
-import { ReactElement, useState } from "react";
+import { Children, ReactElement, ReactNode, useEffect, useState } from "react";
 import Navbar from "./Header";
 import { HamburgerMenuIcon, Cross1Icon } from "@radix-ui/react-icons";
-
-// }
+import { Outlet } from "react-router-dom";
 
 interface WrapperProps {
-  role: ReactElement; // Specify the type of the role prop
+  children: ReactNode; // Define children prop of type ReactNode
 }
-export default function Wrapper({ role }: WrapperProps) {
+export default function Wrapper() {
   const [expanded, setExpanded] = useState(false);
+  const [isMediumScreen, setIsMediumScreen] = useState(false);
 
   const handleExpand = () => {
     setExpanded((prev) => !prev);
   };
+
+  // Function to toggle expanded state based on screen size
+  const toggleExpanded = () => {
+    setIsMediumScreen(window.innerWidth >= 768 && window.innerWidth < 1024);
+    setExpanded(isMediumScreen ? true : false);
+  };
+
+  // Effect to update expanded state when window size changes
+  useEffect(() => {
+    toggleExpanded();
+    window.addEventListener("resize", toggleExpanded);
+    return () => window.removeEventListener("resize", toggleExpanded);
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen w-full">
       <div className="h-[70px] w-screen fixed">
@@ -33,29 +47,26 @@ export default function Wrapper({ role }: WrapperProps) {
               className="py-3 text-lg mr-3 md:hidden"
               onClick={handleExpand}
             >
-              {expanded ? (
+              {expanded || isMediumScreen ? (
                 <Cross1Icon />
               ) : (
-                <div>
-                  <HamburgerMenuIcon />{" "}
-                </div>
+                <HamburgerMenuIcon />
               )}
             </button>
             <div className="flex items-center justify-center">
-              {/* {expanded ? ( */}
-              <ul className="flex-col gap-2">
-                <li className={`${!expanded && "hidden"} hover:text-purple`}>
-                  Link 1
-                </li>
-                <li className={`${!expanded && "hidden"} hover:text-purple`}>
-                  Link 2
-                </li>
-              </ul>
+              {(expanded || isMediumScreen) && (
+                <ul className="flex-col gap-2">
+                  <li>Link 1</li>
+                  <li>Link 2</li>
+                </ul>
+              )}
             </div>
           </div>
         </div>
         <div className="flex-1 h-screen overflow-auto p-2 bg-grayish">
-          <div className="w-full h-auto">{role}</div>
+          <div className="w-full h-auto">
+            <Outlet />
+          </div>
         </div>
       </div>
     </div>
