@@ -1,6 +1,6 @@
-import Session from "@/views/student/StudentLandingPage";
-import Wrapper from "@/components/wrapper";
 import { Helmet } from "react-helmet";
+import StudentLandingPage from "@/views/student/StudentLandingPage";
+import { Outlet } from "react-router-dom";
 
 export default function StudentView() {
   return (
@@ -10,7 +10,10 @@ export default function StudentView() {
         <title>Student Dashboard</title>
       </Helmet>
       {/* <Wrapper role={<Session />} /> */}
-      <h2>Student</h2>
+      <div className="px-2">
+        {/* <StudentLandingPage /> */}
+        <Outlet />
+      </div>
     </>
   );
 }

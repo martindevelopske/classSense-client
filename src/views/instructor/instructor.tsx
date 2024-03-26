@@ -10,7 +10,9 @@ export default function InstructorView() {
         <meta charSet="utf-8" />
         <title>Instructor Dashboard</title>
       </Helmet>
-      <div>hello instructor</div>
+      <div className="px-2">
+        <InstructorLandingPage />
+      </div>
     </>
   );
 }

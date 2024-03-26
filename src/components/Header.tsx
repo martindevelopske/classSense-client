@@ -46,7 +46,7 @@ const Navbar = ({ role }) => {
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           </div>
-          <div className="flex items-center justify-center gap-3">
+          <div className="flex items-center justify-center gap-3 mr-3">
             <BellIcon width={20} height={20} />
             <GearIcon width={20} height={20} />
           </div>

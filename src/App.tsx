@@ -2,8 +2,9 @@ import LoginSignupPage from "./pages/test";
 import StudentView from "./views/student/student";
 import InstructorView from "./views/instructor/instructor";
 
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import Wrapper from "./components/wrapper";
+import CreateSession from "./views/instructor/CreateSessionPage";
 
 const router = createBrowserRouter(
   [
@@ -17,10 +18,17 @@ const router = createBrowserRouter(
         },
         {
           path: "/instructor",
-          element: <InstructorView />, // Accessible only after successful login
+          element: <Outlet />,
+          children: [
+            {
+              index: true,
+              element: <InstructorView />, // Accessible only after successful login
+            },
+            { path: "createSession", element: <CreateSession /> },
+          ],
         },
         {
-          path: "/student",
+          path: "student",
           element: <StudentView />, // Accessible only after successful login
         },
       ],

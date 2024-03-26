@@ -63,7 +63,7 @@ export default function Wrapper() {
             </div>
           </div>
         </div>
-        <div className="flex-1 h-screen overflow-auto p-2 bg-grayish">
+        <div className="flex-1 h-auto overflow-auto p-2 bg-grayish">
           <div className="w-full h-auto">
             <Outlet />
           </div>
