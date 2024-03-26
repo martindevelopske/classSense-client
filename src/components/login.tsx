@@ -71,22 +71,17 @@ export function LoginForm() {
           }
         )
         .then((res) => {
-          const userType = res.data.userType;
-          console.log(userType);
+          const userData = res.data;
+          console.log(userData);
           setSuccess(true);
-          //   if (userType == "student") {
-          //     !redirect && setRedirect("student");
-          //     console.log(redirect);
 
-          //     navigate(redirect);
-          //   } else if (userType == "instructor") {
-          //     !redirect && setRedirect("instructor");
-          //     navigate(redirect);
-          //   }
+          // Convert your data to a string
+          const userDataString = JSON.stringify(userData);
 
-          // Handle redirect based on userType
+          // Save to localStorage
+          localStorage.setItem("userData", userDataString);
           const redirectPath =
-            userType === "student" ? "/student" : "/instructor";
+            userData.userType === "student" ? "/student" : "/instructor";
           navigate(redirectPath);
         });
     } catch (error: any) {

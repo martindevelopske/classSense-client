@@ -1,8 +1,13 @@
-import Session from "@/views/student/StudentLandingPage";
-import Wrapper from "@/components/wrapper";
 import { Helmet } from "react-helmet";
 
+import { Outlet, useNavigate } from "react-router-dom";
+import StudentLandingPage from "./StudentLandingPage";
+import { useEffect } from "react";
+import { useStudentUserDataEffect } from "./useStudentUserDataEffect";
+
 export default function StudentView() {
+  const navigate = useNavigate();
+  useStudentUserDataEffect();
   return (
     <>
       <Helmet>
@@ -10,7 +15,10 @@ export default function StudentView() {
         <title>Student Dashboard</title>
       </Helmet>
       {/* <Wrapper role={<Session />} /> */}
-      <h2>Student</h2>
+      <div className="px-2">
+        {/* <StudentLandingPage /> */}
+        <StudentLandingPage />
+      </div>
     </>
   );
 }

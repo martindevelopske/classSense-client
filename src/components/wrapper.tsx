@@ -1,11 +1,8 @@
-import { Children, ReactElement, ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "./Header";
 import { HamburgerMenuIcon, Cross1Icon } from "@radix-ui/react-icons";
 import { Outlet } from "react-router-dom";
 
-interface WrapperProps {
-  children: ReactNode; // Define children prop of type ReactNode
-}
 export default function Wrapper() {
   const [expanded, setExpanded] = useState(false);
   const [isMediumScreen, setIsMediumScreen] = useState(false);
@@ -63,7 +60,7 @@ export default function Wrapper() {
             </div>
           </div>
         </div>
-        <div className="flex-1 h-screen overflow-auto p-2 bg-grayish">
+        <div className="flex-1 h-auto overflow-auto p-2 bg-grayish">
           <div className="w-full h-auto">
             <Outlet />
           </div>
