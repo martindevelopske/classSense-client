@@ -15,4 +15,4 @@ export const createSession = `${api}/sessions`;
 export const getAllSessions = `${api}/sessions`;
 export const getSessionMembers = `${api}/sessions/members`;
 export const addSessionMembers = `${api}/sessions/members`;
-export const getUserSessions = `${api}/sessions/getUserSessions`;
+export const getUserSessions = `${api}/sessions/userSessions`;

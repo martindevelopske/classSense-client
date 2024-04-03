@@ -1,5 +1,6 @@
 import { Button } from "../../components/ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
+import StudentsSessions from "./StudentSessions";
 export default function StudentLandingPage() {
   return (
     <>
@@ -13,6 +14,7 @@ export default function StudentLandingPage() {
             </div>
           </Button>
         </div>
+        <StudentsSessions />
       </div>
     </>
   );
