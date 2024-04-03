@@ -3,6 +3,7 @@ import StudentView from "./views/student/student";
 import InstructorView from "./views/instructor/instructor";
 
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import Wrapper from "./components/wrapper";
 import CreateSession from "./views/instructor/CreateSessionPage";
 

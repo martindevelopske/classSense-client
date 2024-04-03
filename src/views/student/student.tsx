@@ -1,4 +1,6 @@
 import { Helmet } from "react-helmet";
+import StudentLandingPage from "@/views/student/StudentLandingPage";
+import { Outlet } from "react-router-dom";
 
 import { Outlet, useNavigate } from "react-router-dom";
 import StudentLandingPage from "./StudentLandingPage";
