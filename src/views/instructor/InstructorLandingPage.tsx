@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "../../components/ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
+import InstructorSessions from "./InstructorSession";
 export default function InstructorLandingPage() {
   return (
     <>
@@ -17,6 +18,7 @@ export default function InstructorLandingPage() {
             </Link>
           </Button>
         </div>
+        <InstructorSessions />
       </div>
     </>
   );

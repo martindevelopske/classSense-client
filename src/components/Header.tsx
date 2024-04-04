@@ -15,7 +15,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
-import { DropdownMenuShortcut } from "./ui/dropdown-menu";
 import axios from "axios";
 import { logout } from "@/endpoints";
 import checkCookie from "@/lib/checkCookie";
@@ -27,28 +26,14 @@ type User = {
   };
   userType: string;
 };
-const Navbar = ({ role }) => {
-  const [currentUser, setCurrentUser] = useState<User>();
+const Navbar = ({ role, user }) => {
   const navigate = useNavigate();
-  useEffect(() => {
-    const userDataString = localStorage.getItem("userData");
-    if (userDataString) {
-      const userData = JSON.parse(userDataString);
-      setCurrentUser(userData);
-      if (userData.userType == "student") {
-        navigate("/student");
-      } else if (userData.userType == "instructor") {
-        navigate("/instructor");
-      } else {
-        navigate("/login");
-      }
-      const cookie = checkCookie("userToken");
-      console.log(cookie);
-      if (!cookie) navigate("/login");
-    } else {
-      console.log("no user data string");
-    }
-  }, []);
+  const [localStorageUser, setLocalStorageUser] = useState(
+    localStorage.getItem("userData")
+  );
+
+  const currentUser = user;
+  console.log(currentUser, "passed");
 
   //handle logout
   const handleLogout = async () => {

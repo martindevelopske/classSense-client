@@ -1,16 +1,18 @@
 import SessionCard from "@/components/SessionCard";
-import { getUserSessions } from "@/endpoints";
+import SessionCardInstructor from "@/components/SessionCardInstructor";
+import { getInstructorSessions } from "@/endpoints";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-export default function StudentsSessions() {
+export default function InstructorSessions() {
   const [sessions, setSessions] = useState<unknown>(null);
   const fetchSessions = async () => {
     try {
-      const response = await axios.get(getUserSessions, {
+      const response = await axios.get(getInstructorSessions, {
         withCredentials: true,
       });
-      console.log(response.data);
+      console.log(response);
       setSessions(response.data);
     } catch (error) {
       console.error("Error fetching sessions:", error);
@@ -22,11 +24,10 @@ export default function StudentsSessions() {
   return (
     <>
       {sessions?.map((session) => (
-        <div
-          className="w-full p-3 border  h-auto mt-4"
-          key={session.session.id}
-        >
-          <SessionCard session={session} />
+        <div className="w-full p-3 border  h-auto mt-4" key={session.id}>
+          <Link to={`/instructor/sessions/${session.id}`}>
+            <SessionCardInstructor session={session} />
+          </Link>
         </div>
       ))}
     </>

@@ -3,9 +3,12 @@ import StudentView from "./views/student/student";
 import InstructorView from "./views/instructor/instructor";
 
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
-import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
+
 import Wrapper from "./components/wrapper";
 import CreateSession from "./views/instructor/CreateSessionPage";
+
+import { Scan } from "lucide-react";
+import SingleSession from "./views/instructor/SingleSession";
 
 const router = createBrowserRouter(
   [
@@ -14,24 +17,24 @@ const router = createBrowserRouter(
       element: <Wrapper />,
       children: [
         {
-          path: "/login",
-          element: <LoginSignupPage />, // Login page for both instructors and students
+          path: "login",
+          element: <LoginSignupPage />,
         },
         {
-          path: "/instructor",
+          path: "instructor",
           element: <Outlet />,
           children: [
             {
               index: true,
-              element: <InstructorView />, // Accessible only after successful login
+              element: <InstructorView />,
             },
             {
               path: "createSession",
               element: <CreateSession />,
             },
             {
-              path: "session/:id",
-              element: <h3>single Session</h3>,
+              path: "sessions/:id",
+              element: <SingleSession />,
             },
           ],
         },
@@ -41,10 +44,19 @@ const router = createBrowserRouter(
           children: [
             {
               index: true,
-              element: <StudentView />, // Accessible only after successful login
+              element: <StudentView />,
+            },
+            {
+              path: "test",
+              element: <h2>testing....</h2>,
+            },
+            {
+              path: "scan",
+              element: <Scan />,
             },
           ],
         },
+        { path: "*", element: <h3>error page</h3> },
       ],
     },
   ],

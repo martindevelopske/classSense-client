@@ -2,10 +2,14 @@ import { useEffect, useState } from "react";
 import Navbar from "./Header";
 import { HamburgerMenuIcon, Cross1Icon } from "@radix-ui/react-icons";
 import { Outlet } from "react-router-dom";
+import { checkLogin } from "@/lib/checkLogin";
+import Sidebar from "./sidebar";
+import Breadcrumbs from "./BreadCrumps";
 
 export default function Wrapper() {
   const [expanded, setExpanded] = useState(false);
   const [isMediumScreen, setIsMediumScreen] = useState(false);
+  const [currentUser, setCurrentUser] = useState<User>();
 
   const handleExpand = () => {
     setExpanded((prev) => !prev);
@@ -23,11 +27,17 @@ export default function Wrapper() {
     window.addEventListener("resize", toggleExpanded);
     return () => window.removeEventListener("resize", toggleExpanded);
   }, []);
+  useEffect(() => {
+    const isLoggedIn = checkLogin();
+    console.log(isLoggedIn);
+    !isLoggedIn && console.log("hakuna mtu!!!");
+    setCurrentUser(isLoggedIn);
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen w-full">
       <div className="h-[70px] w-screen fixed">
-        <Navbar role="student" />
+        <Navbar role="student" user={currentUser} />
       </div>
       <div className="w-full mt-[70px] gap-0 flex-1 flex overflow-hidden">
         <div
@@ -36,9 +46,7 @@ export default function Wrapper() {
           } md:w-[200px]  bg-grayish`}
         >
           <div
-            className={`${
-              expanded && "rounded-tr-[42px]"
-            } w-full h-full bg-purple md:rounded-tr-[42px] p-2 text-white flex flex-col items-center`}
+            className={`w-full h-full bg-purple p-2 text-white flex flex-col items-center`}
           >
             <button
               className="py-3 text-lg mr-3 md:hidden"
@@ -50,18 +58,25 @@ export default function Wrapper() {
                 <HamburgerMenuIcon />
               )}
             </button>
-            <div className="flex items-center justify-center">
-              {(expanded || isMediumScreen) && (
-                <ul className="flex-col gap-2">
-                  <li>Link 1</li>
-                  <li>Link 2</li>
-                </ul>
-              )}
+            <div className="flex items-center justify-center text-white w-full">
+              {
+                (expanded || isMediumScreen) && (
+                  <div className="mt-6 w-full h-auto">
+                    <Sidebar role={currentUser.userType} />
+                  </div>
+                )
+                // <ul className="flex-col gap-3">
+                //   <li className="mt-3">Home</li>
+                //   <li>Scan QR</li>
+                // </ul>
+              }
+              {/* <Sidebar role="instructor" /> */}
             </div>
           </div>
         </div>
         <div className="flex-1 h-auto overflow-auto p-2 bg-grayish">
           <div className="w-full h-auto">
+            <Breadcrumbs />
             <Outlet />
           </div>
         </div>

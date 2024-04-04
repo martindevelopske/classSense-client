@@ -16,3 +16,5 @@ export const getAllSessions = `${api}/sessions`;
 export const getSessionMembers = `${api}/sessions/members`;
 export const addSessionMembers = `${api}/sessions/members`;
 export const getUserSessions = `${api}/sessions/userSessions`;
+export const getInstructorSessions = `${api}/sessions/instructorSessions`;
+export const getSingleSession = `${api}/sessions`;
