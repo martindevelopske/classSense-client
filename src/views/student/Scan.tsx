@@ -45,6 +45,8 @@ const QrReader = () => {
   const [qrOn, setQrOn] = useState<boolean>(true);
 
   useEffect(() => {
+    console.log("scanner hit..");
+
     const hasCam = QrScanner.hasCamera();
     console.log(hasCam);
 

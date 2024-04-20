@@ -19,21 +19,13 @@ import axios from "axios";
 import { logout } from "@/endpoints";
 import checkCookie from "@/lib/checkCookie";
 
-type User = {
-  user: {
-    id: string;
-    email: string;
-  };
-  userType: string;
+type navbarProps = {
+  role: string | undefined;
+  user: User | null;
 };
-const Navbar = ({ role, user }) => {
-  const navigate = useNavigate();
-  const [localStorageUser, setLocalStorageUser] = useState(
-    localStorage.getItem("userData")
-  );
-
-  const currentUser = user;
-  console.log(currentUser, "passed");
+const Navbar = ({ role, user }: navbarProps) => {
+  const currentUser: usert | undefined = user?.user;
+  const userType: string = user?.userType;
 
   //handle logout
   const handleLogout = async () => {
@@ -49,13 +41,20 @@ const Navbar = ({ role, user }) => {
   const links =
     role === "student"
       ? [
-          { label: "Home", to: "/student/home" },
-          { label: "Profile", to: "/student/profile" },
+          { label: "Home", to: "/" },
+          { label: "Profile", to: "/profile" },
         ]
-      : [
-          { label: "Home", to: "/instructor/home" },
-          { label: "Dashboard", to: "/instructor/dashboard" },
-        ];
+      : role === "instructor"
+      ? [
+          { label: "Home", to: "/" },
+          { label: "Dashboard", to: "/dashboard" },
+        ]
+      : role === "admin"
+      ? [
+          { label: "Home", to: "/" },
+          { label: "Dashboard", to: "/dashboard" },
+        ]
+      : []; // default value if role doesn't match any condition
 
   return (
     <div className="h-[70px] bg-grayish flex flex-row border justify-between px-3 items-center space-between w-full">
@@ -77,7 +76,7 @@ const Navbar = ({ role, user }) => {
         <div className="h-full flex gap-2 items-center">
           {currentUser ? (
             <div className="flex items-center justify-center ml-2 text-sm">
-              Welcome, {currentUser?.user.email}
+              Welcome, {currentUser?.email || "no user"}
             </div>
           ) : (
             <Link to="/login">

@@ -63,7 +63,7 @@ export function SignupForm() {
   };
 
   return (
-    <Card className="w-[350px]">
+    <Card className="w-full">
       <form onSubmit={handleSubmit}>
         <CardHeader>
           <CardTitle>Create an account</CardTitle>

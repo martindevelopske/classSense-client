@@ -6,9 +6,9 @@ export const signup = `${api}/users`;
 export const createInstructor = `${api}/instructors`;
 
 //attendance
-export const addAttendance = `${api}/`;
-export const deleteAttendance = `${api}/`;
-export const getSessionAttendees = `${api}/`;
+export const addAttendance = `${api}/attendance/add`; //pass session id
+export const deleteAttendance = `${api}/attendance/delete`;
+export const getSessionAttendees = `${api}/attendance/attendees`; //pass session id
 
 //sessions
 export const createSession = `${api}/sessions`;

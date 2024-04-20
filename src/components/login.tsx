@@ -16,6 +16,7 @@ import { LoadingButton } from "./LoadingButton";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
+import { useAppStore } from "@/store";
 
 export function LoginForm() {
   const [values, setValues] = useState({
@@ -28,18 +29,21 @@ export function LoginForm() {
   const [redirect, setRedirect] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const navigate = useNavigate();
+  const afterLogin = useAppStore((state) => state.afterLogin);
+  if (afterLogin) setRedirect(afterLogin);
+
   const location = useLocation();
 
+  const setUser = useAppStore((state) => state.setUser);
   //toggle show password
   const handleTogglePassword = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
   //check prev page
-  useEffect(() => {
-    const redirectState = location?.state;
-    redirectState && setRedirect(redirectState.from?.pathname);
-  }, []);
+  // useEffect(() => {
+  //   const redirectState = location?.state;
+  //   redirectState && setRedirect(redirectState.from?.pathname);
+  // }, []);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -57,7 +61,6 @@ export function LoginForm() {
     // Perform form submission logic here
     try {
       setLoading(true);
-      console.log(values);
 
       const response = await axios
         .post(
@@ -71,8 +74,11 @@ export function LoginForm() {
           }
         )
         .then((res) => {
+          console.log(res);
+
           const userData = res.data;
-          console.log(userData);
+          // console.log(userData);
+
           setSuccess(true);
 
           // Convert your data to a string
@@ -80,9 +86,17 @@ export function LoginForm() {
 
           // Save to localStorage
           localStorage.setItem("userData", userDataString);
+
+          //set user to state
+          setUser({ user: res.data.user, userType: res.data.userType });
+
           const redirectPath =
-            userData.userType === "student" ? "/student" : "/instructor";
-          navigate(redirectPath);
+            userData.userType === "student" ? "student" : "instructor";
+          // Construct the full URL with the appropriate subdomain
+          const fullURL = `http://${redirectPath}.${window.location.host}`;
+          // Redirect the page to the full URL
+          // window.location.href = afterLogin ? afterLogin : fullURL;
+          // navigate(fullURL);
         });
     } catch (error: any) {
       console.log(error.response);
@@ -99,7 +113,7 @@ export function LoginForm() {
   };
 
   return (
-    <Card className="w-[350px]">
+    <Card className=" w-full">
       <Helmet>
         <meta charSet="utf-8" />
         <title>Login</title>
