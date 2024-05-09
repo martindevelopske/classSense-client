@@ -29,28 +29,19 @@ export function LoginForm() {
   const [redirect, setRedirect] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const afterLogin = useAppStore((state) => state.afterLogin);
-  if (afterLogin) setRedirect(afterLogin);
-
   const location = useLocation();
+  const navigate = useNavigate();
 
   const setUser = useAppStore((state) => state.setUser);
   //toggle show password
   const handleTogglePassword = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
-  //check prev page
-  // useEffect(() => {
-  //   const redirectState = location?.state;
-  //   redirectState && setRedirect(redirectState.from?.pathname);
-  // }, []);
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("hit!");
 
     // Validation
     if (!values.email || !values.password) {
@@ -84,19 +75,10 @@ export function LoginForm() {
           // Convert your data to a string
           const userDataString = JSON.stringify(userData);
 
-          // Save to localStorage
-          localStorage.setItem("userData", userDataString);
-
-          //set user to state
-          setUser({ user: res.data.user, userType: res.data.userType });
-
-          const redirectPath =
-            userData.userType === "student" ? "student" : "instructor";
-          // Construct the full URL with the appropriate subdomain
-          const fullURL = `http://${redirectPath}.${window.location.host}`;
-          // Redirect the page to the full URL
-          // window.location.href = afterLogin ? afterLogin : fullURL;
-          // navigate(fullURL);
+          //update state on zustand
+          setUser(userData);
+          //redirect
+          navigate("/student");
         });
     } catch (error: any) {
       console.log(error.response);

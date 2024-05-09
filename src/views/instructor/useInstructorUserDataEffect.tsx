@@ -9,11 +9,11 @@ export function useInstructorUserDataEffect() {
       const userData = JSON.parse(userDataString);
       if (userData.userType !== "instructor") {
         console.error("User is not a instructor.");
-        navigate("/login");
+        navigate("/");
       }
     } else {
       console.error("Instructor data not found in localStorage.");
-      navigate("/login");
+      navigate("/");
     }
   }, []);
 }

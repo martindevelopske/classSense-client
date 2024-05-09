@@ -18,6 +18,7 @@ import {
 import axios from "axios";
 import { logout } from "@/endpoints";
 import checkCookie from "@/lib/checkCookie";
+import { useAppStore } from "@/store";
 
 type navbarProps = {
   role: string | undefined;
@@ -26,7 +27,7 @@ type navbarProps = {
 const Navbar = ({ role, user }: navbarProps) => {
   const currentUser: usert | undefined = user?.user;
   const userType: string = user?.userType;
-
+  const setUser = useAppStore((state) => state.setUser);
   //handle logout
   const handleLogout = async () => {
     const response = await axios
@@ -34,7 +35,8 @@ const Navbar = ({ role, user }: navbarProps) => {
         withCredentials: true,
       })
       .then((res) => console.log(res));
-    localStorage.clear();
+    //update state
+    setUser(null);
     window.location.reload();
   };
   // Define links based on the user's role

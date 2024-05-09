@@ -9,11 +9,11 @@ export function useStudentUserDataEffect() {
       const userData = JSON.parse(userDataString);
       if (userData.userType !== "student") {
         console.error("User is not a student.");
-        navigate("/login");
+        navigate("/");
       }
     } else {
       console.error("User data not found in localStorage.");
-      navigate("/login");
+      navigate("/");
     }
   }, []);
 }

@@ -7,7 +7,7 @@ import SingleSession from "../views/instructor/SingleSession";
 import StudentView from "../views/student/student";
 import QRCodeScanner from "../views/student/QRCodeScanner";
 import AddAttendance from "../views/student/AddAttendance";
-import LoginSignupPage from "@/pages/test";
+import LoginSignupPage from "@/pages/LoginSignupPage";
 import Home from "@/pages/Home";
 
 // const homeRoutes = createBrowserRouter([
