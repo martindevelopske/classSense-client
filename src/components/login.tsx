@@ -67,8 +67,8 @@ export function LoginForm() {
         .then((res) => {
           console.log(res);
 
-          const userData = res.data;
-          // console.log(userData);
+          const userData: User = res.data.message;
+          console.log(userData);
 
           setSuccess(true);
 
@@ -78,7 +78,11 @@ export function LoginForm() {
           //update state on zustand
           setUser(userData);
           //redirect
-          navigate("/student");
+          userData.userType === "student"
+            ? navigate("/student")
+            : userData.userType === "instructor"
+            ? navigate("/instructor")
+            : navigate("/");
         });
     } catch (error: any) {
       console.log(error.response);

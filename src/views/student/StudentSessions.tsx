@@ -10,8 +10,7 @@ export default function StudentsSessions() {
       const response = await axios.get(getUserSessions, {
         withCredentials: true,
       });
-      console.log(response.data);
-      setSessions(response.data);
+      setSessions(response.data.message);
     } catch (error) {
       console.error("Error fetching sessions:", error);
     }
@@ -22,10 +21,7 @@ export default function StudentsSessions() {
   return (
     <>
       {sessions?.map((session) => (
-        <div
-          className="w-full p-3 border  h-auto mt-4"
-          key={session.session.id}
-        >
+        <div className="w-full p-3 border  h-auto mt-4" key={session.id}>
           <SessionCard session={session} />
         </div>
       ))}

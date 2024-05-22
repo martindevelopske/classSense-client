@@ -10,6 +10,7 @@ function Home() {
 
   const setAfterLogin = useAppStore((state) => state.setAfterLogin);
   const afterLogin = useAppStore((state) => state.afterLogin);
+
   // useEffect(() => {
   //   if (!user || user == null) {
   //     console.log("no user...redirecting");

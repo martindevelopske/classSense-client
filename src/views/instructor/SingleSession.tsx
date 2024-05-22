@@ -7,18 +7,13 @@ import { AttendanceDataTable } from "./AttendanceDataTable";
 import QRCode from "qrcode";
 
 export default function SingleSession() {
-  const { id: number } = useParams();
-  console.log(id, "id");
+  const { id } = useParams();
 
   const [session, setSession] = useState<unknown>(null);
   const [code, setCode] = useState();
   const location = useLocation();
 
-  const href: string = window.location.href;
-  console.log(href);
   const attendanceUrl = `http://localhost:5173/student/addAttendance?sessionId=${id}`;
-  // const url: string = location.pathname;
-  // console.log(url);
 
   const fetchSession = async (id: number) => {
     try {
@@ -36,7 +31,9 @@ export default function SingleSession() {
     console.log(location.pathname);
 
     fetchSession(6);
-  }, []);
+  }, [id]);
+
+  const href: string = window.location.href;
 
   //generate a qr code for the student to sign in
   const generateCode = () => {

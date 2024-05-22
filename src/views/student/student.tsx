@@ -7,10 +7,8 @@ import Wrapper from "@/components/wrapper";
 
 export default function StudentView() {
   const user: User | null = useAppStore((state) => state.user);
-  console.log(user);
 
   const fullState = useAppStore((state) => state);
-  console.log(fullState);
 
   const navigate = useNavigate();
 

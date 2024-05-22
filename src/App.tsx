@@ -1,5 +1,5 @@
 import { useEffect, FC } from "react";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./pages/Home";
 import InstructorView from "./views/instructor/instructor";
 import CreateSession from "./views/instructor/CreateSessionPage";
@@ -9,7 +9,11 @@ import StudentView from "./views/student/student";
 import QRCodeScanner from "./views/student/QRCodeScanner";
 import AddAttendance from "./views/student/AddAttendance";
 import LoginSignupPage from "./pages/LoginSignupPage";
+import axios from "axios";
 
+//set axios defaults
+axios.defaults.headers.common.Accept = "application/json";
+axios.defaults.headers.post["Content-Type"] = "application/json";
 const App: FC = () => {
   const router = createBrowserRouter([
     {
@@ -18,8 +22,9 @@ const App: FC = () => {
     },
     {
       path: "/instructor",
-      element: <InstructorView />,
+      element: <Outlet />,
       children: [
+        { index: true, element: <InstructorView /> },
         { path: "createSession", element: <CreateSession /> },
         {
           path: "sessions/:id",
@@ -30,8 +35,9 @@ const App: FC = () => {
     },
     {
       path: "/student",
-      element: <StudentView />,
+      element: <Outlet />,
       children: [
+        { index: true, element: <StudentView /> },
         {
           path: "test",
           element: <h2>testing....</h2>,

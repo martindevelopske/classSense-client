@@ -9,7 +9,7 @@ const SessionCard = ({ session }) => {
         Status: {session.session.status}
       </p>
       <p className="border border-gray-300 mt-3"></p>
-      <p>Instructor: {session.instructor.email}</p>
+      <p>Instructor: {session.session.instructor.email}</p>
       {/* Add more session details as needed */}
     </div>
   );

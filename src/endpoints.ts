@@ -1,6 +1,6 @@
-const api = "http://localhost:8000";
-export const login = `${api}/login`;
-export const logout = `${api}/logout`;
+const api = "http://localhost:3000";
+export const login = `${api}/auth/login`;
+export const logout = `${api}/auth/logout`;
 
 export const signup = `${api}/users`;
 export const createInstructor = `${api}/instructors`;
@@ -14,7 +14,7 @@ export const getSessionAttendees = `${api}/attendance/attendees`; //pass session
 export const createSession = `${api}/sessions`;
 export const getAllSessions = `${api}/sessions`;
 export const getSessionMembers = `${api}/sessions/members`;
-export const addSessionMembers = `${api}/sessions/members`;
-export const getUserSessions = `${api}/sessions/userSessions`;
-export const getInstructorSessions = `${api}/sessions/instructorSessions`;
+export const addSessionMembers = `${api}/sessions/members/add`;
+export const getUserSessions = `${api}/sessions/user`;
+export const getInstructorSessions = `${api}/sessions/instructor`;
 export const getSingleSession = `${api}/sessions`;

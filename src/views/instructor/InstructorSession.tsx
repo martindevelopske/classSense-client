@@ -13,7 +13,7 @@ export default function InstructorSessions() {
         withCredentials: true,
       });
       console.log(response);
-      setSessions(response.data);
+      setSessions(response.data.message);
     } catch (error) {
       console.error("Error fetching sessions:", error);
     }
