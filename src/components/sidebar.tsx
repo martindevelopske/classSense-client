@@ -1,29 +1,37 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
-const Sidebar = (role: string) => {
+type sidebarProps = { role: string | undefined; expanded: boolean };
+
+const Sidebar = ({ role, expanded }: sidebarProps) => {
+  const currentRole = role;
+  console.log(role);
+
   // Define links based on the user's role
   const links =
-    role === "student"
+    currentRole === "student"
       ? [
           { label: "Home", to: "/" },
           { label: "Profile", to: "/profile" },
         ]
-      : role === "instructor"
+      : currentRole === "instructor"
       ? [
           { label: "Home", to: "/" },
           { label: "Dashboard", to: "/dashboard" },
         ]
-      : role === "admin"
+      : currentRole === "admin"
       ? [
           { label: "Home", to: "/" },
           { label: "Dashboard", to: "/dashboard" },
         ]
-      : []; // default value if role doesn't match any condition
+      : []; // default value if currentRole doesn't match any condition
 
   return (
     <div className="min-h-[500px] w-full text-white">
-      <ul className="flex flex-col gap-4 w-full items-center h-full">
+      <ul
+        className={`flex flex-col gap-4 w-full items-center h-full ${
+          !expanded && "hidden border border-red-400"
+        }`}
+      >
         {links?.map((link, index) => (
           <Link
             className="p-2 rounded-sm w-full bg-violet-800"

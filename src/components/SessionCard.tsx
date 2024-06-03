@@ -1,15 +1,17 @@
-const SessionCard = ({ session }) => {
-  console.log(session);
+type props = { session: SessionProps };
+const SessionCard = (sessionData: props) => {
+  const currentSession = sessionData.session.session;
+  // console.log(currentSession);
 
   return (
     <div className="border h-auto p-2 bg-purple rounded-lg text-white">
-      <h2>{session.session.name}</h2>
-      <p>ID: {session.session.id}</p>
-      <p className={`${session.session.status == "live" && "text-green-600"} `}>
-        Status: {session.session.status}
+      <h2>{currentSession.name}</h2>
+      <p>ID: {currentSession.id}</p>
+      <p className={`${currentSession.status == "live" && "text-green-600"} `}>
+        Status: {currentSession.status}
       </p>
       <p className="border border-gray-300 mt-3"></p>
-      <p>Instructor: {session.session.instructor.email}</p>
+      <p>Instructor: {currentSession.instructor.email}</p>
       {/* Add more session details as needed */}
     </div>
   );

@@ -1,19 +1,15 @@
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import Navbar from "./Header";
 import { HamburgerMenuIcon, Cross1Icon } from "@radix-ui/react-icons";
 import Sidebar from "./sidebar";
-import Breadcrumbs from "./BreadCrumps";
-import { useStore } from "zustand";
 import { useAppStore } from "@/store";
-import { Navigate, useNavigate } from "react-router-dom";
-import { homeLoginUrl } from "@/lib/urls";
+import { useNavigate } from "react-router-dom";
 
-export default function Wrapper({ children }) {
+export default function Wrapper({ children }: { children: ReactNode }) {
   const [expanded, setExpanded] = useState(false);
   const [isMediumScreen, setIsMediumScreen] = useState(false);
   const navigate = useNavigate();
   const user: User | null = useAppStore((state) => state.user);
-  console.log(user);
 
   const handleExpand = () => {
     setExpanded((prev) => !prev);
@@ -38,30 +34,20 @@ export default function Wrapper({ children }) {
         <Navbar role={user?.userType} user={user} />
       </div>
       <div className="w-full mt-[70px] gap-0 flex-1 flex overflow-hidden">
-        <div
-          className={`${
-            expanded ? "w-[150px]" : "w-[50px]" // Adjust the width here
-          } md:w-[200px]  bg-grayish`}
-        >
+        <div className={` ${expanded ? "w-[200px]" : "w-[55px]"} bg-grayish`}>
           <div
             className={`w-full h-full bg-purple p-2 text-white flex flex-col items-center`}
           >
-            <button
-              className="py-3 text-lg mr-3 md:hidden"
-              onClick={handleExpand}
-            >
-              {expanded || isMediumScreen ? (
-                <Cross1Icon />
-              ) : (
-                <HamburgerMenuIcon />
-              )}
-            </button>
+            <div className=" w-full h-auto p-2 flex justify-end items-center ">
+              <button className="py-1 text-lg" onClick={handleExpand}>
+                {expanded ? <Cross1Icon /> : <HamburgerMenuIcon />}
+              </button>
+            </div>
             <div className="flex items-center justify-center text-white w-full">
-              {(expanded || isMediumScreen) && (
-                <div className="mt-6 w-full h-auto">
-                  <Sidebar role={user?.userType} />
-                </div>
-              )}
+              <div className="mt-6 w-full h-auto">
+                <Sidebar role={user?.userType} expanded={expanded} />
+              </div>
+              {/* )} */}
             </div>
           </div>
         </div>

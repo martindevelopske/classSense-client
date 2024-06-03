@@ -4,7 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default function StudentsSessions() {
-  const [sessions, setSessions] = useState<unknown>(null);
+  const [sessions, setSessions] = useState([]);
   const fetchSessions = async () => {
     try {
       const response = await axios.get(getUserSessions, {
@@ -20,7 +20,7 @@ export default function StudentsSessions() {
   }, []);
   return (
     <>
-      {sessions?.map((session) => (
+      {sessions?.map((session: SessionProps) => (
         <div className="w-full p-3 border  h-auto mt-4" key={session.id}>
           <SessionCard session={session} />
         </div>
