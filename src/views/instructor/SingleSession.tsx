@@ -6,6 +6,8 @@ import { useLocation, useParams } from "react-router-dom";
 import { AttendanceDataTable } from "./AttendanceDataTable";
 import QRCode from "qrcode";
 import BackComponent from "@/components/BackComponent";
+import Loading from "@/components/Loading";
+import ErrorComponent from "@/components/Error";
 
 export default function SingleSession() {
   const { id } = useParams();
@@ -13,12 +15,15 @@ export default function SingleSession() {
   const [session, setSession] = useState(null);
   const [code, setCode] = useState();
   const [attendance, setAttendance] = useState();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>();
   const location = useLocation();
 
   const attendanceUrl = `http://localhost:5173/student/addAttendance?sessionId=${id}`;
 
   const fetchSession = async (id: number) => {
     try {
+      setLoading(true);
       const url = `${getSingleSession}/${Number(id)}`;
       const response = await axios.get(url, {
         withCredentials: true,
@@ -26,6 +31,9 @@ export default function SingleSession() {
       setSession(response.data.message);
     } catch (error) {
       console.error("Error fetching sessions:", error);
+      setError("Failed to fetch Session. Please Reload the page.");
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -45,10 +53,22 @@ export default function SingleSession() {
     <>
       <div className="flex flex-col gap-3 border-t mt-3 w-full p-3">
         <BackComponent to="/student" />
-        <div className="flex gap-3">
-          <Button onClick={generateCode}>Generate QR Code</Button>
-          <Button>Invite</Button>
-        </div>
+        {loading && (
+          <div>
+            <Loading loadingState={loading} />
+          </div>
+        )}
+        {error && (
+          <div>
+            <ErrorComponent errorMessage={error} />
+          </div>
+        )}
+        {session && (
+          <div className="flex gap-3">
+            <Button onClick={generateCode}>Generate QR Code</Button>
+            <Button>Invite</Button>
+          </div>
+        )}
         {session ? (
           <div>
             {code && (
@@ -64,11 +84,11 @@ export default function SingleSession() {
               <div className="font-bold text-lg">Name: {session?.name}</div>
               <div className="font-bold text-lg">Status: {session?.status}</div>
             </div>
+            <AttendanceDataTable />
           </div>
         ) : (
           <></>
         )}
-        <AttendanceDataTable />
       </div>
     </>
   );

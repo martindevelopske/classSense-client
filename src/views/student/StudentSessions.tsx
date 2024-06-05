@@ -1,3 +1,4 @@
+import ErrorComponent from "@/components/Error";
 import Loading from "@/components/Loading";
 import SessionCard from "@/components/SessionCard";
 import { getUserSessions } from "@/endpoints";
@@ -34,7 +35,11 @@ export default function StudentsSessions() {
             <Loading loadingState={loading} />
           </div>
         )}
-        {error && <div>{error}</div>}
+        {error && (
+          <div>
+            <ErrorComponent errorMessage={error} />
+          </div>
+        )}
         {sessions?.map((session: SessionProps) => (
           <div
             className="w-full p-3 h-auto mt-4 self-start
