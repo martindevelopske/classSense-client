@@ -4,7 +4,6 @@ type sidebarProps = { role: string | undefined; expanded: boolean };
 
 const Sidebar = ({ role, expanded }: sidebarProps) => {
   const currentRole = role;
-  console.log(role);
 
   // Define links based on the user's role
   const links =
@@ -23,6 +22,8 @@ const Sidebar = ({ role, expanded }: sidebarProps) => {
           { label: "Home", to: "/" },
           { label: "Dashboard", to: "/dashboard" },
         ]
+      : !currentRole
+      ? [{ label: "Login", to: "/" }]
       : []; // default value if currentRole doesn't match any condition
 
   return (

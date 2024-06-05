@@ -5,12 +5,14 @@ import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { AttendanceDataTable } from "./AttendanceDataTable";
 import QRCode from "qrcode";
+import BackComponent from "@/components/BackComponent";
 
 export default function SingleSession() {
   const { id } = useParams();
 
-  const [session, setSession] = useState<unknown>(null);
+  const [session, setSession] = useState(null);
   const [code, setCode] = useState();
+  const [attendance, setAttendance] = useState();
   const location = useLocation();
 
   const attendanceUrl = `http://localhost:5173/student/addAttendance?sessionId=${id}`;
@@ -21,15 +23,12 @@ export default function SingleSession() {
       const response = await axios.get(url, {
         withCredentials: true,
       });
-      console.log(response);
-      setSession(response.data);
+      setSession(response.data.message);
     } catch (error) {
       console.error("Error fetching sessions:", error);
     }
   };
   useEffect(() => {
-    console.log(location.pathname);
-
     fetchSession(6);
   }, [id]);
 
@@ -45,6 +44,7 @@ export default function SingleSession() {
   return (
     <>
       <div className="flex flex-col gap-3 border-t mt-3 w-full p-3">
+        <BackComponent to="/student" />
         <div className="flex gap-3">
           <Button onClick={generateCode}>Generate QR Code</Button>
           <Button>Invite</Button>
@@ -57,9 +57,12 @@ export default function SingleSession() {
               </div>
             )}
             <div className="mt-3">
-              <div>Session ID: {session.id}</div>
-              <div>Name: {session.name}</div>
-              <div>Status: {session.status}</div>
+              <div className="font-bold text-lg">
+                Session ID:{" "}
+                <span className="font-light font-sans">{session?.id}</span>
+              </div>
+              <div className="font-bold text-lg">Name: {session?.name}</div>
+              <div className="font-bold text-lg">Status: {session?.status}</div>
             </div>
           </div>
         ) : (

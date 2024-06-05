@@ -1,13 +1,14 @@
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "./Header";
 import { HamburgerMenuIcon, Cross1Icon } from "@radix-ui/react-icons";
 import Sidebar from "./sidebar";
 import { useAppStore } from "@/store";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import Breadcrumbs from "./BreadCrumps";
 
-export default function Wrapper({ children }: { children: ReactNode }) {
-  const [expanded, setExpanded] = useState(false);
-  const [isMediumScreen, setIsMediumScreen] = useState(false);
+export default function Wrapper() {
+  const [expanded, setExpanded] = useState<boolean>(false);
+  const [isMediumScreen, setIsMediumScreen] = useState<boolean>(false);
   const navigate = useNavigate();
   const user: User | null = useAppStore((state) => state.user);
 
@@ -53,8 +54,8 @@ export default function Wrapper({ children }: { children: ReactNode }) {
         </div>
         <div className="flex-1 h-auto overflow-auto p-2 bg-grayish">
           <div className="w-full h-auto">
-            {/* <Breadcrumbs /> */}
-            {children}
+            <Breadcrumbs />
+            <Outlet />
           </div>
         </div>
       </div>

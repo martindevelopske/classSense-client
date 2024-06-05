@@ -17,9 +17,7 @@ const Breadcrumbs = () => {
         {pathSegments.map((segment, index) => (
           <div className="flex items-center justify-center">
             <li key={index} className="breadcrumb-item">
-              <Link to={`/${pathSegments.slice(0, index + 1).join("/")}`}>
-                {segment}
-              </Link>
+              {segment}
             </li>
             <span>
               <CaretRightIcon />

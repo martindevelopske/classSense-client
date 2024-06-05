@@ -15,23 +15,21 @@ export default function StudentView() {
   useEffect(() => {
     if (!user || user == null) {
       // window.location.href = homeLoginUrl;
-      navigate("/");
+      navigate("/", { state: { redirect: "/student" } });
     }
   }, [user]);
   // useStudentUserDataEffect();
   return (
     <>
-      <Wrapper>
-        <Helmet>
-          <meta charSet="utf-8" />
-          <title>Student Dashboard</title>
-        </Helmet>
-        {/* <Wrapper role={<Session />} /> */}
-        <div className="px-2">
-          {/* <StudentLandingPage /> */}
-          <StudentLandingPage />
-        </div>
-      </Wrapper>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Student Dashboard</title>
+      </Helmet>
+      {/* <Wrapper role={<Session />} /> */}
+      <div className="px-2">
+        {/* <StudentLandingPage /> */}
+        <StudentLandingPage />
+      </div>
     </>
   );
 }

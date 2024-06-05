@@ -18,7 +18,10 @@ import { Helmet } from "react-helmet";
 import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 import { useAppStore } from "@/store";
 
-export function LoginForm() {
+type LoginProps = {
+  redirect?: string;
+};
+export function LoginForm({ redirect }: LoginProps) {
   const [values, setValues] = useState({
     email: "",
     password: "",
@@ -26,7 +29,7 @@ export function LoginForm() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [redirect, setRedirect] = useState("");
+  const [redirectURL, setRedirectURL] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const location = useLocation();
@@ -78,10 +81,12 @@ export function LoginForm() {
           //update state on zustand
           setUser(userData);
           //redirect
+          //if there is a redirect url go there, else navigate normally
+          redirect && navigate(redirect, { replace: true });
           userData.userType === "student"
-            ? navigate("/student")
+            ? navigate("/student", { replace: true })
             : userData.userType === "instructor"
-            ? navigate("/instructor")
+            ? navigate("/instructor", { replace: true })
             : navigate("/");
         });
     } catch (error: any) {
