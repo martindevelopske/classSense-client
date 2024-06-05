@@ -19,7 +19,7 @@ export default function SingleSession() {
   const [error, setError] = useState<string>();
   const location = useLocation();
 
-  const attendanceUrl = `http://localhost:5173/student/addAttendance?sessionId=${id}`;
+  const attendanceUrl: string = `http://localhost:5173/student/addAttendance?sessionId=${id}`;
 
   const fetchSession = async (id: number) => {
     try {
@@ -54,12 +54,12 @@ export default function SingleSession() {
       <div className="flex flex-col gap-3 border-t mt-3 w-full p-3">
         <BackComponent to="/student" />
         {loading && (
-          <div>
+          <div className="mt-[200px]">
             <Loading loadingState={loading} />
           </div>
         )}
         {error && (
-          <div>
+          <div className="mt-[200px]">
             <ErrorComponent errorMessage={error} />
           </div>
         )}

@@ -43,12 +43,12 @@ const Navbar = ({ role, user }: navbarProps) => {
   const links =
     role === "student"
       ? [
-          { label: "Home", to: "/" },
+          { label: "Home", to: "/student" },
           { label: "Profile", to: "/profile" },
         ]
       : role === "instructor"
       ? [
-          { label: "Home", to: "/" },
+          { label: "Home", to: "/instructor" },
           { label: "Dashboard", to: "/dashboard" },
         ]
       : role === "admin"
@@ -71,6 +71,9 @@ const Navbar = ({ role, user }: navbarProps) => {
       </div>
 
       <div className="h-full flex gap-3 items-center justify-between w-full">
+        <div className="flex gap-2 items-center justify-start w-1/4 md:w-1/4 text-2xl text-purple font-serif antialiased">
+          ClassSense
+        </div>
         <div className="flex gap-2 items-center justify-center w-1/2 md:w-1/3">
           <Input className="rounded-full" />
           <MagnifyingGlassIcon width={20} height={20} />

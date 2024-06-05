@@ -5,7 +5,7 @@ export default function ErrorComponent({
   errorMessage: string;
 }) {
   return (
-    <div className="flex items-center justify-center w-full">
+    <div className="flex items-center justify-center w-full mt-[-100px]">
       <PiWarningFill size={50} color="red" />
       <p className="text-lg">{errorMessage}</p>
     </div>

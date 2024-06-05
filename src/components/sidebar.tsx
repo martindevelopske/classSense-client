@@ -30,7 +30,7 @@ const Sidebar = ({ role, expanded }: sidebarProps) => {
     <div className="min-h-[500px] w-full text-white">
       <ul
         className={`flex flex-col gap-4 w-full items-center h-full ${
-          !expanded && "hidden border border-red-400"
+          !expanded && "hidden md:flex"
         }`}
       >
         {links?.map((link, index) => (

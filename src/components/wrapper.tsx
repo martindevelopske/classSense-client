@@ -35,16 +35,20 @@ export default function Wrapper() {
         <Navbar role={user?.userType} user={user} />
       </div>
       <div className="w-full mt-[70px] gap-0 flex-1 flex overflow-hidden">
-        <div className={` ${expanded ? "w-[200px]" : "w-[55px]"} bg-grayish`}>
+        <div
+          className={` ${
+            expanded ? "w-[200px]" : "w-[55px]"
+          } bg-grayish md:w-[200px]`}
+        >
           <div
             className={`w-full h-full bg-purple p-2 text-white flex flex-col items-center`}
           >
-            <div className=" w-full h-auto p-2 flex justify-end items-center ">
-              <button className="py-1 text-lg" onClick={handleExpand}>
+            <div className=" w-full h-auto p-2 flex justify-end items-center  ">
+              <button className="py-1 text-lg md:hidden" onClick={handleExpand}>
                 {expanded ? <Cross1Icon /> : <HamburgerMenuIcon />}
               </button>
             </div>
-            <div className="flex items-center justify-center text-white w-full">
+            <div className="flex items-center justify-center text-white w-full ">
               <div className="mt-6 w-full h-auto">
                 <Sidebar role={user?.userType} expanded={expanded} />
               </div>
@@ -54,7 +58,7 @@ export default function Wrapper() {
         </div>
         <div className="flex-1 h-auto overflow-auto p-2 bg-grayish">
           <div className="w-full h-auto">
-            <Breadcrumbs />
+            {/* <Breadcrumbs /> */}
             <Outlet />
           </div>
         </div>

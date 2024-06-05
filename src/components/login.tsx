@@ -36,6 +36,20 @@ export function LoginForm({ redirect }: LoginProps) {
   const navigate = useNavigate();
 
   const setUser = useAppStore((state) => state.setUser);
+  const user = useAppStore((state) => state.user);
+
+  //useEffect
+  const checkuser = () => {
+    if (user) {
+      //do not get here
+      user.userType === "student"
+        ? navigate("/student", { replace: true })
+        : user.userType === "instructor"
+        ? navigate("/instructor", { replace: true })
+        : navigate("/");
+    }
+  };
+  useEffect(checkuser, []);
   //toggle show password
   const handleTogglePassword = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);

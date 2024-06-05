@@ -4,7 +4,7 @@ const SessionCard = (sessionData: props) => {
   // console.log(currentSession);
 
   return (
-    <div className="border h-auto p-2 bg-purple rounded-lg text-white w-full md:w-2/6">
+    <div className="border h-auto p-2 border-purple text-black rounded-lg  w-full md:w-2/6">
       <h2>{currentSession.name}</h2>
       <p>ID: {currentSession.id}</p>
       <p className={`${currentSession.status == "live" && "text-green-600"} `}>

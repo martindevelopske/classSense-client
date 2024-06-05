@@ -11,7 +11,7 @@ export default function Loading({ loadingState }: { loadingState: boolean }) {
   const [color] = useState<string>("#f97316");
   return (
     <>
-      <div className="w-full flex items-center justify-center h-full">
+      <div className="w-full flex items-center justify-center h-full mt-[-100px]">
         <ScaleLoader
           color={color}
           loading={loading}
