@@ -2,7 +2,7 @@ import { Html5QrcodeScanner } from "html5-qrcode";
 import { Html5Qrcode } from "html5-qrcode";
 import { useEffect, useState } from "react";
 
-function QRCodeScanner() {
+function QRCodeScanner({ redo }: { redo: boolean }) {
   const [scanResult, setScanResult] = useState();
   useEffect(() => {
     const config = {
@@ -30,7 +30,11 @@ function QRCodeScanner() {
       scanner.clear(); // Clean up the scanner when the component unmounts
     };
   }, []); // This effect runs only once when the component mounts
-
+  useEffect(() => {
+    if (redo) {
+      setScanResult(undefined); // Clear the scan result when redo is true
+    }
+  }, [redo]);
   return <div id="reader"></div>;
 }
 export default QRCodeScanner;

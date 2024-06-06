@@ -19,6 +19,7 @@ module.exports = {
     extend: {
       colors: {
         grayish: "#eff2f7",
+        modalbg: "#DFE0DF",
         purple: "#7e57e2",
         warning: "hsl(var(--warning))",
         "warning-foreground": "hsl(var(--warning-foreground))",

@@ -15,7 +15,7 @@ export default function StudentView() {
   useEffect(() => {
     if (!user || user == null) {
       // window.location.href = homeLoginUrl;
-      navigate("/", { state: { redirect: "/student" } });
+      // navigate("/", { state: { redirect: "/student" } });
     }
   }, [user]);
   // useStudentUserDataEffect();

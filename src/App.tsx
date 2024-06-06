@@ -49,10 +49,7 @@ const App = () => {
           path: "sessions/:id",
           element: <SingleSession />,
         },
-        {
-          path: "scan",
-          element: <QRCodeScanner />,
-        },
+
         {
           path: "addAttendance",
           element: <AddAttendance />,

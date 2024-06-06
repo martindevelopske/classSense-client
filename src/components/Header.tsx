@@ -74,10 +74,10 @@ const Navbar = ({ role, user }: navbarProps) => {
         <div className="flex gap-2 items-center justify-start w-1/4 md:w-1/4 text-2xl text-purple font-serif antialiased">
           ClassSense
         </div>
-        <div className="flex gap-2 items-center justify-center w-1/2 md:w-1/3">
+        {/* <div className="flex gap-2 items-center justify-center w-1/2 md:w-1/3">
           <Input className="rounded-full" />
           <MagnifyingGlassIcon width={20} height={20} />
-        </div>
+        </div> */}
         <div className="h-full flex gap-2 items-center">
           {currentUser ? (
             <div className="flex items-center justify-center ml-2 text-sm">
