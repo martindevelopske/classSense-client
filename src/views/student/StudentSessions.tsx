@@ -18,8 +18,7 @@ export default function StudentsSessions() {
       });
       setSessions(response.data.message);
     } catch (error) {
-      setError("Failed to fetch Sessions. Please Reload the page.");
-      console.error("Error fetching sessions:", error);
+      setError("Failed to fetch your Sessions. Please Reload the page.");
     } finally {
       setLoading(false);
     }
@@ -29,7 +28,7 @@ export default function StudentsSessions() {
   }, []);
   return (
     <>
-      <div className="w-full min-h-screen flex items-center justify-center">
+      <div className="w-full min-h-screen flex flex-col items-center justify-center">
         {loading && (
           <div>
             <Loading loadingState={loading} />

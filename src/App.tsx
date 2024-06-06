@@ -1,4 +1,5 @@
-import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+
 import InstructorView from "./views/instructor/instructor";
 import CreateSession from "./views/instructor/CreateSessionPage";
 import SingleSession from "./views/instructor/SingleSession";
@@ -8,6 +9,10 @@ import AddAttendance from "./views/student/AddAttendance";
 import LoginSignupPage from "./pages/LoginSignupPage";
 import axios from "axios";
 import Wrapper from "./components/wrapper";
+import ErrorBoundary from "./components/ErrorBoundary";
+import SingleSessionError from "./components/Error/SingleSessionError";
+import ErrorComponent from "./components/Error";
+import Test from "./components/test";
 
 //set axios defaults
 axios.defaults.headers.common.Accept = "application/json";
@@ -35,7 +40,11 @@ const App = () => {
       path: "/student",
       element: <Wrapper />,
       children: [
-        { index: true, element: <StudentView /> },
+        {
+          index: true,
+
+          element: <StudentView />,
+        },
         {
           path: "sessions/:id",
           element: <SingleSession />,
@@ -47,6 +56,16 @@ const App = () => {
         {
           path: "addAttendance",
           element: <AddAttendance />,
+        },
+        {
+          path: "test",
+          element: (
+            <ErrorBoundary
+              fallback={<ErrorComponent errorMessage="Test page error." />}
+            >
+              <Test />
+            </ErrorBoundary>
+          ),
         },
       ],
     },
