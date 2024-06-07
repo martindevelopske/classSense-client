@@ -12,6 +12,7 @@ import ErrorComponent from "@/components/Error";
 export default function SingleSession() {
   const { id } = useParams();
 
+  const [activeTab, setActiveTab] = useState<string | null>(null);
   const [session, setSession] = useState(null);
   const [code, setCode] = useState();
   const [attendance, setAttendance] = useState();
@@ -36,6 +37,11 @@ export default function SingleSession() {
       setLoading(false);
     }
   };
+
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+  };
+
   useEffect(() => {
     fetchSession(6);
   }, [id]);
@@ -43,8 +49,10 @@ export default function SingleSession() {
   const href: string = window.location.href;
 
   //generate a qr code for the student to sign in
-  const generateCode = () => {
-    QRCode.toDataURL(href, { width: 500, margin: 2 }, (err, url) => {
+  const generateCode = async () => {
+    console.log("called");
+
+    await QRCode.toDataURL(href, { width: 500, margin: 2 }, (err, url) => {
       if (err) return console.error(err);
       setCode(url);
     });
@@ -65,29 +73,48 @@ export default function SingleSession() {
         )}
         {session && (
           <div className="flex gap-3">
-            <Button onClick={generateCode}>Generate QR Code</Button>
-            <Button>Invite</Button>
+            <Button
+              onClick={() => {
+                generateCode();
+                handleTabChange("sign-in");
+              }}
+            >
+              Sign In
+            </Button>
+            <Button
+              onClick={() => {
+                generateCode();
+                handleTabChange("joining");
+              }}
+            >
+              Add Members
+            </Button>
           </div>
         )}
-        {session ? (
+        {session && (
           <div>
-            {code && (
+            {activeTab == "sign-in" && (
               <div className="p-3 border-b">
-                <img className="" src={code} />
+                <div>sign in code</div>
+                <img className="" src={code} alt="QR Code" />
+              </div>
+            )}
+            {activeTab == "joining" && (
+              <div className="p-3 border-b">
+                <div>joing as a new member code</div>
+                <img className="" src={code} alt="QR Code" />
               </div>
             )}
             <div className="mt-3">
               <div className="font-bold text-lg">
                 Session ID:{" "}
-                <span className="font-light font-sans">{session?.id}</span>
+                <span className="font-light font-sans">{session.id}</span>
               </div>
-              <div className="font-bold text-lg">Name: {session?.name}</div>
-              <div className="font-bold text-lg">Status: {session?.status}</div>
+              <div className="font-bold text-lg">Name: {session.name}</div>
+              <div className="font-bold text-lg">Status: {session.status}</div>
             </div>
             <AttendanceDataTable />
           </div>
-        ) : (
-          <></>
         )}
       </div>
     </>

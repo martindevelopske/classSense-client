@@ -28,6 +28,8 @@ const Navbar = ({ role, user }: navbarProps) => {
   const currentUser: usert | undefined = user?.user;
   const userType: string = user?.userType;
   const setUser = useAppStore((state) => state.setUser);
+
+  const navigate = useNavigate();
   //handle logout
   const handleLogout = async () => {
     const response = await axios
@@ -37,7 +39,8 @@ const Navbar = ({ role, user }: navbarProps) => {
       .then((res) => console.log(res));
     //update state
     setUser(null);
-    window.location.reload();
+    navigate("/");
+    // window.location.reload();
   };
   // Define links based on the user's role
   const links =
