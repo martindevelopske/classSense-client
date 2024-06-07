@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { PiWarningFill } from "react-icons/pi";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
@@ -26,10 +27,10 @@ export function LoginForm({ redirect }: LoginProps) {
     email: "",
     password: "",
   });
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [redirectURL, setRedirectURL] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [success, setSuccess] = useState<string | null>(false);
+  const [redirectURL, setRedirectURL] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
   const location = useLocation();
@@ -82,15 +83,14 @@ export function LoginForm({ redirect }: LoginProps) {
           }
         )
         .then((res) => {
-          console.log(res);
-
+          if (res.status != 200) {
+            setError(res.data.message);
+          }
+          setSuccess(null);
+          console.log(res.response);
           const userData: User = res.data.message;
           console.log(userData);
-
-          setSuccess(true);
-
-          // Convert your data to a string
-          const userDataString = JSON.stringify(userData);
+          setSuccess("Login successfull. Redirecting....");
 
           //update state on zustand
           setUser(userData);
@@ -103,9 +103,10 @@ export function LoginForm({ redirect }: LoginProps) {
             ? navigate("/instructor", { replace: true })
             : navigate("/");
         });
+      console.log(response);
     } catch (error: any) {
-      console.log(error.response);
-      const errMsg = error.response.data.detail;
+      setSuccess(null);
+      const errMsg = error.response.data.message;
       setError(errMsg);
     } finally {
       setLoading(false);
@@ -131,8 +132,11 @@ export function LoginForm({ redirect }: LoginProps) {
         <CardContent>
           <div className="grid w-full items-center gap-4">
             {error && (
-              <div className="flex flex-col space-y-1.5 border border-red-600 p-2 text-red-600">
-                {error}
+              <div className="flex flex-col space-y-1.5 border border-red-600 text-white bg-red-600 rounded-md p-2">
+                <div className="flex items-center gap-3">
+                  <PiWarningFill size={30} color="white" />
+                  {error}
+                </div>
               </div>
             )}
             {success && (

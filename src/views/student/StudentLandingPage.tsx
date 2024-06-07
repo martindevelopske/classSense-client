@@ -29,7 +29,9 @@ export default function StudentLandingPage() {
               </div>
             </Button>
           </div>
-          <h2 className="text-purple text-2xl font-bold">Your Sessions</h2>
+          <h2 className="text-purple self-start mt-4 text-2xl font-bold">
+            Your Sessions
+          </h2>
         </div>
         <StudentsSessions />
         {showScanModal && (

@@ -84,7 +84,7 @@ const Navbar = ({ role, user }: navbarProps) => {
               Welcome, {currentUser?.email || "no user"}
             </div>
           ) : (
-            <Link to="/login">
+            <Link to="/">
               <Button>Login</Button>
             </Link>
           )}

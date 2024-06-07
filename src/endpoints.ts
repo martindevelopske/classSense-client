@@ -2,7 +2,7 @@ const api = "http://localhost:3000/api/v1";
 export const login = `${api}/auth/login`;
 export const logout = `${api}/auth/logout`;
 
-export const signup = `${api}/users`;
+export const signup = `${api}/user`;
 export const createInstructor = `${api}/instructors`;
 
 //attendance

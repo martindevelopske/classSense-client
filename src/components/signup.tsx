@@ -13,6 +13,8 @@ import { signup } from "@/endpoints";
 import axios from "axios";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { LoadingButton } from "./LoadingButton";
+import { useNavigate } from "react-router-dom";
+import { useAppStore } from "@/store";
 
 export function SignupForm() {
   const [values, setValues] = useState({
@@ -20,8 +22,14 @@ export function SignupForm() {
     password: "",
     confirmPassword: "",
   });
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>("");
+  const [success, setSuccess] = useState<string | null>("");
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const navigate = useNavigate();
+  const setUser = useAppStore((state) => state.setUser);
+  const user = useAppStore((state) => state.user);
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
@@ -44,12 +52,25 @@ export function SignupForm() {
       setLoading(true);
       const { confirmPassword, ...data } = values;
 
-      const response = await axios
-        .post(signup, { ...data })
-        .then((res) => console.log(res));
+      await axios.post(signup, { ...data }).then((res) => {
+        setError(null);
+        const userData: User = res.data.message;
+        console.log(res);
+        setSuccess("User Created successfully. Redirecting...");
+
+        //update state on zustand
+        setUser(userData);
+
+        userData.userType === "student"
+          ? navigate("/student", { replace: true })
+          : userData.userType === "instructor"
+          ? navigate("/instructor", { replace: true })
+          : navigate("/");
+      });
     } catch (error: any) {
       console.log(error.response);
-      const errMsg = error.response.data.detail;
+      setSuccess(null);
+      const errMsg = error.response.data.message;
       setError(errMsg);
     } finally {
       setLoading(false);
@@ -74,6 +95,11 @@ export function SignupForm() {
             {error && (
               <div className="flex flex-col space-y-1.5 border border-red-600 p-2 text-red-600">
                 {error}
+              </div>
+            )}
+            {success && (
+              <div className="flex flex-col space-y-1.5 border border-green-600 p-2 text-green-600">
+                {success}
               </div>
             )}
             <div className="flex flex-col space-y-1.5">
