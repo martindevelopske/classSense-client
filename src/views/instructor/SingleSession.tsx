@@ -8,11 +8,14 @@ import QRCode from "qrcode";
 import BackComponent from "@/components/BackComponent";
 import Loading from "@/components/Loading";
 import ErrorComponent from "@/components/Error";
+import SaveImageButton from "@/components/SaveImageButton";
+import CodeModal from "@/components/modals/CodeModal";
 
 export default function SingleSession() {
   const { id } = useParams();
 
   const [activeTab, setActiveTab] = useState<string | null>(null);
+  const [fullscreen, setFullscreen] = useState<boolean>(false);
   const [session, setSession] = useState(null);
   const [code, setCode] = useState();
   const [attendance, setAttendance] = useState();
@@ -54,12 +57,13 @@ export default function SingleSession() {
 
     await QRCode.toDataURL(href, { width: 500, margin: 2 }, (err, url) => {
       if (err) return console.error(err);
+
       setCode(url);
     });
   };
   return (
     <>
-      <div className="flex flex-col gap-3 border-t mt-3 w-full p-3">
+      <div className="flex flex-col gap-3 border-t mt-3 w-full p-3 h-auto">
         <BackComponent to="/student" />
         {loading && (
           <div className="mt-[200px]">
@@ -79,7 +83,7 @@ export default function SingleSession() {
                 handleTabChange("sign-in");
               }}
             >
-              Sign In
+              Sign In Code
             </Button>
             <Button
               onClick={() => {
@@ -87,7 +91,7 @@ export default function SingleSession() {
                 handleTabChange("joining");
               }}
             >
-              Add Members
+              Invite Code
             </Button>
           </div>
         )}
@@ -97,13 +101,37 @@ export default function SingleSession() {
               <div className="p-3 border-b">
                 <div>sign in code</div>
                 <img className="" src={code} alt="QR Code" />
+                <hr />
+                {code && (
+                  <div>
+                    {" "}
+                    <SaveImageButton dataUrl={code} />{" "}
+                    <Button onClick={() => setFullscreen(true)}>
+                      Full Screen
+                    </Button>
+                  </div>
+                )}
               </div>
             )}
             {activeTab == "joining" && (
               <div className="p-3 border-b">
                 <div>joing as a new member code</div>
                 <img className="" src={code} alt="QR Code" />
+
+                <hr></hr>
+                {code && (
+                  <div className="flex items-center justify-between w-full">
+                    {" "}
+                    <SaveImageButton dataUrl={code} />
+                    <Button onClick={() => setFullscreen(true)}>
+                      Full Screen
+                    </Button>
+                  </div>
+                )}
               </div>
+            )}
+            {fullscreen && code && (
+              <CodeModal data={code} setFullscreen={setFullscreen} />
             )}
             <div className="mt-3">
               <div className="font-bold text-lg">
