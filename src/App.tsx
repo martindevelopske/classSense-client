@@ -33,7 +33,7 @@ const App = () => {
           path: "sessions/:id",
           element: <SingleSession />,
         },
-        { path: "*", element: <h3>error page</h3> },
+        { path: "*", element: <h3>error page. Page not found</h3> },
       ],
     },
     {

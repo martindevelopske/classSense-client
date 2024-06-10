@@ -9,18 +9,18 @@ const Sidebar = ({ role, expanded }: sidebarProps) => {
   const links =
     currentRole === "student"
       ? [
-          { label: "Home", to: "/" },
+          { label: "Home", to: "/student" },
           { label: "Profile", to: "/profile" },
         ]
       : currentRole === "instructor"
       ? [
-          { label: "Home", to: "/" },
-          { label: "Dashboard", to: "/dashboard" },
+          { label: "Home", to: "/instructor" },
+          { label: "Dashboard", to: "dashboard" },
         ]
       : currentRole === "admin"
       ? [
           { label: "Home", to: "/" },
-          { label: "Dashboard", to: "/dashboard" },
+          { label: "Dashboard", to: "dashboard" },
         ]
       : !currentRole
       ? [{ label: "Login", to: "/" }]

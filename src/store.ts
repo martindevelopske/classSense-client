@@ -8,10 +8,6 @@ import { persist, createJSONStorage } from "zustand/middleware";
 //   setUser: (userObj: State["user"]) => void;
 // };
 
-type StoreState = {
-  user: User | null;
-  setUser: (userObj: User | null) => void;
-};
 export const useAppStore = create(
   persist(
     (set, get) => ({

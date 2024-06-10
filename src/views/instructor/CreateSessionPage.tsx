@@ -52,7 +52,7 @@ export default function CreateSession() {
   };
   return (
     <>
-      <Card className="w-full">
+      <Card className="w-full h-full">
         <Helmet>
           <meta charSet="utf-8" />
           <title>Create Session</title>

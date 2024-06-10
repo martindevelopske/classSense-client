@@ -2,8 +2,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 
 import { BellIcon, GearIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import { Input } from "@/components/ui/input";
-import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -17,7 +15,6 @@ import {
 } from "@radix-ui/react-dropdown-menu";
 import axios from "axios";
 import { logout } from "@/endpoints";
-import checkCookie from "@/lib/checkCookie";
 import { useAppStore } from "@/store";
 
 type navbarProps = {
@@ -26,7 +23,6 @@ type navbarProps = {
 };
 const Navbar = ({ role, user }: navbarProps) => {
   const currentUser: usert | undefined = user?.user;
-  const userType: string = user?.userType;
   const setUser = useAppStore((state) => state.setUser);
 
   const navigate = useNavigate();
@@ -84,7 +80,7 @@ const Navbar = ({ role, user }: navbarProps) => {
         <div className="h-full flex gap-2 items-center">
           {currentUser ? (
             <div className="flex items-center justify-center ml-2 text-sm">
-              Welcome, {currentUser?.email || "no user"}
+              Welcome, {currentUser?.firstname || "no user"}
             </div>
           ) : (
             <Link to="/">
