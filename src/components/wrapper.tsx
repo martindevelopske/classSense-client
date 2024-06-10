@@ -3,13 +3,11 @@ import Navbar from "./Header";
 import { HamburgerMenuIcon, Cross1Icon } from "@radix-ui/react-icons";
 import Sidebar from "./sidebar";
 import { useAppStore } from "@/store";
-import { Outlet, useNavigate } from "react-router-dom";
-import Breadcrumbs from "./BreadCrumps";
+import { Outlet } from "react-router-dom";
 
 export default function Wrapper() {
   const [expanded, setExpanded] = useState<boolean>(false);
   const [isMediumScreen, setIsMediumScreen] = useState<boolean>(false);
-  const navigate = useNavigate();
   const user: User | null = useAppStore((state) => state.user);
 
   const handleExpand = () => {

@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signup } from "@/endpoints";
 import axios from "axios";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { LoadingButton } from "./LoadingButton";
 import { useNavigate } from "react-router-dom";
 import { useAppStore } from "@/store";
@@ -20,6 +20,8 @@ export function SignupForm() {
   const [values, setValues] = useState({
     email: "",
     password: "",
+    firstname: "",
+    lastname: "",
     confirmPassword: "",
   });
   const [error, setError] = useState<string | null>("");
@@ -30,6 +32,18 @@ export function SignupForm() {
   const setUser = useAppStore((state) => state.setUser);
   const user = useAppStore((state) => state.user);
 
+  //useEffect
+  const checkuser = () => {
+    if (user) {
+      //do not get here
+      user.userType === "student"
+        ? navigate("/student", { replace: true })
+        : user.userType === "instructor"
+        ? navigate("/instructor", { replace: true })
+        : navigate("/");
+    }
+  };
+  useEffect(checkuser, []);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
@@ -103,7 +117,25 @@ export function SignupForm() {
               </div>
             )}
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Email</Label>
+              <Label htmlFor="firstname">Firstname</Label>
+              <Input
+                required
+                type="firstname"
+                name="firstname"
+                onChange={handleChange}
+              />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="lastname">Lastname</Label>
+              <Input
+                required
+                type="lastname"
+                name="lastname"
+                onChange={handleChange}
+              />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="email">Email</Label>
               <Input
                 required
                 type="email"
@@ -113,7 +145,7 @@ export function SignupForm() {
               />
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Password</Label>
+              <Label htmlFor="password">Password</Label>
               <Input
                 required
                 type="password"
@@ -123,7 +155,7 @@ export function SignupForm() {
               />
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name"> Confirm Password</Label>
+              <Label htmlFor="confirmpassword"> Confirm Password</Label>
               <Input
                 required
                 type="password"

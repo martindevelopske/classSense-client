@@ -13,7 +13,7 @@ const LoginSignupPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="max-w-md w-full p-8 bg-white rounded-lg shadow-lg border h-[600px]">
+      <div className="max-w-md w-full p-8 bg-white rounded-lg shadow-lg border min-h-[600px] h-auto">
         <div className="flex justify-between mb-8 p-2">
           <Button
             onClick={() => showTab("login")}

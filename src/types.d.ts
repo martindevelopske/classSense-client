@@ -8,6 +8,11 @@ type User = {
   userType: string | undefined;
 };
 
+type StoreState = {
+  user: User | null;
+  setUser: (userObj: User | null) => void;
+};
+
 type Instructor = {
   id: number;
   email: string;

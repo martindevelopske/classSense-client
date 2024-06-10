@@ -1,3 +1,5 @@
+import React from "react";
+import ErrorComponent from "@/components/Error";
 import {
   Table,
   TableBody,
@@ -9,70 +11,25 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-const invoices = [
-  {
-    invoice: "INV001",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV002",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV003",
-    paymentStatus: "Unpaid",
-    totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV004",
-    paymentStatus: "Paid",
-    totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV005",
-    paymentStatus: "Paid",
-    totalAmount: "$550.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV006",
-    paymentStatus: "Pending",
-    totalAmount: "$200.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-];
-
-export function AttendanceDataTable() {
-  return (
+export function AttendanceDataTable({ data }) {
+  return data.length > 0 ? (
     <Table>
-      <TableCaption>A list of your recent invoices.</TableCaption>
+      <TableCaption>A list of your recent Attendances.</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[100px]">Invoice</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Method</TableHead>
-          <TableHead className="text-right">Amount</TableHead>
+          <TableHead className="text-right">ID</TableHead>
+          <TableHead className="w-[100px]">Session ID</TableHead>
+          <TableHead>Email</TableHead>
+          <TableHead>Date</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {invoices.map((invoice) => (
-          <TableRow key={invoice.invoice}>
-            <TableCell className="font-medium">{invoice.invoice}</TableCell>
-            <TableCell>{invoice.paymentStatus}</TableCell>
-            <TableCell>{invoice.paymentMethod}</TableCell>
-            <TableCell className="text-right">{invoice.totalAmount}</TableCell>
+        {data.map((item) => (
+          <TableRow key={item.id}>
+            <TableCell className="font-medium">{item.id}</TableCell>
+            <TableCell>{item.sessionId}</TableCell>
+            <TableCell>{item.user.email}</TableCell>
+            <TableCell>{item.createdAt}</TableCell>
           </TableRow>
         ))}
       </TableBody>
@@ -83,5 +40,7 @@ export function AttendanceDataTable() {
         </TableRow>
       </TableFooter>
     </Table>
+  ) : (
+    <ErrorComponent errorMessage="No attendance Records" />
   );
 }

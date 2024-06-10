@@ -1,4 +1,5 @@
 import { Button } from "./ui/button";
+import { FaDownload } from "react-icons/fa6";
 
 const SaveImageButton = ({ dataUrl }: { dataUrl: string }) => {
   // Base64 string of the image
@@ -19,8 +20,9 @@ const SaveImageButton = ({ dataUrl }: { dataUrl: string }) => {
   };
 
   return (
-    <Button onClick={handleClick} className="">
+    <Button onClick={handleClick} className="flex items-center gap-3">
       Save Image
+      <FaDownload />
     </Button>
   );
 };

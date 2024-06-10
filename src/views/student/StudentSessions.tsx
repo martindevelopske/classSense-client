@@ -45,7 +45,7 @@ export default function StudentsSessions() {
           "
             key={session.id}
           >
-            <Link to={`sessions/${session.id}`}>
+            <Link to={`sessions/${session.session.id}`}>
               <div className="w-full flex gap-3 p-2 ">
                 <SessionCard session={session} />
               </div>

@@ -1,17 +1,21 @@
 import { Button } from "@/components/ui/button";
-import { addAttendance, getSingleSession } from "@/endpoints";
+import { getSingleSession } from "@/endpoints";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { AttendanceDataTable } from "./AttendanceDataTable";
 import QRCode from "qrcode";
+import { RiFullscreenFill } from "react-icons/ri";
 import BackComponent from "@/components/BackComponent";
 import Loading from "@/components/Loading";
 import ErrorComponent from "@/components/Error";
 import SaveImageButton from "@/components/SaveImageButton";
 import CodeModal from "@/components/modals/CodeModal";
+import { useStudentUserDataEffect } from "../student/useStudentUserDataEffect";
 
 export default function SingleSession() {
+  useStudentUserDataEffect();
+
   const { id } = useParams();
 
   const [activeTab, setActiveTab] = useState<string | null>(null);
@@ -33,6 +37,10 @@ export default function SingleSession() {
         withCredentials: true,
       });
       setSession(response.data.message);
+      console.log(response.data.message);
+
+      setAttendance(response.data.message.attendance);
+      console.log(response.data.message.attendance);
     } catch (error) {
       console.error("Error fetching sessions:", error);
       setError("Failed to fetch Session. Please Reload the page.");
@@ -99,33 +107,47 @@ export default function SingleSession() {
           <div>
             {activeTab == "sign-in" && (
               <div className="p-3 border-b">
-                <div>sign in code</div>
+                <div className="text-2xl font-bold">sign in code</div>
                 <img className="" src={code} alt="QR Code" />
                 <hr />
                 {code && (
-                  <div>
+                  <div className="flex items-center gap-10 w-full mt-10">
                     {" "}
                     <SaveImageButton dataUrl={code} />{" "}
-                    <Button onClick={() => setFullscreen(true)}>
-                      Full Screen
-                    </Button>
+                    <div>
+                      <Button
+                        onClick={() => setFullscreen(true)}
+                        className="flex items-center gap-3"
+                      >
+                        Full Screen
+                        <RiFullscreenFill />
+                      </Button>
+                    </div>
                   </div>
                 )}
               </div>
             )}
             {activeTab == "joining" && (
               <div className="p-3 border-b">
-                <div>joing as a new member code</div>
+                <div className="text-2xl font-bold">
+                  join as a new member code
+                </div>
                 <img className="" src={code} alt="QR Code" />
 
                 <hr></hr>
                 {code && (
-                  <div className="flex items-center justify-between w-full">
+                  <div className="flex items-center gap-10 w-full mt-10">
                     {" "}
                     <SaveImageButton dataUrl={code} />
-                    <Button onClick={() => setFullscreen(true)}>
-                      Full Screen
-                    </Button>
+                    <div className="">
+                      <Button
+                        onClick={() => setFullscreen(true)}
+                        className="flex items-center gap-3"
+                      >
+                        Full Screen
+                        <RiFullscreenFill />
+                      </Button>
+                    </div>
                   </div>
                 )}
               </div>
@@ -141,7 +163,11 @@ export default function SingleSession() {
               <div className="font-bold text-lg">Name: {session.name}</div>
               <div className="font-bold text-lg">Status: {session.status}</div>
             </div>
-            <AttendanceDataTable />
+            {attendance ? (
+              <AttendanceDataTable data={attendance} />
+            ) : (
+              <ErrorComponent errorMessage="Failed to Fetch attendance Data. Please Refresh the page." />
+            )}
           </div>
         )}
       </div>

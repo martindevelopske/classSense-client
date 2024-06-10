@@ -27,7 +27,7 @@ const Sidebar = ({ role, expanded }: sidebarProps) => {
       : []; // default value if currentRole doesn't match any condition
 
   return (
-    <div className="min-h-[500px] w-full text-white">
+    <div className="min-h-[500px] w-full text-white bg-purple">
       <ul
         className={`flex flex-col gap-4 w-full items-center h-full ${
           !expanded && "hidden md:flex"

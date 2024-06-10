@@ -1,19 +1,13 @@
+import { useAppStore } from "@/store";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export function useStudentUserDataEffect() {
+  const user: User | null = useAppStore((state) => state.user);
   const navigate = useNavigate();
   useEffect(() => {
-    const userDataString = localStorage.getItem("userData");
-    if (userDataString) {
-      const userData = JSON.parse(userDataString);
-      if (userData.userType !== "student") {
-        console.error("User is not a student.");
-        navigate("/");
-      }
-    } else {
-      console.error("User data not found in localStorage.");
-      navigate("/");
+    if (!user || user == null) {
+      navigate("/", { state: { redirect: "/student" } });
     }
   }, []);
 }
