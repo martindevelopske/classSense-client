@@ -60,10 +60,10 @@ export default function SingleSessionInstructor() {
   const href: string = window.location.href;
 
   //generate a qr code for the student to sign in
-  const generateCode = async () => {
+  const generateCode = async (page: string) => {
     console.log("called");
 
-    await QRCode.toDataURL(href, { width: 500, margin: 2 }, (err, url) => {
+    await QRCode.toDataURL(page, { width: 500, margin: 2 }, (err, url) => {
       if (err) return console.error(err);
 
       setCode(url);
