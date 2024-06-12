@@ -3,7 +3,7 @@ import { Routes, Route, Outlet } from "react-router-dom";
 import Wrapper from "../components/wrapper";
 import InstructorView from "../views/instructor/instructor";
 import CreateSession from "../views/instructor/CreateSessionPage";
-import SingleSession from "../views/instructor/SingleSession";
+import SingleSession from "../views/instructor/SingleSessionInstructor";
 import StudentView from "../views/student/student";
 import QRCodeScanner from "../views/student/QRCodeScanner";
 import AddAttendance from "../views/student/AddAttendance";

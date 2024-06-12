@@ -13,31 +13,31 @@ import SaveImageButton from "@/components/SaveImageButton";
 import CodeModal from "@/components/modals/CodeModal";
 import { useStudentUserDataEffect } from "../student/useStudentUserDataEffect";
 
-export default function SingleSession() {
+export default function SingleSessionInstructor() {
   useStudentUserDataEffect();
 
   const { id } = useParams();
 
-  const [activeTab, setActiveTab] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<string | null>("attendance");
+  const [codeTab, setCodeTab] = useState<string | null>(null);
   const [fullscreen, setFullscreen] = useState<boolean>(false);
   const [session, setSession] = useState(null);
   const [code, setCode] = useState();
   const [attendance, setAttendance] = useState();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
-  const location = useLocation();
 
   const attendanceUrl: string = `http://localhost:5173/student/addAttendance?sessionId=${id}`;
 
-  const fetchSession = async (id: number) => {
+  const fetchSession = async (id: string | undefined) => {
     try {
       setLoading(true);
-      const url = `${getSingleSession}/${Number(id)}`;
+      const url = `${getSingleSession}/${id}`;
       const response = await axios.get(url, {
         withCredentials: true,
       });
+      console.log(response);
       setSession(response.data.message);
-      console.log(response.data.message);
 
       setAttendance(response.data.message.attendance);
       console.log(response.data.message.attendance);
@@ -50,11 +50,11 @@ export default function SingleSession() {
   };
 
   const handleTabChange = (tab: string) => {
-    setActiveTab(tab);
+    setCodeTab(tab);
   };
 
   useEffect(() => {
-    fetchSession(6);
+    fetchSession(id);
   }, [id]);
 
   const href: string = window.location.href;
@@ -72,7 +72,7 @@ export default function SingleSession() {
   return (
     <>
       <div className="flex flex-col gap-3 border-t mt-3 w-full p-3 h-auto">
-        <BackComponent to="/student" />
+        <BackComponent to="/instructor" />
         {loading && (
           <div className="mt-[200px]">
             <Loading loadingState={loading} />
@@ -83,6 +83,13 @@ export default function SingleSession() {
             <ErrorComponent errorMessage={error} />
           </div>
         )}
+        {session && (
+          <div className="mt-3">
+            <div className="font-bold text-2xl text-purple">{session.name}</div>
+            <div className="font-bold text-lg">Status: {session.status}</div>
+          </div>
+        )}
+        <br></br>
         {session && (
           <div className="flex gap-3">
             <Button
@@ -105,7 +112,7 @@ export default function SingleSession() {
         )}
         {session && (
           <div>
-            {activeTab == "sign-in" && (
+            {codeTab == "sign-in" && (
               <div className="p-3 border-b">
                 <div className="text-2xl font-bold">sign in code</div>
                 <img className="" src={code} alt="QR Code" />
@@ -127,7 +134,7 @@ export default function SingleSession() {
                 )}
               </div>
             )}
-            {activeTab == "joining" && (
+            {codeTab == "joining" && (
               <div className="p-3 border-b">
                 <div className="text-2xl font-bold">
                   join as a new member code
@@ -153,21 +160,45 @@ export default function SingleSession() {
               </div>
             )}
             {fullscreen && code && (
-              <CodeModal data={code} setFullscreen={setFullscreen} />
+              <CodeModal
+                data={code}
+                name={activeTab}
+                setFullscreen={setFullscreen}
+              />
             )}
-            <div className="mt-3">
-              <div className="font-bold text-lg">
-                Session ID:{" "}
-                <span className="font-light font-sans">{session.id}</span>
+
+            <div className="border-t w-full mt-10">
+              <div className="w-full flex">
+                <ul className="w-full flex gap-3 border p-2 text-lg text-purple">
+                  <li
+                    className={`border-r px-3 cursor-pointer ${
+                      activeTab == "attendance" && "text-primary"
+                    }`}
+                    onClick={() => setActiveTab("attendance")}
+                  >
+                    Attendance
+                  </li>
+                  <li
+                    className={`border-r px-3 cursor-pointer ${
+                      activeTab == "dashboard" && "text-primary"
+                    }`}
+                    onClick={() => setActiveTab("dashboard")}
+                  >
+                    Dashboard
+                  </li>
+                </ul>
               </div>
-              <div className="font-bold text-lg">Name: {session.name}</div>
-              <div className="font-bold text-lg">Status: {session.status}</div>
+              {activeTab == "attendance" && (
+                <div>
+                  {attendance ? (
+                    <AttendanceDataTable data={attendance} />
+                  ) : (
+                    <ErrorComponent errorMessage="Failed to Fetch attendance Data. Please Refresh the page." />
+                  )}
+                </div>
+              )}
+              {activeTab == "dashboard" && <div>Dashboard</div>}
             </div>
-            {attendance ? (
-              <AttendanceDataTable data={attendance} />
-            ) : (
-              <ErrorComponent errorMessage="Failed to Fetch attendance Data. Please Refresh the page." />
-            )}
           </div>
         )}
       </div>

@@ -2,17 +2,16 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import InstructorView from "./views/instructor/instructor";
 import CreateSession from "./views/instructor/CreateSessionPage";
-import SingleSession from "./views/instructor/SingleSession";
 import StudentView from "./views/student/student";
-import QRCodeScanner from "./views/student/QRCodeScanner";
 import AddAttendance from "./views/student/AddAttendance";
 import LoginSignupPage from "./pages/LoginSignupPage";
 import axios from "axios";
 import Wrapper from "./components/wrapper";
 import ErrorBoundary from "./components/ErrorBoundary";
-import SingleSessionError from "./components/Error/SingleSessionError";
 import ErrorComponent from "./components/Error";
 import Test from "./components/test";
+import SingleSessionStudent from "./views/student/SingleSessionStudent";
+import SingleSessionInstructor from "./views/instructor/SingleSessionInstructor";
 
 //set axios defaults
 axios.defaults.headers.common.Accept = "application/json";
@@ -31,7 +30,7 @@ const App = () => {
         { path: "createSession", element: <CreateSession /> },
         {
           path: "sessions/:id",
-          element: <SingleSession />,
+          element: <SingleSessionInstructor />,
         },
         { path: "*", element: <h3>error page. Page not found</h3> },
       ],
@@ -47,7 +46,7 @@ const App = () => {
         },
         {
           path: "sessions/:id",
-          element: <SingleSession />,
+          element: <SingleSessionStudent />,
         },
 
         {

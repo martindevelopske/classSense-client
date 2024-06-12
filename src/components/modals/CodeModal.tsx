@@ -6,9 +6,11 @@ import SaveImageButton from "../SaveImageButton";
 
 function CodeModal({
   data,
+  name,
   setFullscreen,
 }: {
   data: string;
+  name: string;
   setFullscreen: Dispatch<SetStateAction<boolean>>;
 }) {
   const [redo, setRedo] = useState(false);
@@ -20,6 +22,11 @@ function CodeModal({
             <IoClose color="RGB(249 115 22)" size={35} />
           </button>
         </div>
+        <div className="text-2xl">{name} Code</div>
+        {name == "sign-in" && <div>Scan this code to sign in to class</div>}
+        {name == "joining" && (
+          <div>Scan this code to join this session as a new member</div>
+        )}
         <img className="" src={data} alt="QR Code" />
         <div className="w-full flex items-center justify-around gap-3">
           <Button

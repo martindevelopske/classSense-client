@@ -6,7 +6,7 @@ import InstructorView from "../views/instructor/instructor";
 import Wrapper from "../components/wrapper";
 import CreateSession from "../views/instructor/CreateSessionPage";
 
-import SingleSession from "../views/instructor/SingleSession";
+import SingleSession from "../views/instructor/SingleSessionInstructor";
 import QRCodeScanner from "../views/student/QRCodeScanner";
 import AddAttendance from "../views/student/AddAttendance";
 
