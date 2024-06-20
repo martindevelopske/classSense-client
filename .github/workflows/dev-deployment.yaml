@@ -1,0 +1,39 @@
+name: Deployment for the dev testing
+
+on:
+  push:
+    branches:
+      - dev-test
+
+jobs:
+  deploy:
+    name: deploy app to netlify
+    runs-on: ubuntu-latest
+    env:
+      ENV: TESTING
+
+    steps:
+      #code checkout
+      - name: Checkout
+        uses: actions/checkout@v4
+
+        #setup node js
+      - name: setup node js environment
+        uses: actions/setup-node@v4
+
+        #install dependences
+      - name: install dependencies
+        run:
+          npm install
+
+          # build the react app
+      - name: Build
+        run: npm run build
+
+      - name: deploy to netlify
+        uses: jsmrcaga/action-netlify-deploy@v2.0.0
+        with:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.MY_TOKEN_SECRET }}
+          NETLIFY_DEPLOY_TO_PROD: true
+
+  # cache the dependencies to speed up build
