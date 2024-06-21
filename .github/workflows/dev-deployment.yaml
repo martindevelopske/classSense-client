@@ -21,6 +21,9 @@ jobs:
       - name: setup node js environment
         uses: actions/setup-node@v4
 
+        #install netlify-cli
+      - name: Install Netlify
+        run: npm install netlify-cli@17.10.1 -g
         #install dependences
       - name: install dependencies
         run:
@@ -30,10 +33,10 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: deploy to netlify
-        uses: jsmrcaga/action-netlify-deploy@v2.0.0
-        with:
-          NETLIFY_AUTH_TOKEN: ${{ env.MY_TOKEN_SECRET }}
-          NETLIFY_DEPLOY_TO_PROD: true
-
+      - name: Deploy to Netlify
+        id: netlify_deploy
+        run: |
+          netlify deploy \
+            --dir dist \
+            --auth ${{ secrets.MY_TOKEN_SECRET }}
   # cache the dependencies to speed up build
