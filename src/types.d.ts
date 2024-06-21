@@ -17,13 +17,17 @@ type StoreState = {
 
 type Instructor = {
   id: number;
+  firstname: string;
+  lastname: string;
   email: string;
   password: number;
   createdAt: Date;
 };
 type usert = {
-  email: string;
   id: number;
+  firstname: string;
+  lastname: string;
+  email: string;
 };
 type Session = {
   id: number;

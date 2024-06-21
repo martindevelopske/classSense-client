@@ -10,12 +10,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signup } from "@/endpoints";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { LoadingButton } from "./LoadingButton";
 import { useNavigate } from "react-router-dom";
 import { useAppStore } from "@/store";
 
+interface ErrorResponse {
+  message: string;
+}
 export function SignupForm() {
   const [values, setValues] = useState({
     email: "",
@@ -66,26 +69,41 @@ export function SignupForm() {
       setLoading(true);
       const { confirmPassword, ...data } = values;
 
-      await axios.post(signup, { ...data }).then((res) => {
-        setError(null);
-        const userData: User = res.data.message;
-        console.log(res);
-        setSuccess("User Created successfully. Redirecting...");
+      await axios
+        .post(
+          signup,
+          { ...data },
+          {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          setError(null);
+          const userData: User = res.data.message;
+          setSuccess("User Created successfully. Redirecting...");
 
-        //update state on zustand
-        setUser(userData);
+          //update state on zustand
+          setUser(userData);
 
-        userData.userType === "student"
-          ? navigate("/student", { replace: true })
-          : userData.userType === "instructor"
-          ? navigate("/instructor", { replace: true })
-          : navigate("/");
-      });
-    } catch (error: any) {
-      console.log(error.response);
+          userData.userType === "student"
+            ? navigate("/student", { replace: true })
+            : userData.userType === "instructor"
+            ? navigate("/instructor", { replace: true })
+            : navigate("/");
+        });
+    } catch (error: unknown) {
       setSuccess(null);
-      const errMsg = error.response.data.message;
-      setError(errMsg);
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError<ErrorResponse>;
+        const errMsg =
+          axiosError.response?.data?.message || "An error occurred";
+        setError(errMsg);
+      } else {
+        setError("An unexpected error occurred");
+      }
     } finally {
       setLoading(false);
       // Reset form fields

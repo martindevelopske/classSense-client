@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { login } from "@/endpoints";
 import { LoadingButton } from "./LoadingButton";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 import { useAppStore } from "@/store";
@@ -22,6 +22,9 @@ import { useAppStore } from "@/store";
 type LoginProps = {
   redirect?: string;
 };
+interface ErrorResponse {
+  message: string;
+}
 export function LoginForm({ redirect }: LoginProps) {
   const [values, setValues] = useState({
     email: "",
@@ -29,11 +32,10 @@ export function LoginForm({ redirect }: LoginProps) {
   });
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [success, setSuccess] = useState<string | null>(false);
+  const [success, setSuccess] = useState<string | null>(null);
   const [redirectURL, setRedirectURL] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
-  const location = useLocation();
   const navigate = useNavigate();
 
   const setUser = useAppStore((state) => state.setUser);
@@ -71,7 +73,7 @@ export function LoginForm({ redirect }: LoginProps) {
     try {
       setLoading(true);
 
-      const response = await axios
+      await axios
         .post(
           login,
           { ...values },
@@ -87,9 +89,7 @@ export function LoginForm({ redirect }: LoginProps) {
             setError(res.data.message);
           }
           setSuccess(null);
-          console.log(res.response);
           const userData: User = res.data.message;
-          console.log(userData);
           setSuccess("Login successfull. Redirecting....");
 
           //update state on zustand
@@ -103,11 +103,16 @@ export function LoginForm({ redirect }: LoginProps) {
             ? navigate("/instructor", { replace: true })
             : navigate("/");
         });
-      console.log(response);
-    } catch (error: any) {
+    } catch (error: unknown) {
       setSuccess(null);
-      const errMsg = error.response.data.message;
-      setError(errMsg);
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError<ErrorResponse>;
+        const errMsg =
+          axiosError.response?.data?.message || "An error occurred";
+        setError(errMsg);
+      } else {
+        setError("An unexpected error occurred");
+      }
     } finally {
       setLoading(false);
       // Reset form fields
