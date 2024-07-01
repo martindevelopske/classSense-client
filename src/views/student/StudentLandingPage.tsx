@@ -20,12 +20,12 @@ export default function StudentLandingPage() {
                 <span>Scan QR</span>
               </div>
             </div>
-            <Button className="flex items-center justify-center">
+            {/* <Button className="flex items-center justify-center">
               <div className="flex gap-2 items-center justify-center">
                 <PlusIcon />
                 <span>Join A Session</span>
               </div>
-            </Button>
+            </Button> */}
           </div>
           <h2 className="text-purple self-start mt-4 text-2xl font-bold">
             Your Sessions

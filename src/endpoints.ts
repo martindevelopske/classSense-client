@@ -21,3 +21,6 @@ export const addSessionMembers = `${api}/sessions/members/add`;
 export const getUserSessions = `${api}/sessions/user`;
 export const getInstructorSessions = `${api}/sessions/instructor`;
 export const getSingleSession = `${api}/sessions`;
+
+//locations
+export const getAllLocations = `${api}/location`;

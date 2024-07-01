@@ -1,7 +1,7 @@
 type User = {
   user:
     | {
-        id: number;
+        id: string;
         firstname: string;
         lastname: string;
         email: string;
@@ -16,7 +16,7 @@ type StoreState = {
 };
 
 type Instructor = {
-  id: number;
+  id: string;
   firstname: string;
   lastname: string;
   email: string;
@@ -24,23 +24,30 @@ type Instructor = {
   createdAt: Date;
 };
 type usert = {
-  id: number;
+  id: string;
   firstname: string;
   lastname: string;
   email: string;
 };
 type Session = {
-  id: number;
+  id: string;
   name: string;
-  instructor: Instructor;
-  location: Location;
+  instructorId: string;
   status: string;
+  day: string;
+  locationId: string;
   createdAt: Date;
 };
 
 type SessionProps = {
-  id: number;
-  sessionId: number;
-  userId: number;
+  id: string;
+  sessionId: string;
+  userId: string;
   session: Session;
+};
+type Location = {
+  id: string;
+  locationName: string;
+  locationDescription?: string;
+  capacity?: number;
 };

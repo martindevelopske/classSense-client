@@ -10,25 +10,44 @@ import {
 } from "@/components/ui/card";
 import { Helmet } from "react-helmet";
 import { Label } from "@radix-ui/react-label";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { LoadingButton } from "@/components/LoadingButton";
-import { createSession } from "@/endpoints";
+import { createSession, getAllLocations } from "@/endpoints";
 
 interface ErrorResponse {
   message: string;
 }
-export default function CreateSession() {
+export default function CreateSessionForm() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
+  const [locations, setLocations] = useState<Location[] | null>(null);
+  const [locationError, setLocationError] = useState<string | null>(null);
   const [values, setValues] = useState({
     name: "",
-    status: "",
+    status: "created",
+    day: "",
+    locationId: "",
   });
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //get all locations
+  const getLocations = async () => {
+    await axios.get(getAllLocations, { withCredentials: true }).then((res) => {
+      if (res.status != 200) {
+        setLocationError(res.data.message);
+      }
+      setLocations(res.data.message);
+    });
+  };
+  useEffect(() => {
+    getLocations();
+  }, []);
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -45,6 +64,8 @@ export default function CreateSession() {
           }
         )
         .then((res) => {
+          console.log(res);
+
           setSuccess("session created successfully.");
         });
     } catch (error: unknown) {
@@ -76,7 +97,12 @@ export default function CreateSession() {
           <CardContent>
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="name">Title</Label>
+                <Label
+                  htmlFor="name"
+                  className=" font-bold text-orange-600 text-lg"
+                >
+                  Title
+                </Label>
                 <Input
                   required
                   type="text"
@@ -86,7 +112,12 @@ export default function CreateSession() {
                 />
               </div>
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="name">status</Label>
+                <Label
+                  htmlFor="name"
+                  className=" font-bold text-orange-600 text-lg"
+                >
+                  status
+                </Label>
                 <div className="flex gap-2 items-center ">
                   <Input
                     required
@@ -97,6 +128,50 @@ export default function CreateSession() {
                   />
                 </div>
               </div>
+            </div>
+            <div className="flex flex-col space-y-1.5 mt-5">
+              <Label
+                htmlFor="days"
+                className=" font-bold text-orange-600 text-lg"
+              >
+                Day:
+              </Label>
+              <select
+                name="days"
+                onChange={handleChange}
+                className="border rounded-md p-2"
+              >
+                <option value=""></option>
+                <option value="monday">Monday</option>
+                <option value="tuesday">Tuesday</option>
+                <option value="wednesday">Wednesday</option>
+                <option value="thursday">Thursday</option>
+                <option value="friday">Friday</option>
+              </select>
+            </div>
+            <div className="flex flex-col space-y-1.5 mt-5">
+              <Label
+                htmlFor="locationId"
+                className=" font-bold text-orange-600 text-lg"
+              >
+                Location:
+              </Label>
+              {locations ? (
+                <select
+                  name="locationId"
+                  className="border rounded-md p-2"
+                  onChange={handleChange}
+                >
+                  <option value=""></option>
+                  {locations?.map((item: Location) => (
+                    <option value={item?.id} key={item?.id}>
+                      {item?.locationName}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <div>No locations available</div>
+              )}
             </div>
           </CardContent>
           <CardFooter className="flex justify-between">
