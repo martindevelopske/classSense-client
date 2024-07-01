@@ -1,19 +1,19 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-// type State = {
-//   user: User | null;
-// };
+type StoreState = {
+  user: User | null;
+  setUser: (userObj: User | null) => void;
+};
 // type Action = {
-//   setUser: (userObj: State["user"]) => void;
 // };
 
-export const useAppStore = create(
+export const useAppStore = create<StoreState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       user: null,
 
-      setUser: (userObj: User) =>
+      setUser: (userObj: User | null) =>
         set({
           user: userObj,
         }),

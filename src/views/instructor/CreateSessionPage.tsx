@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,14 +10,18 @@ import {
 } from "@/components/ui/card";
 import { Helmet } from "react-helmet";
 import { Label } from "@radix-ui/react-label";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { LoadingButton } from "@/components/LoadingButton";
 import { createSession } from "@/endpoints";
+
+interface ErrorResponse {
+  message: string;
+}
 export default function CreateSession() {
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState<string | null>(null);
   const [values, setValues] = useState({
     name: "",
     status: "",
@@ -25,11 +29,11 @@ export default function CreateSession() {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
-  const handleSubmit = async (e: ChangeEvent<HTMLInputElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await axios
+      await axios
         .post(
           createSession,
           { ...values },
@@ -41,11 +45,18 @@ export default function CreateSession() {
           }
         )
         .then((res) => {
-          console.log(res);
-          setSuccess(true);
+          setSuccess("session created successfully.");
         });
     } catch (error: unknown) {
-      console.error(error.message);
+      setSuccess(null);
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError<ErrorResponse>;
+        const errMsg =
+          axiosError.response?.data?.message || "An error occurred";
+        setError(errMsg);
+      } else {
+        setError("An unexpected error occurred");
+      }
     } finally {
       setLoading(false);
     }

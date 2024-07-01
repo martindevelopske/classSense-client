@@ -1,4 +1,7 @@
-const api = "http://3.83.108.200:3000/api/v1";
+const local: boolean = true;
+const api = local
+  ? "http://localhost:3000/api/v1"
+  : "https://3.83.108.200/api/v1";
 export const login = `${api}/auth/login`;
 export const logout = `${api}/auth/logout`;
 

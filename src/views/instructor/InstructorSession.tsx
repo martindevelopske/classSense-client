@@ -9,13 +9,12 @@ import { Link } from "react-router-dom";
 export default function InstructorSessions() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
-  const [sessions, setSessions] = useState<unknown>([]);
+  const [sessions, setSessions] = useState<Session[] | null>(null);
   const fetchSessions = async () => {
     try {
       const response = await axios.get(getInstructorSessions, {
         withCredentials: true,
       });
-      console.log(response);
 
       setSessions(response.data.message);
     } catch (error) {

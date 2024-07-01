@@ -1,9 +1,12 @@
-import { Html5QrcodeScanner } from "html5-qrcode";
-import { Html5Qrcode } from "html5-qrcode";
+import {
+  Html5QrcodeResult,
+  Html5QrcodeScanner,
+  QrcodeSuccessCallback,
+} from "html5-qrcode";
 import { useEffect, useState } from "react";
 
 function QRCodeScanner({ redo }: { redo: boolean }) {
-  const [scanResult, setScanResult] = useState();
+  const [scanResult, setScanResult] = useState<Html5QrcodeResult | null>();
   useEffect(() => {
     const config = {
       fps: 10,
@@ -13,13 +16,15 @@ function QRCodeScanner({ redo }: { redo: boolean }) {
       // supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA],
     };
 
-    const onScanSuccess = (decodedText, decodedResult) => {
+    const onScanSuccess: QrcodeSuccessCallback = (
+      decodedText,
+      decodedResult: Html5QrcodeResult
+    ) => {
       setScanResult(decodedResult);
-      console.log(`Code matched = ${decodedText}`, decodedResult);
       alert(decodedText);
     };
 
-    const onScanFailure = (error) => {
+    const onScanFailure = (error: unknown) => {
       console.warn(`Code scan error = ${error}`);
     };
 

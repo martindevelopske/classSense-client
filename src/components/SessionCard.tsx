@@ -1,7 +1,6 @@
 type props = { session: SessionProps };
 const SessionCard = (sessionData: props) => {
   const currentSession = sessionData.session.session;
-  // console.log(currentSession);
 
   return (
     <div className="border h-auto p-2 border-purple text-black rounded-lg  w-full md:w-2/6">

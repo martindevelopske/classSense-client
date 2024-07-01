@@ -5,10 +5,8 @@ import { LiaRedoAltSolid } from "react-icons/lia";
 import { Button } from "../ui/button";
 
 function ScanModal({
-  showScanModal,
   setShowScanModal,
 }: {
-  showScanModal: boolean;
   setShowScanModal: Dispatch<SetStateAction<boolean>>;
 }) {
   const [redo, setRedo] = useState(false);

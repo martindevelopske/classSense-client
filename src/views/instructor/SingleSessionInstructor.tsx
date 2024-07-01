@@ -1,8 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { getSingleSession } from "@/endpoints";
+import {
+  addAttendance,
+  addSessionMembers,
+  getSingleSession,
+} from "@/endpoints";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { AttendanceDataTable } from "./AttendanceDataTable";
 import QRCode from "qrcode";
 import { RiFullscreenFill } from "react-icons/ri";
@@ -21,13 +25,13 @@ export default function SingleSessionInstructor() {
   const [activeTab, setActiveTab] = useState<string | null>("attendance");
   const [codeTab, setCodeTab] = useState<string | null>(null);
   const [fullscreen, setFullscreen] = useState<boolean>(false);
-  const [session, setSession] = useState(null);
-  const [code, setCode] = useState();
+  const [session, setSession] = useState<Session | null>(null);
+  const [code, setCode] = useState<string | undefined>();
   const [attendance, setAttendance] = useState();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
 
-  const attendanceUrl: string = `http://localhost:5173/student/addAttendance?sessionId=${id}`;
+  // const attendanceUrl: string = `http://localhost:5173/student/addAttendance?sessionId=${id}`;
 
   const fetchSession = async (id: string | undefined) => {
     try {
@@ -36,11 +40,9 @@ export default function SingleSessionInstructor() {
       const response = await axios.get(url, {
         withCredentials: true,
       });
-      console.log(response);
       setSession(response.data.message);
 
       setAttendance(response.data.message.attendance);
-      console.log(response.data.message.attendance);
     } catch (error) {
       console.error("Error fetching sessions:", error);
       setError("Failed to fetch Session. Please Reload the page.");
@@ -57,17 +59,17 @@ export default function SingleSessionInstructor() {
     fetchSession(id);
   }, [id]);
 
-  const href: string = window.location.href;
-
   //generate a qr code for the student to sign in
   const generateCode = async (page: string) => {
-    console.log("called");
+    await QRCode.toDataURL(
+      page,
+      { width: 500, margin: 2 },
+      (err, url: string) => {
+        if (err) return console.error(err);
 
-    await QRCode.toDataURL(page, { width: 500, margin: 2 }, (err, url) => {
-      if (err) return console.error(err);
-
-      setCode(url);
-    });
+        setCode(url);
+      }
+    );
   };
   return (
     <>
@@ -94,7 +96,7 @@ export default function SingleSessionInstructor() {
           <div className="flex gap-3">
             <Button
               onClick={() => {
-                generateCode();
+                generateCode(addAttendance);
                 handleTabChange("sign-in");
               }}
             >
@@ -102,7 +104,7 @@ export default function SingleSessionInstructor() {
             </Button>
             <Button
               onClick={() => {
-                generateCode();
+                generateCode(addSessionMembers);
                 handleTabChange("joining");
               }}
             >
