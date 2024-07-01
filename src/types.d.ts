@@ -23,7 +23,7 @@ type Instructor = {
   password: number;
   createdAt: Date;
 };
-type usert = {
+type Usert = {
   id: string;
   firstname: string;
   lastname: string;
@@ -50,4 +50,11 @@ type Location = {
   locationName: string;
   locationDescription?: string;
   capacity?: number;
+};
+type AttendanceRecord = {
+  id: string;
+  createdAt: string;
+  sessionId: string;
+  userId: string;
+  user: Usert;
 };
