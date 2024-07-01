@@ -17,6 +17,11 @@ import SaveImageButton from "@/components/SaveImageButton";
 import CodeModal from "@/components/modals/CodeModal";
 import { useStudentUserDataEffect } from "../student/useStudentUserDataEffect";
 
+type QRCodeData = {
+  page: string;
+  action: string;
+  id: string | undefined;
+};
 export default function SingleSessionInstructor() {
   useStudentUserDataEffect();
 
@@ -60,9 +65,10 @@ export default function SingleSessionInstructor() {
   }, [id]);
 
   //generate a qr code for the student to sign in
-  const generateCode = async (page: string) => {
+  const generateCode = async (data: QRCodeData) => {
+    const payload = JSON.stringify(data);
     await QRCode.toDataURL(
-      page,
+      payload,
       { width: 500, margin: 2 },
       (err, url: string) => {
         if (err) return console.error(err);
@@ -96,7 +102,11 @@ export default function SingleSessionInstructor() {
           <div className="flex gap-3">
             <Button
               onClick={() => {
-                generateCode(addAttendance);
+                generateCode({
+                  page: addAttendance,
+                  action: "addAttendance",
+                  id: id,
+                });
                 handleTabChange("sign-in");
               }}
             >
@@ -104,7 +114,11 @@ export default function SingleSessionInstructor() {
             </Button>
             <Button
               onClick={() => {
-                generateCode(addSessionMembers);
+                generateCode({
+                  page: addSessionMembers,
+                  action: "addSessionMember",
+                  id: id,
+                });
                 handleTabChange("joining");
               }}
             >

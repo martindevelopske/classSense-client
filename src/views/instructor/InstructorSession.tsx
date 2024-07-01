@@ -12,6 +12,7 @@ export default function InstructorSessions() {
   const [sessions, setSessions] = useState<Session[] | null>(null);
   const fetchSessions = async () => {
     try {
+      setLoading(true);
       const response = await axios.get(getInstructorSessions, {
         withCredentials: true,
       });

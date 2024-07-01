@@ -27,6 +27,8 @@ export default function SingleSessionStudent() {
       const response = await axios.get(url, {
         withCredentials: true,
       });
+      console.log(response);
+
       setSession(response.data.message);
 
       setAttendance(response.data.message.attendance);

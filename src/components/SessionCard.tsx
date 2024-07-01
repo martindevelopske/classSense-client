@@ -3,7 +3,7 @@ const SessionCard = (sessionData: props) => {
   const currentSession = sessionData.session.session;
 
   return (
-    <div className="border h-auto p-2 bg-primary text-black rounded-lg  w-full md:w-2/6">
+    <div className="border h-auto p-2 bg-primary text-white rounded-lg  w-3/4 md:w-2/6">
       <h2>{currentSession.name}</h2>
       <p>ID: {currentSession.id}</p>
       <p className={`${currentSession.status == "live" && "text-green-600"} `}>

@@ -28,9 +28,11 @@ const Navbar = ({ role, user }: navbarProps) => {
   const navigate = useNavigate();
   //handle logout
   const handleLogout = async () => {
-    await axios.post(logout, {
-      withCredentials: true,
-    });
+    await axios
+      .post(logout, {
+        withCredentials: true,
+      })
+      .then((res) => console.log(res));
 
     //update state
     setUser(null);
