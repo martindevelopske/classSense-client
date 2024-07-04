@@ -16,10 +16,8 @@ export function useInstructorUserDataEffect() {
     }
     //check userToken in cookies
     const cookie = Cookies.get("userToken");
-    const cookies = Cookies.get();
 
     if (!cookie) {
-     
       setUser(null);
       navigate("/", { state: { redirect: location.pathname } });
     }

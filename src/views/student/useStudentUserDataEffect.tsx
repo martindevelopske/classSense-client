@@ -1,6 +1,6 @@
 import { useAppStore } from "@/store";
 import { useEffect } from "react";
-import { redirect, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
 export function useStudentUserDataEffect() {
