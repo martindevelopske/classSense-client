@@ -64,8 +64,6 @@ export default function CreateSessionForm() {
           }
         )
         .then((res) => {
-          console.log(res);
-
           setSuccess("session created successfully.");
         });
     } catch (error: unknown) {

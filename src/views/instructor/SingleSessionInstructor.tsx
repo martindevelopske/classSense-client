@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import { AttendanceDataTable } from "./AttendanceDataTable";
 import QRCode from "qrcode";
 import { RiFullscreenFill } from "react-icons/ri";
+import { FaEdit } from "react-icons/fa";
 import BackComponent from "@/components/BackComponent";
 import Loading from "@/components/Loading";
 import ErrorComponent from "@/components/Error";
@@ -30,7 +31,7 @@ export default function SingleSessionInstructor() {
   const [activeTab, setActiveTab] = useState<string | null>("attendance");
   const [codeTab, setCodeTab] = useState<string | null>(null);
   const [fullscreen, setFullscreen] = useState<boolean>(false);
-  const [session, setSession] = useState<Session | null>(null);
+  const [session, setSession] = useState<SessionProps | null>(null);
   const [code, setCode] = useState<string | undefined>();
   const [attendance, setAttendance] = useState();
   const [loading, setLoading] = useState<boolean>(false);
@@ -59,6 +60,7 @@ export default function SingleSessionInstructor() {
   const handleTabChange = (tab: string) => {
     setCodeTab(tab);
   };
+  const handleEditSession = () => {};
 
   useEffect(() => {
     fetchSession(id);
@@ -92,9 +94,21 @@ export default function SingleSessionInstructor() {
           </div>
         )}
         {session && (
-          <div className="mt-3">
-            <div className="font-bold text-2xl text-purple">{session.name}</div>
-            <div className="font-bold text-lg">Status: {session.status}</div>
+          <div className="mt-3 flex flex-col gap-3">
+            <div className="w-full h-[50px] flex items-center justify-start cursor-pointer">
+              <p
+                onClick={handleEditSession}
+                className="flex gap-2 items-center border p-2 rounded-md border-purple"
+              >
+                <FaEdit /> Edit
+              </p>
+            </div>
+            <div>
+              <div className="font-bold text-2xl text-purple">
+                {session.name}
+              </div>
+              <div className="font-bold text-lg">Status: {session.status}</div>
+            </div>
           </div>
         )}
         <br></br>

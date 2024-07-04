@@ -13,7 +13,7 @@ export default function SingleSessionStudent() {
 
   const { id } = useParams();
 
-  const [session, setSession] = useState<Session | null>(null);
+  const [session, setSession] = useState<SessionProps | null>(null);
   const [attendance, setAttendance] = useState();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
@@ -27,7 +27,6 @@ export default function SingleSessionStudent() {
       const response = await axios.get(url, {
         withCredentials: true,
       });
-      console.log(response);
 
       setSession(response.data.message);
 
@@ -67,6 +66,15 @@ export default function SingleSessionStudent() {
                 <span className="font-light font-sans">{session.id}</span>
               </div>
               <div className="font-bold text-lg">Name: {session.name}</div>
+              <div className="font-bold text-lg">
+                Insructor:{" "}
+                <span className="font-light">
+                  {session.instructor.firstname} {session.instructor.lastname}
+                </span>
+              </div>
+              <div className="font-bold text-lg">
+                Day: <span className="font-light">{session.session?.day}</span>
+              </div>
               <div className="font-bold text-lg">Status: {session.status}</div>
             </div>
             {attendance ? (

@@ -38,11 +38,10 @@ export function LoginForm() {
 
   const setUser = useAppStore((state) => state.setUser);
   const user = useAppStore((state) => state.user);
-  console.log(location);
 
   useEffect(() => {
-    const redirect = location.state.redirect;
-    if (redirect) setRedirectURL(redirect);
+    const redirect = location.state?.redirect;
+    if (redirect != "/" && redirect != null) setRedirectURL(redirect);
   }, []);
   //useEffect
   const checkuser = () => {
@@ -100,6 +99,8 @@ export function LoginForm() {
           //redirect
           //if there is a redirect url go there, else navigate normally
           if (redirectURL) {
+         
+
             navigate(redirectURL, { replace: true });
           } else {
             switch (userData.userType) {

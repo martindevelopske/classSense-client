@@ -8,18 +8,20 @@ export function useInstructorUserDataEffect() {
   const setUser = useAppStore((state) => state.setUser);
   useEffect(() => {
     if (!user || user == null) {
-      navigate("/");
+      navigate("/", { state: { redirect: location.pathname } });
     }
     if (user?.userType !== "instructor") {
       setUser(null);
-      navigate("/");
+      navigate("/", { state: { redirect: location.pathname } });
     }
     //check userToken in cookies
     const cookie = Cookies.get("userToken");
-    if (cookie) {
-      console.log(cookie);
-    } else {
-      console.log("absent");
+    const cookies = Cookies.get();
+
+    if (!cookie) {
+     
+      setUser(null);
+      navigate("/", { state: { redirect: location.pathname } });
     }
   }, [user]);
 }

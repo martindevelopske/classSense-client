@@ -29,8 +29,7 @@ function QRCodeScanner({ redo }: { redo: boolean }) {
       decodedText,
       decodedResult: Html5QrcodeResult
     ) => {
-      console.log(decodedText);
-      console.log(decodedResult);
+   
       const parsed = JSON.parse(decodedText);
       const { action, page, id } = parsed;
 
@@ -44,7 +43,6 @@ function QRCodeScanner({ redo }: { redo: boolean }) {
           if (res.status !== 200 && res.status !== 201) {
             setError(res.data.message);
           } else {
-            console.log(res);
             setSuccess("Attendance added successfully");
           }
         } else if (action === "addSessionMember") {
@@ -56,7 +54,6 @@ function QRCodeScanner({ redo }: { redo: boolean }) {
           if (res.status !== 200 && res.status !== 201) {
             setError(res.data.message);
           } else {
-            console.log(res);
             setSuccess("Session member added successfully");
           }
         } else {
@@ -75,7 +72,7 @@ function QRCodeScanner({ redo }: { redo: boolean }) {
         } else {
           setError("Something went wrong. Please try again.");
         }
-        console.log("Error occurred while scanning", err);
+      
       } finally {
         setShowReader(false);
       }

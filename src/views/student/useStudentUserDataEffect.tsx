@@ -22,8 +22,6 @@ export function useStudentUserDataEffect() {
 
     const cookie = Cookies.get("userToken");
     if (!cookie) {
-      console.log("no user cookie available");
-
       setUser(null);
       navigate("/", { state: { redirect: location.pathname } });
     }
