@@ -14,22 +14,20 @@ import { Label } from "@/components/ui/label";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { login } from "@/endpoints";
 import { LoadingButton } from "./LoadingButton";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 import { useAppStore } from "@/store";
 
-type LoginProps = {
-  redirect?: string;
-};
 interface ErrorResponse {
   message: string;
 }
-export function LoginForm({ redirect }: LoginProps) {
+export function LoginForm() {
   const [values, setValues] = useState({
     email: "",
     password: "",
   });
+  const location = useLocation();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<string | null>(null);
@@ -40,7 +38,12 @@ export function LoginForm({ redirect }: LoginProps) {
 
   const setUser = useAppStore((state) => state.setUser);
   const user = useAppStore((state) => state.user);
+  console.log(location);
 
+  useEffect(() => {
+    const redirect = location.state.redirect;
+    if (redirect) setRedirectURL(redirect);
+  }, []);
   //useEffect
   const checkuser = () => {
     if (user) {
@@ -96,12 +99,21 @@ export function LoginForm({ redirect }: LoginProps) {
           setUser(userData);
           //redirect
           //if there is a redirect url go there, else navigate normally
-          redirect && navigate(redirect, { replace: true });
-          userData.userType === "student"
-            ? navigate("/student", { replace: true })
-            : userData.userType === "instructor"
-            ? navigate("/instructor", { replace: true })
-            : navigate("/");
+          if (redirectURL) {
+            navigate(redirectURL, { replace: true });
+          } else {
+            switch (userData.userType) {
+              case "student":
+                navigate("/student", { replace: true });
+                break;
+              case "instructor":
+                navigate("/instructor", { replace: true });
+                break;
+              default:
+                navigate("/", { replace: true });
+                break;
+            }
+          }
         });
     } catch (error: unknown) {
       setSuccess(null);
