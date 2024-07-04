@@ -1,13 +1,31 @@
 import { useAppStore } from "@/store";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { redirect, useLocation, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 export function useStudentUserDataEffect() {
   const user: User | null = useAppStore((state) => state?.user);
   const navigate = useNavigate();
+  const setUser = useAppStore((state) => state.setUser);
+
+  const location = useLocation();
+
   useEffect(() => {
     if (!user || user == null) {
-      navigate("/", { state: { redirect: "/student" } });
+      navigate("/", { state: { redirect: location.pathname } });
+    }
+
+    if (user?.userType !== "student") {
+      setUser(null);
+      navigate("/", { state: { redirect: location.pathname } });
+    }
+
+    const cookie = Cookies.get("userToken");
+    if (!cookie) {
+      console.log("no user cookie available");
+
+      setUser(null);
+      navigate("/", { state: { redirect: location.pathname } });
     }
   }, []);
 }
