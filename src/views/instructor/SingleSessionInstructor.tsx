@@ -79,7 +79,7 @@ export default function SingleSessionInstructor() {
       console.log(event.data);
 
       const newAttendance = JSON.parse(event.data);
-      setAttendance((prev) => [...prev, newAttendance]);
+      //setAttendance((prev) => [...prev, newAttendance]);
     };
     return () => {
       eventSource.close();
