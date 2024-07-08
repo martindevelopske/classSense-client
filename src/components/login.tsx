@@ -41,6 +41,7 @@ export function LoginForm() {
 
   useEffect(() => {
     const redirect = location.state?.redirect;
+
     if (redirect != "/" && redirect != null) setRedirectURL(redirect);
   }, []);
   //useEffect
@@ -92,6 +93,7 @@ export function LoginForm() {
           }
           setSuccess(null);
           const userData: User = res.data.message;
+
           setSuccess("Login successfull. Redirecting....");
 
           //update state on zustand
@@ -99,8 +101,6 @@ export function LoginForm() {
           //redirect
           //if there is a redirect url go there, else navigate normally
           if (redirectURL) {
-         
-
             navigate(redirectURL, { replace: true });
           } else {
             switch (userData.userType) {

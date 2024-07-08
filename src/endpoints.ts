@@ -24,3 +24,6 @@ export const getSingleSession = `${api}/sessions`;
 
 //locations
 export const getAllLocations = `${api}/location`;
+
+//events
+export const attendanceEvents = `${api}/attendance/events`;

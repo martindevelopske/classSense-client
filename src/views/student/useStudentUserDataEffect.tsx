@@ -1,7 +1,7 @@
 import { useAppStore } from "@/store";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 
 export function useStudentUserDataEffect() {
   const user: User | null = useAppStore((state) => state?.user);
@@ -20,10 +20,10 @@ export function useStudentUserDataEffect() {
       navigate("/", { state: { redirect: location.pathname } });
     }
 
-    const cookie = Cookies.get("userToken");
-    if (!cookie) {
-      setUser(null);
-      navigate("/", { state: { redirect: location.pathname } });
-    }
+    // const cookie = Cookies.get("userToken");
+    // if (!cookie) {
+    //   setUser(null);
+    //   navigate("/", { state: { redirect: location.pathname } });
+    // }
   }, []);
 }

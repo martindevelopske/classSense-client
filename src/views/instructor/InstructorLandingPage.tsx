@@ -4,9 +4,11 @@ import { PlusIcon } from "@radix-ui/react-icons";
 import InstructorSessions from "./InstructorSession";
 import { useState } from "react";
 import CreateSessionModal from "@/components/modals/CreateSessionModal";
+import { useInstructorUserDataEffect } from "./useInstructorUserDataEffect";
 export default function InstructorLandingPage() {
   const [showCreateSessionModal, setShowCreateSessionModal] =
     useState<boolean>(false);
+  useInstructorUserDataEffect();
   return (
     <>
       <div className="w-full h-full mt-[20px]">
