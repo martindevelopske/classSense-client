@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import {
   addAttendance,
   addSessionMembers,
+  attendanceEvents,
   getSingleSession,
 } from "@/endpoints";
 import axios from "axios";
@@ -16,7 +17,6 @@ import Loading from "@/components/Loading";
 import ErrorComponent from "@/components/Error";
 import SaveImageButton from "@/components/SaveImageButton";
 import CodeModal from "@/components/modals/CodeModal";
-import { useStudentUserDataEffect } from "../student/useStudentUserDataEffect";
 
 type QRCodeData = {
   page: string;
@@ -24,8 +24,6 @@ type QRCodeData = {
   id: string | undefined;
 };
 export default function SingleSessionInstructor() {
-  useStudentUserDataEffect();
-
   const { id } = useParams();
 
   const [activeTab, setActiveTab] = useState<string | null>("attendance");
@@ -33,10 +31,10 @@ export default function SingleSessionInstructor() {
   const [fullscreen, setFullscreen] = useState<boolean>(false);
   const [session, setSession] = useState<SessionProps | null>(null);
   const [code, setCode] = useState<string | undefined>();
-  const [attendance, setAttendance] = useState();
+  const [attendance, setAttendance] = useState<AttendanceRecord[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
-
+  const [events, setEvents] = useState([]);
   // const attendanceUrl: string = `http://localhost:5173/student/addAttendance?sessionId=${id}`;
 
   const fetchSession = async (id: string | undefined) => {
@@ -65,6 +63,28 @@ export default function SingleSessionInstructor() {
   useEffect(() => {
     fetchSession(id);
   }, [id]);
+
+  //listen to attendance event
+  useEffect(() => {
+    const eventSource = new EventSource(attendanceEvents);
+    eventSource.onopen = () => {
+      console.log("SSE connection established.");
+    };
+
+    eventSource.onerror = (error) => {
+      console.error("Error establishing SSE connection:", error);
+    };
+    eventSource.onmessage = (event) => {
+      console.log("new attendance message");
+      console.log(event.data);
+
+      const newAttendance = JSON.parse(event.data);
+      setAttendance((prev) => [...prev, newAttendance]);
+    };
+    return () => {
+      eventSource.close();
+    };
+  }, []);
 
   //generate a qr code for the student to sign in
   const generateCode = async (data: QRCodeData) => {
@@ -95,7 +115,7 @@ export default function SingleSessionInstructor() {
         )}
         {session && (
           <div className="mt-3 flex flex-col gap-3">
-            <div className="w-full h-[50px] flex items-center justify-start cursor-pointer">
+            <div className="w-full h-[50px] flex items-center justify-end cursor-pointer self-end">
               <p
                 onClick={handleEditSession}
                 className="flex gap-2 items-center border p-2 rounded-md border-purple"
