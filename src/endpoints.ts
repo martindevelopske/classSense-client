@@ -1,4 +1,4 @@
-const api = "http://3.83.108.200:3000/api/v1";
+export const api = "http://3.83.108.200:3000/api/v1";
 export const login = `${api}/auth/login`;
 export const logout = `${api}/auth/logout`;
 

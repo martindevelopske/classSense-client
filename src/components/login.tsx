@@ -29,7 +29,7 @@ export function LoginForm({ redirect }: LoginProps) {
   });
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [success, setSuccess] = useState<string | null>(false);
+  const [success, setSuccess] = useState<string | null>(null);
   const [redirectURL, setRedirectURL] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -83,6 +83,7 @@ export function LoginForm({ redirect }: LoginProps) {
           }
         )
         .then((res) => {
+          console.log(res);
           if (res.status != 200) {
             setError(res.data.message);
           }
