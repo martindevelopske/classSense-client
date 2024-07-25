@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
 export default function BackComponent({ to }: { to: string }) {
   const navigate = useNavigate();

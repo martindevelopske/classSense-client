@@ -1,7 +1,7 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import InstructorView from "./views/instructor/instructor";
-import CreateSession from "./views/instructor/CreateSessionPage";
+import CreateSession from "./views/instructor/Forms/CreateSessionForm";
 import StudentView from "./views/student/student";
 import AddAttendance from "./views/student/AddAttendance";
 import LoginSignupPage from "./pages/LoginSignupPage";

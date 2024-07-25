@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -19,26 +19,31 @@ import { Helmet } from "react-helmet";
 import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 import { useAppStore } from "@/store";
 
-type LoginProps = {
-  redirect?: string;
-};
-export function LoginForm({ redirect }: LoginProps) {
+interface ErrorResponse {
+  message: string;
+}
+export function LoginForm() {
   const [values, setValues] = useState({
     email: "",
     password: "",
   });
+  const location = useLocation();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<string | null>(null);
   const [redirectURL, setRedirectURL] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
-  const location = useLocation();
   const navigate = useNavigate();
 
   const setUser = useAppStore((state) => state.setUser);
   const user = useAppStore((state) => state.user);
 
+  useEffect(() => {
+    const redirect = location.state?.redirect;
+
+    if (redirect != "/" && redirect != null) setRedirectURL(redirect);
+  }, []);
   //useEffect
   const checkuser = () => {
     if (user) {
@@ -71,7 +76,7 @@ export function LoginForm({ redirect }: LoginProps) {
     try {
       setLoading(true);
 
-      const response = await axios
+      await axios
         .post(
           login,
           { ...values },
@@ -88,27 +93,40 @@ export function LoginForm({ redirect }: LoginProps) {
             setError(res.data.message);
           }
           setSuccess(null);
-          console.log(res.response);
           const userData: User = res.data.message;
-          console.log(userData);
+
           setSuccess("Login successfull. Redirecting....");
 
           //update state on zustand
           setUser(userData);
           //redirect
           //if there is a redirect url go there, else navigate normally
-          redirect && navigate(redirect, { replace: true });
-          userData.userType === "student"
-            ? navigate("/student", { replace: true })
-            : userData.userType === "instructor"
-            ? navigate("/instructor", { replace: true })
-            : navigate("/");
+          if (redirectURL) {
+            navigate(redirectURL, { replace: true });
+          } else {
+            switch (userData.userType) {
+              case "student":
+                navigate("/student", { replace: true });
+                break;
+              case "instructor":
+                navigate("/instructor", { replace: true });
+                break;
+              default:
+                navigate("/", { replace: true });
+                break;
+            }
+          }
         });
-      console.log(response);
-    } catch (error: any) {
+    } catch (error: unknown) {
       setSuccess(null);
-      const errMsg = error.response.data.message;
-      setError(errMsg);
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError<ErrorResponse>;
+        const errMsg =
+          axiosError.response?.data?.message || "An error occurred";
+        setError(errMsg);
+      } else {
+        setError("An unexpected error occurred");
+      }
     } finally {
       setLoading(false);
       // Reset form fields

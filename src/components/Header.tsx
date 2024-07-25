@@ -1,7 +1,7 @@
 // Navbar.js
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 
-import { BellIcon, GearIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { BellIcon, GearIcon } from "@radix-ui/react-icons";
 import { Button } from "./ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -23,39 +23,38 @@ type navbarProps = {
 };
 const Navbar = ({ role, user }: navbarProps) => {
   const currentUser: usert | undefined = user?.user;
-  const setUser = useAppStore((state) => state.setUser);
+  const setUser = useAppStore((state) => state?.setUser);
 
   const navigate = useNavigate();
   //handle logout
   const handleLogout = async () => {
-    const response = await axios
-      .post(logout, {
-        withCredentials: true,
-      })
-      .then((res) => console.log(res));
+    await axios.post(logout, {
+      withCredentials: true,
+    });
+
     //update state
     setUser(null);
     navigate("/");
     // window.location.reload();
   };
   // Define links based on the user's role
-  const links =
-    role === "student"
-      ? [
-          { label: "Home", to: "/student" },
-          { label: "Profile", to: "/profile" },
-        ]
-      : role === "instructor"
-      ? [
-          { label: "Home", to: "/instructor" },
-          { label: "Dashboard", to: "/dashboard" },
-        ]
-      : role === "admin"
-      ? [
-          { label: "Home", to: "/" },
-          { label: "Dashboard", to: "/dashboard" },
-        ]
-      : []; // default value if role doesn't match any condition
+  // const links =
+  //   role === "student"
+  //     ? [
+  //         { label: "Home", to: "/student" },
+  //         { label: "Profile", to: "/profile" },
+  //       ]
+  //     : role === "instructor"
+  //     ? [
+  //         { label: "Home", to: "/instructor" },
+  //         { label: "Dashboard", to: "/dashboard" },
+  //       ]
+  //     : role === "admin"
+  //     ? [
+  //         { label: "Home", to: "/" },
+  //         { label: "Dashboard", to: "/dashboard" },
+  //       ]
+  //     : []; // default value if role doesn't match any condition
 
   return (
     <div className="h-[70px] bg-grayish flex flex-row border justify-between px-3 items-center space-between w-full">

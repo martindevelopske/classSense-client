@@ -1,43 +1,36 @@
-import { Button } from "@/components/ui/button";
-import { getSingleSession } from "@/endpoints";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import QRCode from "qrcode";
-import { RiFullscreenFill } from "react-icons/ri";
+import { useParams } from "react-router-dom";
 import BackComponent from "@/components/BackComponent";
 import Loading from "@/components/Loading";
 import ErrorComponent from "@/components/Error";
-import SaveImageButton from "@/components/SaveImageButton";
-import CodeModal from "@/components/modals/CodeModal";
 import { useStudentUserDataEffect } from "../student/useStudentUserDataEffect";
 import { AttendanceDataTable } from "../instructor/AttendanceDataTable";
+import { getSingleSession } from "@/endpoints";
 
 export default function SingleSessionStudent() {
   useStudentUserDataEffect();
 
   const { id } = useParams();
 
-  const [session, setSession] = useState(null);
+  const [session, setSession] = useState<SessionProps | null>(null);
   const [attendance, setAttendance] = useState();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
-  const location = useLocation();
 
-  const attendanceUrl: string = `http://localhost:5173/student/addAttendance?sessionId=${id}`;
+  // const attendanceUrl: string = `http://localhost:5173/student/addAttendance?sessionId=${id}`;
 
   const fetchSession = async (id: string) => {
     try {
       setLoading(true);
-      const url = `${getStudent}/${id}`;
+      const url = `${getSingleSession}/${id}`;
       const response = await axios.get(url, {
         withCredentials: true,
       });
+
       setSession(response.data.message);
-      console.log(response.data.message);
 
       setAttendance(response.data.message.attendance);
-      console.log(response.data.message.attendance);
     } catch (error) {
       console.error("Error fetching sessions:", error);
       setError("Failed to fetch Session. Please Reload the page.");
@@ -47,10 +40,8 @@ export default function SingleSessionStudent() {
   };
 
   useEffect(() => {
-    fetchSession(6);
+    id && fetchSession(id);
   }, [id]);
-
-  const href: string = window.location.href;
 
   return (
     <>
@@ -75,6 +66,15 @@ export default function SingleSessionStudent() {
                 <span className="font-light font-sans">{session.id}</span>
               </div>
               <div className="font-bold text-lg">Name: {session.name}</div>
+              <div className="font-bold text-lg">
+                Insructor:{" "}
+                <span className="font-light">
+                  {session.instructor.firstname} {session.instructor.lastname}
+                </span>
+              </div>
+              <div className="font-bold text-lg">
+                Day: <span className="font-light">{session.session?.day}</span>
+              </div>
               <div className="font-bold text-lg">Status: {session.status}</div>
             </div>
             {attendance ? (

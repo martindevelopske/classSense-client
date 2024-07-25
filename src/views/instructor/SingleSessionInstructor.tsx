@@ -1,33 +1,41 @@
 import { Button } from "@/components/ui/button";
-import { getSingleSession } from "@/endpoints";
+import {
+  addAttendance,
+  addSessionMembers,
+  attendanceEvents,
+  getSingleSession,
+} from "@/endpoints";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { AttendanceDataTable } from "./AttendanceDataTable";
 import QRCode from "qrcode";
 import { RiFullscreenFill } from "react-icons/ri";
+import { FaEdit } from "react-icons/fa";
 import BackComponent from "@/components/BackComponent";
 import Loading from "@/components/Loading";
 import ErrorComponent from "@/components/Error";
 import SaveImageButton from "@/components/SaveImageButton";
 import CodeModal from "@/components/modals/CodeModal";
-import { useStudentUserDataEffect } from "../student/useStudentUserDataEffect";
 
+type QRCodeData = {
+  page: string;
+  action: string;
+  id: string | undefined;
+};
 export default function SingleSessionInstructor() {
-  useStudentUserDataEffect();
-
   const { id } = useParams();
 
   const [activeTab, setActiveTab] = useState<string | null>("attendance");
   const [codeTab, setCodeTab] = useState<string | null>(null);
   const [fullscreen, setFullscreen] = useState<boolean>(false);
-  const [session, setSession] = useState(null);
-  const [code, setCode] = useState();
-  const [attendance, setAttendance] = useState();
+  const [session, setSession] = useState<SessionProps | null>(null);
+  const [code, setCode] = useState<string | undefined>();
+  const [attendance, setAttendance] = useState<AttendanceRecord[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
-
-  const attendanceUrl: string = `http://localhost:5173/student/addAttendance?sessionId=${id}`;
+  const [events, setEvents] = useState([]);
+  // const attendanceUrl: string = `http://localhost:5173/student/addAttendance?sessionId=${id}`;
 
   const fetchSession = async (id: string | undefined) => {
     try {
@@ -36,11 +44,9 @@ export default function SingleSessionInstructor() {
       const response = await axios.get(url, {
         withCredentials: true,
       });
-      console.log(response);
       setSession(response.data.message);
 
       setAttendance(response.data.message.attendance);
-      console.log(response.data.message.attendance);
     } catch (error) {
       console.error("Error fetching sessions:", error);
       setError("Failed to fetch Session. Please Reload the page.");
@@ -52,22 +58,46 @@ export default function SingleSessionInstructor() {
   const handleTabChange = (tab: string) => {
     setCodeTab(tab);
   };
+  const handleEditSession = () => {};
 
   useEffect(() => {
     fetchSession(id);
   }, [id]);
 
-  const href: string = window.location.href;
+  //listen to attendance event
+  useEffect(() => {
+    const eventSource = new EventSource(attendanceEvents);
+    eventSource.onopen = () => {
+      console.log("SSE connection established.");
+    };
+
+    eventSource.onerror = (error) => {
+      console.error("Error establishing SSE connection:", error);
+    };
+    eventSource.onmessage = (event) => {
+      console.log("new attendance message");
+      console.log(event.data);
+
+      const newAttendance = JSON.parse(event.data);
+      //setAttendance((prev) => [...prev, newAttendance]);
+    };
+    return () => {
+      eventSource.close();
+    };
+  }, []);
 
   //generate a qr code for the student to sign in
-  const generateCode = async (page: string) => {
-    console.log("called");
+  const generateCode = async (data: QRCodeData) => {
+    const payload = JSON.stringify(data);
+    await QRCode.toDataURL(
+      payload,
+      { width: 500, margin: 2 },
+      (err, url: string) => {
+        if (err) return console.error(err);
 
-    await QRCode.toDataURL(page, { width: 500, margin: 2 }, (err, url) => {
-      if (err) return console.error(err);
-
-      setCode(url);
-    });
+        setCode(url);
+      }
+    );
   };
   return (
     <>
@@ -84,9 +114,21 @@ export default function SingleSessionInstructor() {
           </div>
         )}
         {session && (
-          <div className="mt-3">
-            <div className="font-bold text-2xl text-purple">{session.name}</div>
-            <div className="font-bold text-lg">Status: {session.status}</div>
+          <div className="mt-3 flex flex-col gap-3">
+            <div className="w-full h-[50px] flex items-center justify-end cursor-pointer self-end">
+              <p
+                onClick={handleEditSession}
+                className="flex gap-2 items-center border p-2 rounded-md border-purple"
+              >
+                <FaEdit /> Edit
+              </p>
+            </div>
+            <div>
+              <div className="font-bold text-2xl text-purple">
+                {session.name}
+              </div>
+              <div className="font-bold text-lg">Status: {session.status}</div>
+            </div>
           </div>
         )}
         <br></br>
@@ -94,7 +136,11 @@ export default function SingleSessionInstructor() {
           <div className="flex gap-3">
             <Button
               onClick={() => {
-                generateCode();
+                generateCode({
+                  page: addAttendance,
+                  action: "addAttendance",
+                  id: id,
+                });
                 handleTabChange("sign-in");
               }}
             >
@@ -102,7 +148,11 @@ export default function SingleSessionInstructor() {
             </Button>
             <Button
               onClick={() => {
-                generateCode();
+                generateCode({
+                  page: addSessionMembers,
+                  action: "addSessionMember",
+                  id: id,
+                });
                 handleTabChange("joining");
               }}
             >

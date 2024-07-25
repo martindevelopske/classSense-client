@@ -1,5 +1,5 @@
-import React from "react";
 import ErrorComponent from "@/components/Error";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -10,37 +10,62 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { deleteAttendance } from "@/endpoints";
+import axios from "axios";
 
-export function AttendanceDataTable({ data }) {
-  return data.length > 0 ? (
+const HandleDeleteAttendance = async (attendanceId: string) => {
+  //send the request
+  try {
+    await axios
+      .delete(`${deleteAttendance}/${attendanceId}`, {
+        withCredentials: true,
+      })
+      .then((res) => console.log(res));
+  } catch (err) {}
+  //filter the data
+};
+export function AttendanceDataTable({ data }: { data: unknown }) {
+  return data?.length > 0 ? (
     <Table>
       <TableCaption>A list of your recent Attendances.</TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead className="text-right">ID</TableHead>
-          <TableHead className="w-[100px]">Session ID</TableHead>
+          <TableHead className="text-right font-bold">Firstname</TableHead>
+          <TableHead className="w-[100px]">Lastname</TableHead>
           <TableHead>Email</TableHead>
           <TableHead>Date</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.map((item) => (
-          <TableRow key={item.id}>
-            <TableCell className="font-medium">{item.id}</TableCell>
-            <TableCell>{item.sessionId}</TableCell>
-            <TableCell>{item.user.email}</TableCell>
-            <TableCell>{item.createdAt}</TableCell>
-          </TableRow>
-        ))}
+        {data?.map((item: AttendanceRecord) => {
+          const { firstname, lastname, email, id } = item.user;
+          return (
+            <TableRow key={id}>
+              <TableCell className="">{firstname}</TableCell>
+              <TableCell>{lastname}</TableCell>
+              <TableCell>{email}</TableCell>
+              <TableCell>{item.createdAt}</TableCell>
+              <TableCell>
+                <Button
+                  variant="destructive"
+                  onClick={() => HandleDeleteAttendance(id)}
+                >
+                  Delete
+                </Button>
+              </TableCell>
+            </TableRow>
+          );
+        })}
       </TableBody>
       <TableFooter>
         <TableRow>
           <TableCell colSpan={3}>Total</TableCell>
-          <TableCell className="text-right">$2,500.00</TableCell>
+          <TableCell className="text-right">{data.length}</TableCell>
         </TableRow>
       </TableFooter>
     </Table>
   ) : (
     <ErrorComponent errorMessage="No attendance Records" />
   );
+  // return <h2>Attendance data table</h2>;
 }

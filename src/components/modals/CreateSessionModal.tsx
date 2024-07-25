@@ -1,9 +1,7 @@
-import QRCodeScanner from "@/views/student/QRCodeScanner";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
-import { LiaRedoAltSolid } from "react-icons/lia";
 import { Button } from "../ui/button";
-import CreateSession from "@/views/instructor/CreateSessionPage";
+import CreateSessionForm from "@/views/instructor/Forms/CreateSessionForm";
 
 function CreateSessionModal({
   showCreateSessionModal,
@@ -21,7 +19,7 @@ function CreateSessionModal({
               <IoClose color="RGB(249 115 22)" size={35} />
             </button>
           </div>
-          <CreateSession />
+          <CreateSessionForm />
           <div className="w-full flex items-center justify-around gap-3">
             <Button
               variant="destructive"
@@ -32,15 +30,6 @@ function CreateSessionModal({
                 <span>Close</span>
               </div>
             </Button>
-            {/* <Button
-              className="flex items-center justify-center"
-              onClick={() => setRedo(false)}
-            >
-              <div className="flex gap-2 items-center justify-center">
-                <LiaRedoAltSolid />
-                <span>Scan Again</span>
-              </div>
-            </Button> */}
           </div>
         </div>
       </div>

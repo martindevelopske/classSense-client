@@ -1,4 +1,7 @@
-export const api = "http://3.83.108.200:3000/api/v1";
+const local: boolean = true;
+const api = local
+  ? "http://localhost:3000/api/v1"
+  : "https://3.83.108.200/api/v1";
 export const login = `${api}/auth/login`;
 export const logout = `${api}/auth/logout`;
 
@@ -18,3 +21,10 @@ export const addSessionMembers = `${api}/sessions/members/add`;
 export const getUserSessions = `${api}/sessions/user`;
 export const getInstructorSessions = `${api}/sessions/instructor`;
 export const getSingleSession = `${api}/sessions`;
+
+//locations
+export const getAllLocations = `${api}/location`;
+
+//events
+export const attendanceEvents = `${api}/attendance/events`;
+export const testconnetion = `${api}/test-connection`;

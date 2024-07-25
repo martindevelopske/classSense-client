@@ -2,12 +2,10 @@ import { Button } from "../../components/ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
 import StudentsSessions from "./StudentSessions";
 import { IoQrCodeOutline } from "react-icons/io5";
-import { Link } from "react-router-dom";
 import ScanModal from "@/components/modals/ScanModal";
 import { useState } from "react";
 export default function StudentLandingPage() {
   const [showScanModal, setShowScanModal] = useState(false);
-  const handleShowModal = () => {};
   return (
     <>
       <div className="w-full h-full mt-[20px]">
@@ -22,24 +20,19 @@ export default function StudentLandingPage() {
                 <span>Scan QR</span>
               </div>
             </div>
-            <Button className="flex items-center justify-center">
+            {/* <Button className="flex items-center justify-center">
               <div className="flex gap-2 items-center justify-center">
                 <PlusIcon />
                 <span>Join A Session</span>
               </div>
-            </Button>
+            </Button> */}
           </div>
           <h2 className="text-purple self-start mt-4 text-2xl font-bold">
             Your Sessions
           </h2>
         </div>
         <StudentsSessions />
-        {showScanModal && (
-          <ScanModal
-            showScanModal={showScanModal}
-            setShowScanModal={setShowScanModal}
-          />
-        )}
+        {showScanModal && <ScanModal setShowScanModal={setShowScanModal} />}
       </div>
     </>
   );
