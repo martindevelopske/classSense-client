@@ -27,3 +27,4 @@ export const getAllLocations = `${api}/location`;
 
 //events
 export const attendanceEvents = `${api}/attendance/events`;
+export const testconnetion = `${api}/test-connection`;

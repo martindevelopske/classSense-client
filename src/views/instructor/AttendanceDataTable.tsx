@@ -1,4 +1,5 @@
 import ErrorComponent from "@/components/Error";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -9,7 +10,20 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { deleteAttendance } from "@/endpoints";
+import axios from "axios";
 
+const HandleDeleteAttendance = async (attendanceId: string) => {
+  //send the request
+  try {
+    await axios
+      .delete(`${deleteAttendance}/${attendanceId}`, {
+        withCredentials: true,
+      })
+      .then((res) => console.log(res));
+  } catch (err) {}
+  //filter the data
+};
 export function AttendanceDataTable({ data }: { data: unknown }) {
   return data?.length > 0 ? (
     <Table>
@@ -31,6 +45,14 @@ export function AttendanceDataTable({ data }: { data: unknown }) {
               <TableCell>{lastname}</TableCell>
               <TableCell>{email}</TableCell>
               <TableCell>{item.createdAt}</TableCell>
+              <TableCell>
+                <Button
+                  variant="destructive"
+                  onClick={() => HandleDeleteAttendance(id)}
+                >
+                  Delete
+                </Button>
+              </TableCell>
             </TableRow>
           );
         })}
