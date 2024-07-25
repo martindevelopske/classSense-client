@@ -8,7 +8,7 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import  AttendanceDataTable  from "./AttendanceDataTable";
+import AttendanceDataTable from "./AttendanceDataTable";
 import QRCode from "qrcode";
 import { RiFullscreenFill } from "react-icons/ri";
 import { FaEdit } from "react-icons/fa";

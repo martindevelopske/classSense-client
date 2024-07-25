@@ -5,7 +5,7 @@ import BackComponent from "@/components/BackComponent";
 import Loading from "@/components/Loading";
 import ErrorComponent from "@/components/Error";
 import { useStudentUserDataEffect } from "../student/useStudentUserDataEffect";
-import { AttendanceDataTable } from "../instructor/AttendanceDataTable";
+import  AttendanceDataTable  from "../instructor/AttendanceDataTable";
 import { getSingleSession } from "@/endpoints";
 
 export default function SingleSessionStudent() {

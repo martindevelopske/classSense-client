@@ -31,7 +31,10 @@ function ScanModal({
           </Button>
           <Button
             className="flex items-center justify-center"
-            onClick={() => setRedo(false)}
+            onClick={() => {
+              console.log("heopx");
+              setRedo(true);
+            }}
           >
             <div className="flex gap-2 items-center justify-center">
               <LiaRedoAltSolid />

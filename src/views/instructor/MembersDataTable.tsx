@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import ErrorComponent from "@/components/Error";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,21 +11,33 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { deleteAttendance } from "@/endpoints";
+import { deleteAttendance, getSessionMembers } from "@/endpoints";
 import axios from "axios";
 
-const HandleDeleteAttendance = async (attendanceId: string) => {
+const HandleDeleteAttendance = async (studentId: string) => {
   //send the request
-  try {
-    await axios
-      .delete(`${deleteAttendance}/${attendanceId}`, {
-        withCredentials: true,
-      })
-      .then((res) => console.log(res));
-  } catch (err) {}
   //filter the data
 };
-function AttendanceDataTable({ data }: { data: unknown }) {
+function MembersDataTable({ sessionId }: { sessionId: string }) {
+  const [data, setData] = useState(null);
+  const getMembersData = async () => {
+    try {
+      const url = `${getSessionMembers}/${sessionId}`;
+      console.log(url);
+      await axios
+        .get(url, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          setData(res.data.message);
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    getMembersData();
+  }, []);
   return data?.length > 0 ? (
     <Table>
       <TableCaption>A list of your recent Attendances.</TableCaption>
@@ -45,14 +58,7 @@ function AttendanceDataTable({ data }: { data: unknown }) {
               <TableCell>{lastname}</TableCell>
               <TableCell>{email}</TableCell>
               <TableCell>{item.createdAt}</TableCell>
-              <TableCell>
-                <Button
-                  variant="destructive"
-                  onClick={() => HandleDeleteAttendance(id)}
-                >
-                  Delete
-                </Button>
-              </TableCell>
+              
             </TableRow>
           );
         })}
@@ -65,7 +71,7 @@ function AttendanceDataTable({ data }: { data: unknown }) {
       </TableFooter>
     </Table>
   ) : (
-    <ErrorComponent errorMessage="No attendance Records" />
+    <ErrorComponent errorMessage="This session has no members Yet." />
   );
 }
-export default AttendanceDataTable;
+export default MembersDataTable;

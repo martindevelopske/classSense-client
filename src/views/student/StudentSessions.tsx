@@ -16,6 +16,7 @@ export default function StudentsSessions() {
       const response = await axios.get(getUserSessions, {
         withCredentials: true,
       });
+      console.log(response);
       setSessions(response.data.message);
     } catch (error) {
       setError("Failed to fetch your Sessions. Please Reload the page.");
@@ -39,19 +40,26 @@ export default function StudentsSessions() {
             <ErrorComponent errorMessage={error} />
           </div>
         )}
-        {sessions?.map((session: SessionProps) => (
-          <div
-            className="w-full p-3 h-auto mt-4 self-start
+        {sessions.length > 0 ? (
+          sessions?.map((session: SessionProps) => (
+            <div
+              className="w-full p-3 h-auto mt-4 self-start
           "
-            key={session.id}
-          >
-            <Link to={`sessions/${session.session.id}`}>
-              <div className="w-full flex gap-3 p-2 ">
-                <SessionCard session={session} />
-              </div>
-            </Link>
+              key={session.id}
+            >
+              <Link to={`sessions/${session.session.id}`}>
+                <div className="w-full flex gap-3 p-2 ">
+                  <SessionCard session={session} />
+                </div>
+              </Link>
+            </div>
+          ))
+        ) : (
+          <div className="h-full w-full flex items-center justify-center">
+            You are not a member of any session. Scan a Session code to join a
+            session.
           </div>
-        ))}
+        )}
       </div>
     </>
   );

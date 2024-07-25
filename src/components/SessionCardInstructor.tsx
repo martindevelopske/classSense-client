@@ -1,6 +1,6 @@
 const SessionCardInstructor = ({ session }: { session: Session }) => {
   return (
-    <div className="border h-auto p-2 text-white rounded-lg  w-3/4 md:w-2/6 bg-primary">
+    <div className="border h-auto p-2 text-white rounded-lg  w-full md:w-1/2 bg-primary">
       <h2>{session?.name}</h2>
       <p className={`${session?.status == "live" && "text-green-600"} `}>
         Status: {session?.status}

@@ -23,10 +23,10 @@ export function useInstructorUserDataEffect() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const isConnectionGood = await testconnection(); // Await the result of testconnection
+        // const isConnectionGood = await testconnection(); // Await the result of testconnection
 
         // Check user and connection status
-        if (!user || user === null || !isConnectionGood) {
+        if (!user || user === null ) {
           setUser(null);
           navigate("/", { state: { redirect: location.pathname } });
         } else if (user.userType !== "instructor") {
