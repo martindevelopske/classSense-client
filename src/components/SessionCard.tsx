@@ -1,6 +1,5 @@
 type NoInstructor = Omit<SessionProps, "instructor">;
 const SessionCard = ({ sessionData }: { sessionData: NoInstructor }) => {
-  console.log(sessionData);
   const currentSession = sessionData?.session;
   const session = sessionData.session;
 

@@ -24,7 +24,6 @@ export default function StudentsSessions() {
       //   withCredentials: true,
       // });
       const response = await fetchData(getUserSessions);
-      console.log(response);
 
       setSessions(response.data.message);
     } catch (error) {
