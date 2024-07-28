@@ -1,4 +1,4 @@
-const SessionCardInstructor = ({ session }: { session: Session }) => {
+const SessionCardInstructor = ({ session }: { session: SessionCard }) => {
   return (
     <div className="border h-auto p-2 text-white rounded-lg  w-full md:w-1/2 bg-primary">
       <h2>{session?.name}</h2>

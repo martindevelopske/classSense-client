@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import ErrorComponent from "@/components/Error";
-import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -11,19 +10,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { deleteAttendance, getSessionMembers } from "@/endpoints";
+import { getSessionMembers } from "@/endpoints";
 import axios from "axios";
 
-const HandleDeleteAttendance = async (studentId: string) => {
-  //send the request
-  //filter the data
-};
+// const HandleDeleteAttendance = async (studentId: string) => {
+//   //send the request
+//   //filter the data
+// };
 function MembersDataTable({ sessionId }: { sessionId: string }) {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<SessionMembers[] | null>(null);
   const getMembersData = async () => {
     try {
       const url = `${getSessionMembers}/${sessionId}`;
-      console.log(url);
       await axios
         .get(url, {
           withCredentials: true,
@@ -31,14 +29,12 @@ function MembersDataTable({ sessionId }: { sessionId: string }) {
         .then((res) => {
           setData(res.data.message);
         });
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
   useEffect(() => {
     getMembersData();
   }, []);
-  return data?.length > 0 ? (
+  return data && data?.length > 0 ? (
     <Table>
       <TableCaption>A list of your recent Attendances.</TableCaption>
       <TableHeader>
@@ -50,15 +46,14 @@ function MembersDataTable({ sessionId }: { sessionId: string }) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data?.map((item: AttendanceRecord) => {
+        {data?.map((item: SessionMembers) => {
           const { firstname, lastname, email, id } = item.user;
           return (
             <TableRow key={id}>
               <TableCell className="">{firstname}</TableCell>
               <TableCell>{lastname}</TableCell>
               <TableCell>{email}</TableCell>
-              <TableCell>{item.createdAt}</TableCell>
-              
+              {/* <TableCell>{item.createdAt}</TableCell> */}
             </TableRow>
           );
         })}

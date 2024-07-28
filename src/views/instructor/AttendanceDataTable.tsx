@@ -11,21 +11,22 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { deleteAttendance } from "@/endpoints";
+import { useAppStore } from "@/store";
 import axios from "axios";
 
 const HandleDeleteAttendance = async (attendanceId: string) => {
   //send the request
   try {
-    await axios
-      .delete(`${deleteAttendance}/${attendanceId}`, {
-        withCredentials: true,
-      })
-      .then((res) => console.log(res));
+    await axios.delete(`${deleteAttendance}/${attendanceId}`, {
+      withCredentials: true,
+    });
   } catch (err) {}
   //filter the data
 };
-function AttendanceDataTable({ data }: { data: unknown }) {
-  return data?.length > 0 ? (
+function AttendanceDataTable({ data }: { data: AttendanceRecord[] }) {
+  const user = useAppStore((state) => state.user);
+
+  return data && data?.length > 0 ? (
     <Table>
       <TableCaption>A list of your recent Attendances.</TableCaption>
       <TableHeader>
@@ -45,14 +46,16 @@ function AttendanceDataTable({ data }: { data: unknown }) {
               <TableCell>{lastname}</TableCell>
               <TableCell>{email}</TableCell>
               <TableCell>{item.createdAt}</TableCell>
-              <TableCell>
-                <Button
-                  variant="destructive"
-                  onClick={() => HandleDeleteAttendance(id)}
-                >
-                  Delete
-                </Button>
-              </TableCell>
+              {user?.userType == "instructor" && (
+                <TableCell>
+                  <Button
+                    variant="destructive"
+                    onClick={() => HandleDeleteAttendance(id)}
+                  >
+                    Delete
+                  </Button>
+                </TableCell>
+              )}
             </TableRow>
           );
         })}

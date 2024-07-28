@@ -43,6 +43,7 @@ type Session = {
   day: string;
   locationId: string;
   createdAt: Date;
+  instructor?: InstructorT;
 };
 
 type SessionProps = {
@@ -52,7 +53,7 @@ type SessionProps = {
   session: Session;
   instructor: InstructorT;
 };
-type Location = {
+type LocationProps = {
   id: string;
   locationName: string;
   locationDescription?: string;
@@ -63,5 +64,30 @@ type AttendanceRecord = {
   createdAt: string;
   sessionId: string;
   userId: string;
+  user: Usert;
+};
+
+interface SessionCard {
+  id: string;
+  name: string;
+  status: string;
+  day: string;
+  createdAt: string;
+  instructor: InstructorT;
+  instructorId: string;
+  location: LocationProps;
+  locationId: string;
+  sessionTime: Date | null;
+}
+interface SingleSession extends SessionCard {
+  members: Usert[];
+  attendance: AttendanceRecord[];
+}
+
+type SessionMembers = {
+  id: string;
+  sessionId: string;
+  userId: string;
+  session?: Session;
   user: Usert;
 };

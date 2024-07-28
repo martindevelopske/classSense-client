@@ -1,10 +1,16 @@
-import { api } from "@/endpoints";
+import { api, logout } from "@/endpoints";
+import { useAppStore } from "@/store";
 import axios, {
   AxiosInstance,
   AxiosResponse,
   InternalAxiosRequestConfig,
   AxiosError,
 } from "axios";
+
+interface ErrorResponseData {
+  message: string;
+  // Add other properties if needed
+}
 
 const apiclient: AxiosInstance = axios.create({
   baseURL: api,
@@ -18,32 +24,40 @@ const apiclient: AxiosInstance = axios.create({
 //request interceptor
 apiclient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    console.log(config);
     return config;
   },
   (error: AxiosError) => {
-    console.log("Request error:", error);
     return Promise.reject(error);
-  },
+  }
 );
 
 // add a response interceptor
 apiclient.interceptors.response.use(
   (response: AxiosResponse) => {
-    console.log("Response", response);
     return response;
   },
   (error: AxiosError) => {
-    console.log(error);
     if (error.response) {
-      console.log("Error response", error.response);
-      return Promise.reject(error.response);
-    } else if (error.request) {
-      console.log("Error request: ", error.request);
+      //check token issue and redirect to login page
+      const errorResponse = error.response.data as ErrorResponseData;
+      const errorMessage: string = errorResponse?.message;
+
+      if (
+        errorMessage.includes(
+          "No access token attached to the request. Log in"
+        ) ||
+        errorMessage.includes("Invalid token. Please Log in and try again") ||
+        errorMessage.includes("User not found. Log in again") ||
+        errorMessage.includes(
+          "Unauthorized. Please Log in and try again. Get CU"
+        )
+      ) {
+        return Promise.reject("login");
+      }
+      return Promise.reject(error.response); // Pass the error back to the calling function
     } else {
-      console.log("Error message");
       return Promise.reject(error);
     }
-  },
+  }
 );
 export default apiclient;

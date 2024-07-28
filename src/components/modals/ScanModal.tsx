@@ -32,7 +32,6 @@ function ScanModal({
           <Button
             className="flex items-center justify-center"
             onClick={() => {
-              console.log("heopx");
               setRedo(true);
             }}
           >

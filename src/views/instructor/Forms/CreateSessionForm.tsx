@@ -23,7 +23,7 @@ export default function CreateSessionForm() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
-  const [locations, setLocations] = useState<Location[] | null>(null);
+  const [locations, setLocations] = useState<LocationProps[] | null>(null);
   const [locationError, setLocationError] = useState<string | null>(null);
   const [values, setValues] = useState({
     name: "",
@@ -44,7 +44,7 @@ export default function CreateSessionForm() {
     getLocations();
   }, []);
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
@@ -62,12 +62,12 @@ export default function CreateSessionForm() {
               "Content-Type": "application/json",
             },
             withCredentials: true,
-          },
+          }
         )
         .then((res) => {
           setSuccess("session created successfully.");
         });
-      toast('Session created successfully. You can now close this modal.')
+      toast("Session created successfully. You can now close this modal.");
       //close the modal-figure that out
     } catch (error: unknown) {
       setSuccess(null);
@@ -176,7 +176,7 @@ export default function CreateSessionForm() {
                   onChange={handleChange}
                 >
                   <option value=""></option>
-                  {locations?.map((item: Location) => (
+                  {locations?.map((item: LocationProps) => (
                     <option value={item?.id} key={item?.id}>
                       {item?.locationName}
                     </option>

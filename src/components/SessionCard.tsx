@@ -1,6 +1,8 @@
-type props = { session: SessionProps };
-const SessionCard = (sessionData: props) => {
-  const currentSession = sessionData.session.session;
+type NoInstructor = Omit<SessionProps, "instructor">;
+const SessionCard = ({ sessionData }: { sessionData: NoInstructor }) => {
+  console.log(sessionData);
+  const currentSession = sessionData?.session;
+  const session = sessionData.session;
 
   return (
     <div className="border h-auto p-2 bg-primary text-white rounded-lg  w-full md:w-2/6">
@@ -12,10 +14,9 @@ const SessionCard = (sessionData: props) => {
       <p>Day: {currentSession.day}</p>
       <p className="border border-gray-300 mt-3"></p>
       <p>
-        Instructor: {currentSession.instructor.firstname}{" "}
-        {currentSession.instructor.lastname}
+        Instructor: {session.instructor?.firstname}{" "}
+        {session.instructor?.lastname}
       </p>
-      {/* Add more session details as needed */}
     </div>
   );
 };

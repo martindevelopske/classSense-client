@@ -17,7 +17,6 @@ export function useStudentUserDataEffect() {
       const response = await axios.get(testconnetion, {
         withCredentials: true,
       });
-      console.log(response.status);
       return response.status === 200; // Return true or false based on status check
     } catch (error) {
       console.error("Error testing connection:", error);
@@ -30,7 +29,7 @@ export function useStudentUserDataEffect() {
         // const isConnectionGood = await testconnection(); // Await the result of testconnection
 
         // Check user and connection status
-        if (!user || user === null ){
+        if (!user || user === null) {
           setUser(null);
           navigate("/", { state: { redirect: location.pathname } });
         } else if (user.userType !== "student") {

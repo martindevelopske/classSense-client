@@ -2,31 +2,40 @@ import ErrorComponent from "@/components/Error";
 import Loading from "@/components/Loading";
 import SessionCard from "@/components/SessionCard";
 import { getUserSessions } from "@/endpoints";
-import apiclient from "@/lib/apiclient";
-import axios from "axios";
+import useFetchData from "@/lib/fetchData";
+import { useAppStore } from "@/store";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
+type NoInstructor = Omit<SessionProps, "instructor">;
 export default function StudentsSessions() {
-  const [sessions, setSessions] = useState([]);
+  const [sessions, setSessions] = useState<NoInstructor[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
+
+  const setUser = useAppStore((state) => state?.setUser);
+  const navigate = useNavigate();
+
+  const { fetchData } = useFetchData();
   const fetchSessions = async () => {
     try {
       setLoading(true);
       // const response = await axios.get(getUserSessions, {
       //   withCredentials: true,
       // });
-      const response = await apiclient.get(getUserSessions, {
-        withCredentials: true,
-      });
-
-      console.log("response", response);
+      const response = await fetchData(getUserSessions);
+      console.log(response);
 
       setSessions(response.data.message);
     } catch (error) {
-      console.log("error caught")
-      console.log("error", error);
+      if (error == "login") {
+        //clear the current user data if any
+        //update state
+        setUser(null);
+
+        // Redirect to login page
+        navigate("/");
+      }
       setError("Failed to fetch your Sessions. Please Reload the page.");
     } finally {
       setLoading(false);
@@ -48,8 +57,8 @@ export default function StudentsSessions() {
             <ErrorComponent errorMessage={error} />
           </div>
         )}
-        {sessions.length > 0 ? (
-          sessions?.map((session: SessionProps) => (
+        {sessions?.length > 0 ? (
+          sessions?.map((session: NoInstructor) => (
             <div
               className="w-full p-3 h-auto mt-4 self-start
           "
@@ -57,7 +66,7 @@ export default function StudentsSessions() {
             >
               <Link to={`sessions/${session.session.id}`}>
                 <div className="w-full flex gap-3 p-2 ">
-                  <SessionCard session={session} />
+                  <SessionCard sessionData={session} />
                 </div>
               </Link>
             </div>

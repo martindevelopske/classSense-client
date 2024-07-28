@@ -5,7 +5,7 @@ import BackComponent from "@/components/BackComponent";
 import Loading from "@/components/Loading";
 import ErrorComponent from "@/components/Error";
 import { useStudentUserDataEffect } from "../student/useStudentUserDataEffect";
-import  AttendanceDataTable  from "../instructor/AttendanceDataTable";
+import AttendanceDataTable from "../instructor/AttendanceDataTable";
 import { getSingleSession } from "@/endpoints";
 
 export default function SingleSessionStudent() {
@@ -13,7 +13,7 @@ export default function SingleSessionStudent() {
 
   const { id } = useParams();
 
-  const [session, setSession] = useState<SessionProps | null>(null);
+  const [session, setSession] = useState<SingleSession | null>(null);
   const [attendance, setAttendance] = useState();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
@@ -73,7 +73,7 @@ export default function SingleSessionStudent() {
                 </span>
               </div>
               <div className="font-bold text-lg">
-                Day: <span className="font-light">{session.session?.day}</span>
+                Day: <span className="font-light">{session.day}</span>
               </div>
               <div className="font-bold text-lg">Status: {session.status}</div>
             </div>

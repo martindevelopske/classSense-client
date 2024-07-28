@@ -13,7 +13,6 @@ export function useInstructorUserDataEffect() {
       const response = await axios.get(testconnetion, {
         withCredentials: true,
       });
-      console.log(response.status);
       return response.status === 200; // Return true or false based on status check
     } catch (error) {
       console.error("Error testing connection:", error);

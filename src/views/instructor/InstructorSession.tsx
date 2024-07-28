@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 export default function InstructorSessions() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
-  const [sessions, setSessions] = useState<Session[] | null>(null);
+  const [sessions, setSessions] = useState<SessionCard[] | null>(null);
   const fetchSessions = async () => {
     try {
       setLoading(true);

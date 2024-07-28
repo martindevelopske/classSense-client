@@ -8,7 +8,7 @@ import {
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import  AttendanceDataTable  from "./AttendanceDataTable";
+import AttendanceDataTable from "./AttendanceDataTable";
 import QRCode from "qrcode";
 import { RiFullscreenFill } from "react-icons/ri";
 import { FaEdit } from "react-icons/fa";
@@ -29,7 +29,7 @@ export default function SingleSessionInstructor() {
   const [activeTab, setActiveTab] = useState<string | null>("attendance");
   const [codeTab, setCodeTab] = useState<string | null>(null);
   const [fullscreen, setFullscreen] = useState<boolean>(false);
-  const [session, setSession] = useState<SessionProps | null>(null);
+  const [session, setSession] = useState<SingleSession | null>(null);
   const [code, setCode] = useState<string | undefined>();
   const [attendance, setAttendance] = useState<AttendanceRecord[]>([]);
   const [members, setMembers] = useState<AttendanceRecord[]>([]);
@@ -49,7 +49,6 @@ export default function SingleSessionInstructor() {
 
       setAttendance(response.data.message.attendance);
       setMembers(response.data.message.members);
-      console.log(response);
     } catch (error) {
       console.error("Error fetching sessions:", error);
       setError("Failed to fetch Session. Please Reload the page.");
@@ -70,17 +69,12 @@ export default function SingleSessionInstructor() {
   //listen to attendance event
   useEffect(() => {
     const eventSource = new EventSource(attendanceEvents);
-    eventSource.onopen = () => {
-      console.log("SSE connection established.");
-    };
+    eventSource.onopen = () => {};
 
     eventSource.onerror = (error) => {
       console.error("Error establishing SSE connection:", error);
     };
     eventSource.onmessage = (event) => {
-      console.log("new attendance message");
-      console.log(event.data);
-
       const newAttendance = JSON.parse(event.data);
       //setAttendance((prev) => [...prev, newAttendance]);
     };
@@ -99,7 +93,7 @@ export default function SingleSessionInstructor() {
         if (err) return console.error(err);
 
         setCode(url);
-      },
+      }
     );
   };
   return (

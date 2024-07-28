@@ -21,8 +21,8 @@ type navbarProps = {
   role: string | undefined;
   user: User | null;
 };
-const Navbar = ({ role, user }: navbarProps) => {
-  const currentUser: usert | undefined = user?.user;
+const Navbar = ({ user }: navbarProps) => {
+  const currentUser: Usert | undefined = user?.user;
   const setUser = useAppStore((state) => state?.setUser);
 
   const navigate = useNavigate();
