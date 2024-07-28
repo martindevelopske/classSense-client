@@ -2,6 +2,7 @@ import ErrorComponent from "@/components/Error";
 import Loading from "@/components/Loading";
 import SessionCard from "@/components/SessionCard";
 import { getUserSessions } from "@/endpoints";
+import apiclient from "@/lib/apiclient";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -13,12 +14,19 @@ export default function StudentsSessions() {
   const fetchSessions = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(getUserSessions, {
+      // const response = await axios.get(getUserSessions, {
+      //   withCredentials: true,
+      // });
+      const response = await apiclient.get(getUserSessions, {
         withCredentials: true,
       });
-      console.log(response);
+
+      console.log("response", response);
+
       setSessions(response.data.message);
     } catch (error) {
+      console.log("error caught")
+      console.log("error", error);
       setError("Failed to fetch your Sessions. Please Reload the page.");
     } finally {
       setLoading(false);

@@ -34,12 +34,15 @@ apiclient.interceptors.response.use(
     return response;
   },
   (error: AxiosError) => {
+    console.log(error);
     if (error.response) {
       console.log("Error response", error.response);
+      return Promise.reject(error.response);
     } else if (error.request) {
       console.log("Error request: ", error.request);
     } else {
       console.log("Error message");
+      return Promise.reject(error);
     }
   },
 );
