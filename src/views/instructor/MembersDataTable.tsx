@@ -1,5 +1,5 @@
+import { useEffect, useState } from "react";
 import ErrorComponent from "@/components/Error";
-import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -10,21 +10,31 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { deleteAttendance } from "@/endpoints";
-import { useAppStore } from "@/store";
+import { getSessionMembers } from "@/endpoints";
 import axios from "axios";
 
-const HandleDeleteAttendance = async (attendanceId: string) => {
-  //send the request
-  try {
-    await axios.delete(`${deleteAttendance}/${attendanceId}`, {
-      withCredentials: true,
-    });
-  } catch (err) {}
-  //filter the data
-};
-export function AttendanceDataTable({ data }: { data: AttendanceResponse[] }) {
-  return data?.length > 0 ? (
+// const HandleDeleteAttendance = async (studentId: string) => {
+//   //send the request
+//   //filter the data
+// };
+function MembersDataTable({ sessionId }: { sessionId: string }) {
+  const [data, setData] = useState<SessionMembers[] | null>(null);
+  const getMembersData = async () => {
+    try {
+      const url = `${getSessionMembers}/${sessionId}`;
+      await axios
+        .get(url, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          setData(res.data.message);
+        });
+    } catch (err) {}
+  };
+  useEffect(() => {
+    getMembersData();
+  }, []);
+  return data && data?.length > 0 ? (
     <Table>
       <TableCaption>A list of your recent Attendances.</TableCaption>
       <TableHeader>
@@ -36,22 +46,14 @@ export function AttendanceDataTable({ data }: { data: AttendanceResponse[] }) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data?.map((item: AttendanceResponse) => {
-          const { firstname, lastname, email, id, createdAt } = item.user;
+        {data?.map((item: SessionMembers) => {
+          const { firstname, lastname, email, id } = item.user;
           return (
             <TableRow key={id}>
               <TableCell className="">{firstname}</TableCell>
               <TableCell>{lastname}</TableCell>
               <TableCell>{email}</TableCell>
-              <TableCell>{createdAt?.toString()}</TableCell>
-              <TableCell>
-                <Button
-                  variant="destructive"
-                  onClick={() => HandleDeleteAttendance(id)}
-                >
-                  Delete
-                </Button>
-              </TableCell>
+              {/* <TableCell>{item.createdAt}</TableCell> */}
             </TableRow>
           );
         })}
@@ -64,7 +66,7 @@ export function AttendanceDataTable({ data }: { data: AttendanceResponse[] }) {
       </TableFooter>
     </Table>
   ) : (
-    <ErrorComponent errorMessage="No attendance Records" />
+    <ErrorComponent errorMessage="This session has no members Yet." />
   );
 }
-export default AttendanceDataTable;
+export default MembersDataTable;

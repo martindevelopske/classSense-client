@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Helmet } from "react-helmet";
+import { ToastContainer, toast } from "react-toastify";
 import { Label } from "@radix-ui/react-label";
 import { ChangeEvent, FormEvent, useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
@@ -66,6 +67,8 @@ export default function CreateSessionForm() {
         .then((res) => {
           setSuccess("session created successfully.");
         });
+      toast("Session created successfully. You can now close this modal.");
+      //close the modal-figure that out
     } catch (error: unknown) {
       setSuccess(null);
       if (axios.isAxiosError(error)) {
@@ -83,6 +86,18 @@ export default function CreateSessionForm() {
   return (
     <>
       <Card className="w-full h-full">
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
         <Helmet>
           <meta charSet="utf-8" />
           <title>Create Session</title>

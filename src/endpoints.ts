@@ -1,4 +1,5 @@
 const local: boolean = false;
+
 export const api = local
   ? "http://localhost:3000/api/v1"
   : "https://classsense-lts.onrender.com/api/v1";

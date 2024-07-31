@@ -113,18 +113,6 @@ function QRCodeScanner({ redo }: { redo: boolean }) {
         </div>
       )}
       {error && <ErrorComponent errorMessage={error} />}
-      {!showReader && (
-        <Button
-          className="flex items-center justify-center"
-          onClick={() => setShowReader(true)}
-          disabled={showReader}
-        >
-          <div className="flex gap-2 items-center justify-center">
-            <LiaRedoAltSolid />
-            <span>Scan Again</span>
-          </div>
-        </Button>
-      )}
     </div>
   );
 }
