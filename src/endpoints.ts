@@ -1,7 +1,7 @@
-const local: boolean = true;
+const local: boolean = false;
 export const api = local
   ? "http://localhost:3000/api/v1"
-  : "https://3.83.108.200/api/v1";
+  : "https://classsense-lts.onrender.com/api/v1";
 export const login = `${api}/auth/login`;
 export const logout = `${api}/auth/logout`;
 
