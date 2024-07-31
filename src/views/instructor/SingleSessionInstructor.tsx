@@ -35,6 +35,7 @@ export default function SingleSessionInstructor() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
   const [events, setEvents] = useState([]);
+  const [members, setMembers]=useState(null)
   // const attendanceUrl: string = `http://localhost:5173/student/addAttendance?sessionId=${id}`;
 
   const fetchSession = async (id: string | undefined) => {

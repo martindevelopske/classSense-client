@@ -67,7 +67,7 @@ export default function StudentsSessions() {
               </div>
             </Link>
           </div>
-        )}
+        ) )}
       </div>
     </>
   );

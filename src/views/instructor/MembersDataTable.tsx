@@ -18,7 +18,7 @@ import axios from "axios";
 //   //filter the data
 // };
 function MembersDataTable({ sessionId }: { sessionId: string }) {
-  const [data, setData] = useState<SessionMembers[] | null>(null);
+  const [data, setData] = useState<SessionMembersResponse[] | null>(null);
   const getMembersData = async () => {
     try {
       const url = `${getSessionMembers}/${sessionId}`;
@@ -46,7 +46,7 @@ function MembersDataTable({ sessionId }: { sessionId: string }) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data?.map((item: SessionMembers) => {
+        {data?.map((item: SessionMembersResponse) => {
           const { firstname, lastname, email, id } = item.user;
           return (
             <TableRow key={id}>
