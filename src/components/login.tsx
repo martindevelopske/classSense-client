@@ -51,8 +51,8 @@ export function LoginForm() {
       user.userType === "student"
         ? navigate("/student", { replace: true })
         : user.userType === "instructor"
-        ? navigate("/instructor", { replace: true })
-        : navigate("/");
+          ? navigate("/instructor", { replace: true })
+          : navigate("/");
     }
   };
   useEffect(checkuser, []);
@@ -85,7 +85,7 @@ export function LoginForm() {
               "Content-Type": "application/json",
             },
             withCredentials: true,
-          }
+          },
         )
         .then((res) => {
           console.log(res);
@@ -93,7 +93,7 @@ export function LoginForm() {
             setError(res.data.message);
           }
           setSuccess(null);
-          const userData: User = res.data.message;
+          const userData:LoginResponse = res.data.message;
 
           setSuccess("Login successfull. Redirecting....");
 

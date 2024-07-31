@@ -13,7 +13,7 @@ export default function SingleSessionStudent() {
 
   const { id } = useParams();
 
-  const [session, setSession] = useState<SessionProps | null>(null);
+  const [session, setSession] = useState<SessionResponse | null>(null);
   const [attendance, setAttendance] = useState();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
@@ -69,11 +69,12 @@ export default function SingleSessionStudent() {
               <div className="font-bold text-lg">
                 Insructor:{" "}
                 <span className="font-light">
-                  {session.instructor.firstname} {session.instructor.lastname}
+                  {session?.instructor?.firstname}{" "}
+                  {session?.instructor?.lastname}
                 </span>
               </div>
               <div className="font-bold text-lg">
-                Day: <span className="font-light">{session.session?.day}</span>
+                Day: <span className="font-light">{session?.day}</span>
               </div>
               <div className="font-bold text-lg">Status: {session.status}</div>
             </div>

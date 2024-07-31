@@ -39,15 +39,15 @@ export default function StudentsSessions() {
             <ErrorComponent errorMessage={error} />
           </div>
         )}
-        {sessions?.map((session: SessionProps) => (
+        {sessions?.map((session: SessionResponse) => (
           <div
             className="w-full p-3 h-auto mt-4 self-start
           "
             key={session.id}
           >
-            <Link to={`sessions/${session.session.id}`}>
+            <Link to={`sessions/${session.id}`}>
               <div className="w-full flex gap-3 p-2 ">
-                <SessionCard session={session} />
+                <SessionCard sessionData={session} />
               </div>
             </Link>
           </div>

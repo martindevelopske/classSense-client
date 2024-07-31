@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 // import Cookies from "js-cookie";
 
 export function useStudentUserDataEffect() {
-  const user: User | null = useAppStore((state) => state?.user);
+  const user: LoginResponse | null = useAppStore((state) => state?.user);
   const navigate = useNavigate();
   const setUser = useAppStore((state) => state.setUser);
 
@@ -17,7 +17,6 @@ export function useStudentUserDataEffect() {
       const response = await axios.get(testconnetion, {
         withCredentials: true,
       });
-      console.log(response.status);
       return response.status === 200; // Return true or false based on status check
     } catch (error) {
       console.error("Error testing connection:", error);

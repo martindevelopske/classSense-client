@@ -10,7 +10,7 @@ const Sidebar = ({ role, expanded }: sidebarProps) => {
     currentRole === "student"
       ? [
           { label: "Home", to: "/student" },
-          { label: "Profile", to: "/profile" },
+          { label: "Profile", to: "/student/profile" },
         ]
       : currentRole === "instructor"
       ? [

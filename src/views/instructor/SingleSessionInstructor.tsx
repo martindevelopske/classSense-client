@@ -29,9 +29,9 @@ export default function SingleSessionInstructor() {
   const [activeTab, setActiveTab] = useState<string | null>("attendance");
   const [codeTab, setCodeTab] = useState<string | null>(null);
   const [fullscreen, setFullscreen] = useState<boolean>(false);
-  const [session, setSession] = useState<SessionProps | null>(null);
+  const [session, setSession] = useState<SessionResponse| null>(null);
   const [code, setCode] = useState<string | undefined>();
-  const [attendance, setAttendance] = useState<AttendanceRecord[]>([]);
+  const [attendance, setAttendance] = useState<AttendanceResponse[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
   const [events, setEvents] = useState([]);

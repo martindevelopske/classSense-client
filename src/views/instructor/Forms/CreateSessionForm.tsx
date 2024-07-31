@@ -22,7 +22,7 @@ export default function CreateSessionForm() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
-  const [locations, setLocations] = useState<Location[] | null>(null);
+  const [locations, setLocations] = useState<LocationResponse[] | null>(null);
   const [locationError, setLocationError] = useState<string | null>(null);
   const [values, setValues] = useState({
     name: "",
@@ -161,7 +161,7 @@ export default function CreateSessionForm() {
                   onChange={handleChange}
                 >
                   <option value=""></option>
-                  {locations?.map((item: Location) => (
+                  {locations?.map((item: LocationResponse) => (
                     <option value={item?.id} key={item?.id}>
                       {item?.locationName}
                     </option>

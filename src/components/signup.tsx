@@ -82,7 +82,7 @@ export function SignupForm() {
         )
         .then((res) => {
           setError(null);
-          const userData: User = res.data.message;
+          const userData:LoginResponse = res.data.message;
           setSuccess("User Created successfully. Redirecting...");
 
           //update state on zustand

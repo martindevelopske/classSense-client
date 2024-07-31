@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 // import Cookies from "js-cookie";
 export function useInstructorUserDataEffect() {
   const navigate = useNavigate();
-  const user: User | null = useAppStore((state) => state.user);
+  const user: LoginResponse| null = useAppStore((state) => state.user);
   const setUser = useAppStore((state) => state.setUser);
   async function testconnection() {
     try {

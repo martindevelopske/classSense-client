@@ -19,10 +19,10 @@ import { useAppStore } from "@/store";
 
 type navbarProps = {
   role: string | undefined;
-  user: User | null;
+  user: LoginResponse | null;
 };
 const Navbar = ({ role, user }: navbarProps) => {
-  const currentUser: usert | undefined = user?.user;
+  const currentUser: UserResponse| undefined = user?.user;
   const setUser = useAppStore((state) => state?.setUser);
 
   const navigate = useNavigate();

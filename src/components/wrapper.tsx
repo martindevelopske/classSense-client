@@ -8,7 +8,7 @@ import { Outlet } from "react-router-dom";
 export default function Wrapper() {
   const [expanded, setExpanded] = useState<boolean>(false);
   const [isMediumScreen, setIsMediumScreen] = useState<boolean>(false);
-  const user: User | null = useAppStore((state) => state.user);
+  const user:LoginResponse | null = useAppStore((state) => state.user);
 
   const handleExpand = () => {
     setExpanded((prev) => !prev);

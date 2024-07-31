@@ -24,7 +24,7 @@ const HandleDeleteAttendance = async (attendanceId: string) => {
   } catch (err) {}
   //filter the data
 };
-export function AttendanceDataTable({ data }: { data: unknown }) {
+export function AttendanceDataTable({ data }: { data: AttendanceResponse[] }) {
   return data?.length > 0 ? (
     <Table>
       <TableCaption>A list of your recent Attendances.</TableCaption>
@@ -37,14 +37,14 @@ export function AttendanceDataTable({ data }: { data: unknown }) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data?.map((item: AttendanceRecord) => {
-          const { firstname, lastname, email, id } = item.user;
+        {data?.map((item: AttendanceResponse) => {
+          const { firstname, lastname, email, id, createdAt } = item.user;
           return (
             <TableRow key={id}>
               <TableCell className="">{firstname}</TableCell>
               <TableCell>{lastname}</TableCell>
               <TableCell>{email}</TableCell>
-              <TableCell>{item.createdAt}</TableCell>
+              <TableCell>{createdAt?.toString()}</TableCell>
               <TableCell>
                 <Button
                   variant="destructive"

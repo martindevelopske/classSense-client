@@ -5,6 +5,7 @@ import CreateSession from "./views/instructor/Forms/CreateSessionForm";
 import StudentView from "./views/student/student";
 import AddAttendance from "./views/student/AddAttendance";
 import LoginSignupPage from "./pages/LoginSignupPage";
+import ProfilePage from "./pages/ProfilePage.tsx";
 import axios from "axios";
 import Wrapper from "./components/wrapper";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -32,6 +33,7 @@ const App = () => {
           path: "sessions/:id",
           element: <SingleSessionInstructor />,
         },
+        { path: "profile", element: <ProfilePage /> },
         { path: "*", element: <h3>error page. Page not found</h3> },
       ],
     },
@@ -53,6 +55,7 @@ const App = () => {
           path: "addAttendance",
           element: <AddAttendance />,
         },
+{ path: "profile", element: <ProfilePage /> },
         {
           path: "test",
           element: (

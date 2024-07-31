@@ -12,7 +12,7 @@ import { LiaRedoAltSolid } from "react-icons/lia";
 
 function QRCodeScanner({ redo }: { redo: boolean }) {
   const [scanResult, setScanResult] = useState<Html5QrcodeResult | null>(null);
-  const [success, setSuccess] = useState<string | null>("testing success");
+  const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showReader, setShowReader] = useState<boolean>(true);
 
@@ -27,9 +27,9 @@ function QRCodeScanner({ redo }: { redo: boolean }) {
 
     const onScanSuccess: QrcodeSuccessCallback = async (
       decodedText,
-      decodedResult: Html5QrcodeResult
+      decodedResult: Html5QrcodeResult,
     ) => {
-   
+      console.log("scan success callback");
       const parsed = JSON.parse(decodedText);
       const { action, page, id } = parsed;
 
@@ -38,7 +38,7 @@ function QRCodeScanner({ redo }: { redo: boolean }) {
           const res = await axios.post(
             page,
             { sessionId: id },
-            { withCredentials: true }
+            { withCredentials: true },
           );
           if (res.status !== 200 && res.status !== 201) {
             setError(res.data.message);
@@ -49,7 +49,7 @@ function QRCodeScanner({ redo }: { redo: boolean }) {
           const res = await axios.post(
             page,
             { sessionId: id },
-            { withCredentials: true }
+            { withCredentials: true },
           );
           if (res.status !== 200 && res.status !== 201) {
             setError(res.data.message);
@@ -58,7 +58,7 @@ function QRCodeScanner({ redo }: { redo: boolean }) {
           }
         } else {
           setError(
-            "Provide a valid QR code. This should be scanned from the Instructors Dashboard"
+            "Provide a valid QR code. This should be scanned from the Instructors Dashboard",
           );
         }
         setScanResult(decodedResult);
@@ -72,7 +72,6 @@ function QRCodeScanner({ redo }: { redo: boolean }) {
         } else {
           setError("Something went wrong. Please try again.");
         }
-      
       } finally {
         setShowReader(false);
       }
@@ -101,11 +100,11 @@ function QRCodeScanner({ redo }: { redo: boolean }) {
   }, [redo]);
 
   return (
-    <div className="border flex items-center justify-center border-green-600 m-5 w-full h-full">
+    <div className="flex items-center justify-center m-5 w-full h-full">
       <div
         id="reader"
         className={`border border-red-800 m-5 w-3/4 h-5/6 ${
-          showReader && "hidden"
+          !showReader && "hidden"
         }`}
       ></div>
       {success && (
