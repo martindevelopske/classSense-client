@@ -46,7 +46,7 @@ export default function SingleSessionInstructor() {
         withCredentials: true,
       });
       setSession(response.data.message);
-
+      
       setAttendance(response.data.message.attendance);
       setMembers(response.data.message.members);
     } catch (error) {
