@@ -12,7 +12,7 @@ function ScanModal({
   const [redo, setRedo] = useState(false);
   return (
     <div className="h-full w-full bg-modalbg bg-opacity-90 fixed top-0 right-0 flex items-center justify-center">
-      <div className="bg-white w-4/5 rounded-md h-3/4 flex flex-col items-center justify-between gap-2 p-3">
+      <div className="bg-white  w-full md:w-4/5 rounded-md h-screen md:h-3/4 flex flex-col items-center justify-between gap-2 p-3">
         <div className="w-full h-50 flex items-center justify-end  self-start mb-3">
           <button onClick={() => setShowScanModal(false)}>
             <IoClose color="RGB(249 115 22)" size={35} />

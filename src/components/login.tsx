@@ -92,12 +92,13 @@ export function LoginForm() {
             setError(res.data.message);
           }
           setSuccess(null);
-          const userData:LoginResponse = res.data.message;
+          const userData: LoginResponse = res.data.message;
 
           setSuccess("Login successfull. Redirecting....");
 
           //update state on zustand
           setUser(userData);
+          console.log("userdata set....");
           //redirect
           //if there is a redirect url go there, else navigate normally
           if (redirectURL) {

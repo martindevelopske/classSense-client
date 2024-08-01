@@ -13,6 +13,7 @@ import ErrorComponent from "./components/Error";
 import Test from "./components/test";
 import SingleSessionStudent from "./views/student/SingleSessionStudent";
 import SingleSessionInstructor from "./views/instructor/SingleSessionInstructor";
+import JoinSession from "./views/student/JoinSession.tsx";
 
 //set axios defaults
 axios.defaults.headers.common.Accept = "application/json";
@@ -52,10 +53,14 @@ const App = () => {
         },
 
         {
-          path: "addAttendance",
+          path: "sessions/:id/addAttendance",
+          element: <JoinSession />,
+        },
+        {
+          path: "sessions/:id/join",
           element: <AddAttendance />,
         },
-{ path: "profile", element: <ProfilePage /> },
+        { path: "profile", element: <ProfilePage /> },
         {
           path: "test",
           element: (

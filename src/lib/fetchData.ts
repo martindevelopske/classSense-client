@@ -11,8 +11,10 @@ const useFetchData = () => {
     async (url: string) => {
       try {
         const response = await apiclient.get(url, { withCredentials: true });
+        console.log(response);
         return response;
       } catch (err) {
+        console.log(err);
         if (err == "login") {
           // Clear the current user data if any
           setUser(null);
@@ -23,7 +25,7 @@ const useFetchData = () => {
         return Promise.reject(err);
       }
     },
-    [setUser, navigate]
+    [setUser, navigate],
   );
 
   return { fetchData };

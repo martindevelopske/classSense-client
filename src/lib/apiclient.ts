@@ -15,25 +15,25 @@ interface ErrorResponseData {
 const apiclient: AxiosInstance = axios.create({
   baseURL: api,
   timeout: 10000,
-  headers: {
-    "Content-Type": "application/json",
-  },
+
   withCredentials: true,
 });
 
 //request interceptor
 apiclient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
+    console.log(config)
     return config;
   },
   (error: AxiosError) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // add a response interceptor
 apiclient.interceptors.response.use(
   (response: AxiosResponse) => {
+    console.log(response);
     return response;
   },
   (error: AxiosError) => {
@@ -44,12 +44,12 @@ apiclient.interceptors.response.use(
 
       if (
         errorMessage.includes(
-          "No access token attached to the request. Log in"
+          "No access token attached to the request. Log in",
         ) ||
         errorMessage.includes("Invalid token. Please Log in and try again") ||
         errorMessage.includes("User not found. Log in again") ||
         errorMessage.includes(
-          "Unauthorized. Please Log in and try again. Get CU"
+          "Unauthorized. Please Log in and try again. Get CU",
         )
       ) {
         return Promise.reject("login");
@@ -58,6 +58,6 @@ apiclient.interceptors.response.use(
     } else {
       return Promise.reject(error);
     }
-  }
+  },
 );
 export default apiclient;

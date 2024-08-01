@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function StudentsSessions() {
-  const [sessions, setSessions] = useState([]);
+  const [sessions, setSessions] = useState<SessionMembersResponse[] | null>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
 
@@ -26,14 +26,6 @@ export default function StudentsSessions() {
 
       setSessions(response.data.message);
     } catch (error) {
-      if (error == "login") {
-        //clear the current user data if any
-        //update state
-        setUser(null);
-
-        // Redirect to login page
-        navigate("/");
-      }
       setError("Failed to fetch your Sessions. Please Reload the page.");
     } finally {
       setLoading(false);
@@ -61,13 +53,13 @@ export default function StudentsSessions() {
           "
             key={session.id}
           >
-            <Link to={`sessions/${session.id}`}>
+            <Link to={`sessions/${session.session.id}`}>
               <div className="w-full flex gap-3 p-2 ">
-                <SessionCard sessionData={session} />
+                <SessionCard session={session.session} />
               </div>
             </Link>
           </div>
-        ) )}
+        ))}
       </div>
     </>
   );

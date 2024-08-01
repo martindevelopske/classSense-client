@@ -1,5 +1,5 @@
 import AttendanceModal from "@/components/modals/AttendanceModal";
-import { addAttendance } from "@/endpoints";
+import { addSessionMembers } from "@/endpoints";
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -7,7 +7,7 @@ import { useStudentUserDataEffect } from "./useStudentUserDataEffect";
 interface ErrorResponse {
   message: string;
 }
-function AddAttendance() {
+function JoinSession() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null | undefined>();
   const [success, setSuccess] = useState<boolean>(false);
@@ -31,7 +31,7 @@ function AddAttendance() {
       // setTimeout(async () => {
       try {
         await axios.post(
-          addAttendance,
+          addSessionMembers,
           { sessionId: sessionId },
           {
             headers: {
@@ -77,4 +77,4 @@ function AddAttendance() {
   );
 }
 
-export default AddAttendance;
+export default JoinSession;

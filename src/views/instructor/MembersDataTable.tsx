@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/table";
 import { getSessionMembers } from "@/endpoints";
 import axios from "axios";
+import Loading from "@/components/Loading";
 
 // const HandleDeleteAttendance = async (studentId: string) => {
 //   //send the request
@@ -19,8 +20,10 @@ import axios from "axios";
 // };
 function MembersDataTable({ sessionId }: { sessionId: string }) {
   const [data, setData] = useState<SessionMembersResponse[] | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const getMembersData = async () => {
     try {
+      setLoading(true);
       const url = `${getSessionMembers}/${sessionId}`;
       await axios
         .get(url, {
@@ -29,12 +32,15 @@ function MembersDataTable({ sessionId }: { sessionId: string }) {
         .then((res) => {
           setData(res.data.message);
         });
-    } catch (err) {}
+    } catch (err) {
+    } finally {
+      setLoading(false);
+    }
   };
   useEffect(() => {
     getMembersData();
   }, []);
-  return data && data?.length > 0 ? (
+  return loading ? <Loading loadingState={loading}/> :  data && data?.length > 0 ? (
     <Table>
       <TableCaption>A list of your recent Attendances.</TableCaption>
       <TableHeader>

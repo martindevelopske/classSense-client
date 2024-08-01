@@ -29,13 +29,13 @@ export default function SingleSessionInstructor() {
   const [activeTab, setActiveTab] = useState<string | null>("attendance");
   const [codeTab, setCodeTab] = useState<string | null>(null);
   const [fullscreen, setFullscreen] = useState<boolean>(false);
-  const [session, setSession] = useState<SessionResponse| null>(null);
+  const [session, setSession] = useState<SessionResponse | null>(null);
   const [code, setCode] = useState<string | undefined>();
   const [attendance, setAttendance] = useState<AttendanceResponse[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
   const [events, setEvents] = useState([]);
-  const [members, setMembers]=useState(null)
+  const [members, setMembers] = useState(null);
   // const attendanceUrl: string = `http://localhost:5173/student/addAttendance?sessionId=${id}`;
 
   const fetchSession = async (id: string | undefined) => {
@@ -84,8 +84,13 @@ export default function SingleSessionInstructor() {
   }, []);
 
   //generate a qr code for the student to sign in
-  const generateCode = async (data: QRCodeData) => {
-    const payload = JSON.stringify(data);
+  const generateCode = async (data: string) => {
+
+    const studentEndpoint = "http://localhost:5173/student/sessions/"
+    const payload = `${studentEndpoint}${data}`
+    console.log(payload);
+    
+    // const payload = JSON.stringify(data);
     await QRCode.toDataURL(
       payload,
       { width: 500, margin: 2 },
@@ -93,13 +98,23 @@ export default function SingleSessionInstructor() {
         if (err) return console.error(err);
 
         setCode(url);
-      }
+      },
     );
   };
   return (
     <>
-      <div className="flex flex-col gap-3 border-t mt-3 w-full p-3 h-auto">
-        <BackComponent to="/instructor" />
+      <div className="flex flex-col gap-1 border-t mt-3 w-full p-3 h-auto">
+        <div className="flex items-center justify-center w-full ">
+          <BackComponent to="/instructor" />
+          <div className="w-full h-[50px] flex items-center justify-end cursor-pointer self-end">
+            <p
+              onClick={handleEditSession}
+              className="flex gap-2 items-center border p-2 rounded-md border-purple"
+            >
+              <FaEdit /> Edit
+            </p>
+          </div>
+        </div>
         {loading && (
           <div className="mt-[200px]">
             <Loading loadingState={loading} />
@@ -111,15 +126,7 @@ export default function SingleSessionInstructor() {
           </div>
         )}
         {session && (
-          <div className="mt-3 flex flex-col gap-3">
-            <div className="w-full h-[50px] flex items-center justify-end cursor-pointer self-end">
-              <p
-                onClick={handleEditSession}
-                className="flex gap-2 items-center border p-2 rounded-md border-purple"
-              >
-                <FaEdit /> Edit
-              </p>
-            </div>
+          <div className="flex flex-col gap-3">
             <div>
               <div className="font-bold text-2xl text-purple">
                 {session.name}
@@ -131,26 +138,19 @@ export default function SingleSessionInstructor() {
         )}
         <br></br>
         {session && (
-          <div className="flex gap-3">
+          <div className="flex gap-3 p-2  border">
             <Button
               onClick={() => {
-                generateCode({
-                  page: addAttendance,
-                  action: "addAttendance",
-                  id: id,
-                });
+                generateCode(`${session.id}/addAttendance`);
                 handleTabChange("sign-in");
               }}
+              variant="default"
             >
               Sign In Code
             </Button>
             <Button
               onClick={() => {
-                generateCode({
-                  page: addSessionMembers,
-                  action: "addSessionMember",
-                  id: id,
-                });
+                generateCode(`${session.id}/join`);
                 handleTabChange("joining");
               }}
             >
@@ -163,7 +163,7 @@ export default function SingleSessionInstructor() {
             {codeTab == "sign-in" && (
               <div className="p-3 border-b">
                 <div className="text-2xl font-bold">sign in code</div>
-                <img className="" src={code} alt="QR Code" />
+                <img className="h-[250px]" src={code} alt="QR Code" />
                 <hr />
                 {code && (
                   <div className="flex items-center gap-10 w-full mt-10">
@@ -187,7 +187,7 @@ export default function SingleSessionInstructor() {
                 <div className="text-2xl font-bold">
                   join as a new member code
                 </div>
-                <img className="" src={code} alt="QR Code" />
+                <img className="h-[250px]" src={code} alt="QR Code" />
 
                 <hr></hr>
                 {code && (
