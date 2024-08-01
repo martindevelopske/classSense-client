@@ -47,7 +47,7 @@ export default function StudentsSessions() {
             <ErrorComponent errorMessage={error} />
           </div>
         )}
-        {sessions?.map((session: SessionResponse) => (
+        {sessions?.map((session: SessionMembersResponse) => (
           <div
             className="w-full p-3 h-auto mt-4 self-start
           "

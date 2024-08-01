@@ -86,7 +86,8 @@ export default function SingleSessionInstructor() {
   //generate a qr code for the student to sign in
   const generateCode = async (data: string) => {
 
-    const studentEndpoint = "http://localhost:5173/student/sessions/"
+    const studentEndpoint = "https://classsense-test.netlify.app/student/sessions/"
+    // const studentEndpoint = "http://localhost:5173/student/sessions/"
     const payload = `${studentEndpoint}${data}`
     console.log(payload);
     
