@@ -1,4 +1,4 @@
-const local: boolean = true;
+const local: boolean = false;
 
 export const api = local
   ? "http://localhost:3000/api/v1"
