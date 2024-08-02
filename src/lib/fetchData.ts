@@ -11,7 +11,6 @@ const useFetchData = () => {
     async (url: string) => {
       try {
         const response = await apiclient.get(url, { withCredentials: true });
-        console.log(response);
         return response;
       } catch (err) {
         console.log(err);
@@ -25,7 +24,7 @@ const useFetchData = () => {
         return Promise.reject(err);
       }
     },
-    [setUser, navigate],
+    [setUser, navigate]
   );
 
   return { fetchData };

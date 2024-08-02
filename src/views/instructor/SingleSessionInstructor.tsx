@@ -38,7 +38,7 @@ export default function SingleSessionInstructor() {
   const [events, setEvents] = useState([]);
   const [members, setMembers] = useState(null);
 
-   const {fetchData}= useFetchData();
+  const { fetchData } = useFetchData();
   // const attendanceUrl: string = `http://localhost:5173/student/addAttendance?sessionId=${id}`;
 
   const fetchSession = async (id: string | undefined) => {
@@ -47,7 +47,7 @@ export default function SingleSessionInstructor() {
       const url = `${getSingleSession}/${id}`;
       const response = await fetchData(url);
       setSession(response.data.message);
-      
+
       setAttendance(response.data.message.attendance);
       setMembers(response.data.message.members);
     } catch (error) {
@@ -86,12 +86,12 @@ export default function SingleSessionInstructor() {
 
   //generate a qr code for the student to sign in
   const generateCode = async (data: string) => {
-
-    const studentEndpoint = "https://classsense-test.netlify.app/student/sessions/"
+    const studentEndpoint =
+      "https://classsense-test.netlify.app/student/sessions/";
     // const studentEndpoint = "http://localhost:5173/student/sessions/"
-    const payload = `${studentEndpoint}${data}`
+    const payload = `${studentEndpoint}${data}`;
     console.log(payload);
-    
+
     // const payload = JSON.stringify(data);
     await QRCode.toDataURL(
       payload,
@@ -100,7 +100,7 @@ export default function SingleSessionInstructor() {
         if (err) return console.error(err);
 
         setCode(url);
-      },
+      }
     );
   };
   return (
@@ -165,7 +165,7 @@ export default function SingleSessionInstructor() {
             {codeTab == "sign-in" && (
               <div className="p-3 border-b">
                 <div className="text-2xl font-bold">sign in code</div>
-                <img className="h-[250px]" src={code} alt="QR Code" />
+                <img className="h-[300px] w-auto" src={code} alt="QR Code" />
                 <hr />
                 {code && (
                   <div className="flex items-center gap-10 w-full mt-10">
@@ -189,7 +189,7 @@ export default function SingleSessionInstructor() {
                 <div className="text-2xl font-bold">
                   join as a new member code
                 </div>
-                <img className="h-[250px]" src={code} alt="QR Code" />
+                <img className="h-[300px] w-auto" src={code} alt="QR Code" />
 
                 <hr></hr>
                 {code && (

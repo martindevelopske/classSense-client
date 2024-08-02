@@ -30,7 +30,6 @@ apiclient.interceptors.request.use(
     }
     config.headers["Authorization"] = `Bearer ${token}`;
 
-    console.log(config);
     return config;
   },
   (error: AxiosError) => {
@@ -41,7 +40,6 @@ apiclient.interceptors.request.use(
 // add a response interceptor
 apiclient.interceptors.response.use(
   (response: AxiosResponse) => {
-    console.log(response);
     return response;
   },
   (error: AxiosError) => {

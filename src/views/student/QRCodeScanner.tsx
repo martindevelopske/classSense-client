@@ -19,7 +19,7 @@ function QRCodeScanner({ redo }: { redo: boolean }) {
   const execute = async () => {
     const config = {
       fps: 10,
-      qrbox: { width: 100, height: 100 },
+      qrbox: { width: 130, height: 130 },
       rememberLastUsedCamera: true,
       // Only support camera scan type.
       // supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA],
@@ -27,17 +27,17 @@ function QRCodeScanner({ redo }: { redo: boolean }) {
 
     const onScanSuccess: QrcodeSuccessCallback = async (
       decodedText,
-      decodedResult: Html5QrcodeResult,
+      decodedResult: Html5QrcodeResult
     ) => {
-      console.log("scan success callback");
+      console.log("scan success callback", decodedText);
       // const parsed = JSON.parse(decodedText);
       // const { action, page, id } = parsed;
-       const parsedUrl = new URL(decodedText);
+      const parsedUrl = new URL(decodedText);
       const pathname = parsedUrl.pathname;
       console.log(pathname);
 
       try {
-        navigate(pathname)
+        navigate(pathname);
         // if (action === "addAttendance") {
         //   const res = await axios.post(
         //     page,
@@ -66,7 +66,6 @@ function QRCodeScanner({ redo }: { redo: boolean }) {
         //   );
         // }
         // setScanResult(decodedResult);
-
       } catch (err) {
         if (axios.isAxiosError(err) && err.response) {
           if (err.response.status === 409) {
@@ -108,7 +107,7 @@ function QRCodeScanner({ redo }: { redo: boolean }) {
     <div className="flex items-center justify-center m-5 w-full h-full">
       <div
         id="reader"
-        className={`border border-red-800 m-5 w-full md:w-3/4 h-5/6 ${
+        className={`border border-red-800 m-5 w-full md:w-full h-full ${
           !showReader && "hidden"
         }`}
       ></div>

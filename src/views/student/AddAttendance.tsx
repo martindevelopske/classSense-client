@@ -4,6 +4,7 @@ import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useStudentUserDataEffect } from "./useStudentUserDataEffect";
+import usePostData from "@/lib/postData";
 interface ErrorResponse {
   message: string;
 }
@@ -14,6 +15,7 @@ function AddAttendance() {
   const { search } = useLocation();
   const params = new URLSearchParams(search);
   const sessionId = params.get("sessionId");
+  const { postData } = usePostData();
 
   useStudentUserDataEffect();
 
@@ -22,26 +24,17 @@ function AddAttendance() {
     const parsedUrl = new URL(currentUrl);
     const pathname = parsedUrl.pathname;
 
-    const segments = pathname.split('/')
-    const sessionId = segments[3]; 
+    const segments = pathname.split("/");
+    const sessionId = segments[3];
     console.log(segments[3]);
-    
+
     const send = async (sessionId: string) => {
       // await new Promise((resolve) => {
       // setTimeout(async () => {
       try {
-        await axios.post(
-          addAttendance,
-          { sessionId: sessionId },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
-            withCredentials: true,
-          },
-        ).then(res=>console.log(res)
-        )
+        await postData(addAttendance, { sessionId: sessionId }).then((res) =>
+          console.log(res)
+        );
         setSuccess(true);
       } catch (err: unknown) {
         if (axios.isAxiosError(err)) {

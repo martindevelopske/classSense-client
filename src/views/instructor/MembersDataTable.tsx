@@ -11,8 +11,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getSessionMembers } from "@/endpoints";
-import axios from "axios";
 import Loading from "@/components/Loading";
+import useFetchData from "@/lib/fetchData";
 
 // const HandleDeleteAttendance = async (studentId: string) => {
 //   //send the request
@@ -21,17 +21,14 @@ import Loading from "@/components/Loading";
 function MembersDataTable({ sessionId }: { sessionId: string }) {
   const [data, setData] = useState<SessionMembersResponse[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const { fetchData } = useFetchData();
   const getMembersData = async () => {
     try {
       setLoading(true);
       const url = `${getSessionMembers}/${sessionId}`;
-      await axios
-        .get(url, {
-          withCredentials: true,
-        })
-        .then((res) => {
-          setData(res.data.message);
-        });
+      await fetchData(url).then((res) => {
+        setData(res.data.message);
+      });
     } catch (err) {
     } finally {
       setLoading(false);
@@ -40,7 +37,9 @@ function MembersDataTable({ sessionId }: { sessionId: string }) {
   useEffect(() => {
     getMembersData();
   }, []);
-  return loading ? <Loading loadingState={loading}/> :  data && data?.length > 0 ? (
+  return loading ? (
+    <Loading loadingState={loading} />
+  ) : data && data?.length > 0 ? (
     <Table>
       <TableCaption>A list of your recent Attendances.</TableCaption>
       <TableHeader>
