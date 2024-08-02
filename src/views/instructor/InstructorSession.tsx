@@ -3,7 +3,6 @@ import Loading from "@/components/Loading";
 import SessionCardInstructor from "@/components/SessionCardInstructor";
 import { getInstructorSessions } from "@/endpoints";
 import useFetchData from "@/lib/fetchData";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -11,7 +10,7 @@ export default function InstructorSessions() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
   const [sessions, setSessions] = useState<SessionResponse[] | null>(null);
-  const {fetchData}= useFetchData();
+  const { fetchData } = useFetchData();
   const fetchSessions = async () => {
     try {
       setLoading(true);
@@ -41,13 +40,19 @@ export default function InstructorSessions() {
             <ErrorComponent errorMessage={error} />
           </div>
         )}
-        {sessions?.map((session) => (
-          <div className="w-full p-3  h-auto mt-4" key={session.id}>
-            <Link to={`/instructor/sessions/${session.id}`}>
-              <SessionCardInstructor session={session} />
-            </Link>
-          </div>
-        ))}
+        {!loading &&
+          sessions &&
+          sessions.length > 0 &&
+          sessions?.map((session) => (
+            <div className="w-full p-3  h-auto mt-4" key={session.id}>
+              <Link to={`/instructor/sessions/${session.id}`}>
+                <SessionCardInstructor session={session} />
+              </Link>
+            </div>
+          ))}
+        {!loading && sessions && sessions?.length <= 0 && (
+          <ErrorComponent errorMessage="You have not created any sessions Yet." />
+        )}
       </div>
     </>
   );

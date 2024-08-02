@@ -11,7 +11,7 @@ interface ErrorResponse {
 function AddAttendance() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null | undefined>();
-  const [success, setSuccess] = useState<boolean>(false);
+  const [success, setSuccess] = useState<null | string>(null);
   const { search } = useLocation();
   const params = new URLSearchParams(search);
   const sessionId = params.get("sessionId");
@@ -32,10 +32,13 @@ function AddAttendance() {
       // await new Promise((resolve) => {
       // setTimeout(async () => {
       try {
-        await postData(addAttendance, { sessionId: sessionId }).then((res) =>
-          console.log(res)
-        );
-        setSuccess(true);
+        await postData(addAttendance, { sessionId: sessionId }).then((res) => {
+          if (typeof res.data.message === "string") {
+            setSuccess(res.data.message);
+          } else {
+            setSuccess("You're signed in! Welcome to class");
+          }
+        });
       } catch (err: unknown) {
         if (axios.isAxiosError(err)) {
           const axiosErr = err as AxiosError<ErrorResponse>; // Cast err to AxiosError with ErrorResponse type
@@ -59,7 +62,7 @@ function AddAttendance() {
     };
 
     if (sessionId) {
-      send("sessionId");
+      send(sessionId);
     }
   }, [sessionId]);
 

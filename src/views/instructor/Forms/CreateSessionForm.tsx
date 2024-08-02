@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { LoadingButton } from "@/components/LoadingButton";
 import { createSession, getAllLocations } from "@/endpoints";
 import useFetchData from "@/lib/fetchData";
+import usePostData from "@/lib/postData";
 
 interface ErrorResponse {
   message: string;
@@ -26,7 +27,8 @@ export default function CreateSessionForm() {
   const [success, setSuccess] = useState<string | null>(null);
   const [locations, setLocations] = useState<LocationResponse[] | null>(null);
   const [locationError, setLocationError] = useState<string | null>(null);
-   const {fetchData}= useFetchData();
+  const { fetchData } = useFetchData();
+  const { postData } = usePostData();
   const [values, setValues] = useState({
     name: "",
     status: "created",
@@ -55,20 +57,9 @@ export default function CreateSessionForm() {
     e.preventDefault();
     try {
       setLoading(true);
-      await axios
-        .post(
-          createSession,
-          { ...values },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            withCredentials: true,
-          }
-        )
-        .then((res) => {
-          setSuccess("session created successfully.");
-        });
+      await postData(createSession, { ...values }).then((res) => {
+        setSuccess("session created successfully.");
+      });
       toast("Session created successfully. You can now close this modal.");
       //close the modal-figure that out
     } catch (error: unknown) {

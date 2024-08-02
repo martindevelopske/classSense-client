@@ -47,19 +47,25 @@ export default function StudentsSessions() {
             <ErrorComponent errorMessage={error} />
           </div>
         )}
-        {sessions?.map((session: SessionMembersResponse) => (
-          <div
-            className="w-full p-3 h-auto mt-4 self-start
+        {!loading &&
+          sessions &&
+          sessions?.length > 0 &&
+          sessions.map((session: SessionMembersResponse) => (
+            <div
+              className="w-full p-3 h-auto mt-4 self-start
           "
-            key={session.id}
-          >
-            <Link to={`sessions/${session.session.id}`}>
-              <div className="w-full flex gap-3 p-2 ">
-                <SessionCard session={session.session} />
-              </div>
-            </Link>
-          </div>
-        ))}
+              key={session.id}
+            >
+              <Link to={`sessions/${session.session.id}`}>
+                <div className="w-full flex gap-3 p-2 ">
+                  <SessionCard session={session.session} />
+                </div>
+              </Link>
+            </div>
+          ))}
+        {!loading && sessions && sessions?.length <= 0 && (
+          <ErrorComponent errorMessage="You are not a member of any session." />
+        )}
       </div>
     </>
   );

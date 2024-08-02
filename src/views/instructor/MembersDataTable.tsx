@@ -10,9 +10,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getSessionMembers } from "@/endpoints";
+import { getSessionMembers, removeSessionMembers } from "@/endpoints";
 import Loading from "@/components/Loading";
 import useFetchData from "@/lib/fetchData";
+import { Button } from "@/components/ui/button";
+import usePostData from "@/lib/postData";
 
 // const HandleDeleteAttendance = async (studentId: string) => {
 //   //send the request
@@ -22,6 +24,7 @@ function MembersDataTable({ sessionId }: { sessionId: string }) {
   const [data, setData] = useState<SessionMembersResponse[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const { fetchData } = useFetchData();
+  const { postData } = usePostData();
   const getMembersData = async () => {
     try {
       setLoading(true);
@@ -30,8 +33,26 @@ function MembersDataTable({ sessionId }: { sessionId: string }) {
         setData(res.data.message);
       });
     } catch (err) {
+      console.log(err);
     } finally {
       setLoading(false);
+    }
+  };
+  const HandleRemoveMember = async ({
+    sessionId,
+    memberId,
+  }: {
+    sessionId: string;
+    memberId: string;
+  }) => {
+    try {
+      const response = await postData(removeSessionMembers, {
+        sessionId: sessionId,
+        memberId: memberId,
+      });
+      console.log(response);
+    } catch (err) {
+      console.log(err);
     }
   };
   useEffect(() => {
@@ -47,7 +68,7 @@ function MembersDataTable({ sessionId }: { sessionId: string }) {
           <TableHead className="text-right font-bold">Firstname</TableHead>
           <TableHead className="w-[100px]">Lastname</TableHead>
           <TableHead>Email</TableHead>
-          <TableHead>Date</TableHead>
+          <TableHead>Date Joined</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -58,7 +79,20 @@ function MembersDataTable({ sessionId }: { sessionId: string }) {
               <TableCell className="">{firstname}</TableCell>
               <TableCell>{lastname}</TableCell>
               <TableCell>{email}</TableCell>
-              {/* <TableCell>{item.createdAt}</TableCell> */}
+              <TableCell>date joined</TableCell>
+              <TableCell>
+                <Button
+                  variant="destructive"
+                  onClick={() =>
+                    HandleRemoveMember({
+                      memberId: "",
+                      sessionId: item.sessionId,
+                    })
+                  }
+                >
+                  Remove
+                </Button>
+              </TableCell>
             </TableRow>
           );
         })}

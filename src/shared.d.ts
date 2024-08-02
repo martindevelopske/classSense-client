@@ -75,6 +75,7 @@ type SessionMembersResponse = {
   sessionId: string;
   user: UserResponse;
   userId: string;
+  createdAt: Date;
 };
 
 // Attendance Model Type

@@ -46,10 +46,13 @@ export default function SingleSessionInstructor() {
       setLoading(true);
       const url = `${getSingleSession}/${id}`;
       const response = await fetchData(url);
-      setSession(response.data.message);
+      console.log(response);
 
-      setAttendance(response.data.message.attendance);
-      setMembers(response.data.message.members);
+      const session = response.data.message;
+      setSession(session);
+
+      session.attendance.length > 0 && setAttendance(session.attendance);
+      session.length > 0 && setMembers(session.members);
     } catch (error) {
       console.error("Error fetching sessions:", error);
       setError("Failed to fetch Session. Please Reload the page.");
@@ -127,7 +130,7 @@ export default function SingleSessionInstructor() {
             <ErrorComponent errorMessage={error} />
           </div>
         )}
-        {session && (
+        {!loading && session && (
           <div className="flex flex-col gap-3">
             <div>
               <div className="font-bold text-2xl text-purple">
@@ -139,7 +142,7 @@ export default function SingleSessionInstructor() {
           </div>
         )}
         <br></br>
-        {session && (
+        {!loading && session && (
           <div className="flex gap-3 p-2  border">
             <Button
               onClick={() => {
@@ -160,7 +163,7 @@ export default function SingleSessionInstructor() {
             </Button>
           </div>
         )}
-        {session && (
+        {!loading && session && (
           <div>
             {codeTab == "sign-in" && (
               <div className="p-3 border-b">
@@ -248,7 +251,7 @@ export default function SingleSessionInstructor() {
               </div>
               {activeTab == "attendance" && (
                 <div>
-                  {attendance ? (
+                  {!loading && attendance ? (
                     <AttendanceDataTable data={attendance} />
                   ) : (
                     <ErrorComponent errorMessage="Failed to Fetch attendance Data. Please Refresh the page." />

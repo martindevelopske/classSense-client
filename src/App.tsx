@@ -54,11 +54,11 @@ const App = () => {
 
         {
           path: "sessions/:id/addAttendance",
-          element: <JoinSession />,
+          element: <AddAttendance />,
         },
         {
           path: "sessions/:id/join",
-          element: <AddAttendance />,
+          element: <JoinSession />,
         },
         { path: "profile", element: <ProfilePage /> },
         {

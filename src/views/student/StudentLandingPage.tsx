@@ -8,17 +8,17 @@ export default function StudentLandingPage() {
   const [showScanModal, setShowScanModal] = useState(false);
   return (
     <>
-      <div className="w-full h-full mt-[20px]">
+      <div className="w-full h-full mt-[20px] relative">
         <div className="flex flex-col gap-3 items-center justify-between">
           <div className="flex gap-2">
-            <div className="flex bg-orange-500 p-2 rounded-md text-white items-center justify-center">
-              <div
-                className="flex gap-2 items-center justify-center cursor-pointer"
+            <div className="flex bg-orange-500 rounded-md text-white items-center justify-center cursor-pointer">
+              <Button
+                className="flex items-center justify-center"
                 onClick={() => setShowScanModal(true)}
               >
                 <IoQrCodeOutline />
-                <span>Scan QR</span>
-              </div>
+                Scan QR
+              </Button>
             </div>
             {/* <Button className="flex items-center justify-center">
               <div className="flex gap-2 items-center justify-center">

@@ -6,7 +6,7 @@ import ErrorComponent from "../Error";
 type props = {
   loading: boolean;
   error?: string | null | undefined;
-  success?: boolean;
+  success?: boolean | string;
 };
 function JoinSessionModal({ loading, error, success }: props) {
   return (
@@ -22,7 +22,7 @@ function JoinSessionModal({ loading, error, success }: props) {
         {success && !loading ? (
           <div className="flex flex-col items-center gap-3 justify-center p-2">
             <PiSealCheckFill size={150} color="green" />
-            <div className="text-lg">You're signed in! Welcome to class</div>
+            <div className="text-lg">{success}</div>
           </div>
         ) : (
           ""
