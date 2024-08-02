@@ -13,9 +13,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
-import axios from "axios";
 import { logout } from "@/endpoints";
 import { useAppStore } from "@/store";
+import usePostData from "@/lib/postData";
 
 type navbarProps = {
   role: string | undefined;
@@ -24,13 +24,12 @@ type navbarProps = {
 const Navbar = ({ role, user }: navbarProps) => {
   const currentUser: UserResponse| undefined = user?.user;
   const setUser = useAppStore((state) => state?.setUser);
+  const {postData}=usePostData();
 
   const navigate = useNavigate();
   //handle logout
   const handleLogout = async () => {
-    await axios.post(logout, {
-      withCredentials: true,
-    });
+    await postData(logout, {});
 
     //update state
     setUser(null);

@@ -1,5 +1,4 @@
 const SessionCard = ({ session }: { session: SessionResponse }) => {
-  console.log("session", session);
   return (
     <div className="border h-auto p-2 bg-primary text-white rounded-lg  w-full md:w-2/6">
       <h2>{session.name}</h2>

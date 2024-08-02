@@ -15,6 +15,7 @@ import { ChangeEvent, FormEvent, useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { LoadingButton } from "@/components/LoadingButton";
 import { createSession, getAllLocations } from "@/endpoints";
+import useFetchData from "@/lib/fetchData";
 
 interface ErrorResponse {
   message: string;
@@ -25,6 +26,7 @@ export default function CreateSessionForm() {
   const [success, setSuccess] = useState<string | null>(null);
   const [locations, setLocations] = useState<LocationResponse[] | null>(null);
   const [locationError, setLocationError] = useState<string | null>(null);
+   const {fetchData}= useFetchData();
   const [values, setValues] = useState({
     name: "",
     status: "created",
@@ -33,7 +35,7 @@ export default function CreateSessionForm() {
   });
   //get all locations
   const getLocations = async () => {
-    await axios.get(getAllLocations, { withCredentials: true }).then((res) => {
+    await fetchData(getAllLocations).then((res) => {
       if (res.status != 200) {
         setLocationError(res.data.message);
       }

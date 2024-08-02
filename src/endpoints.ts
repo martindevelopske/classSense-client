@@ -1,8 +1,9 @@
-const local: boolean = false;
+const environment = import.meta.env.VITE_ENVIRONMENT;
 
-export const api = local
-  ? "http://localhost:3000/api/v1"
-  : "https://classsense-lts.onrender.com/api/v1";
+export const api =
+  environment == "local"
+    ? "http://localhost:3000/api/v1"
+    : "https://classsense-lts.onrender.com/api/v1";
 export const login = `${api}/auth/login`;
 export const logout = `${api}/auth/logout`;
 

@@ -1,6 +1,6 @@
 import { testconnetion } from "@/endpoints";
+import useFetchData from "@/lib/fetchData";
 import { useAppStore } from "@/store";
-import axios from "axios";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 // import Cookies from "js-cookie";
@@ -11,12 +11,11 @@ export function useStudentUserDataEffect() {
   const setUser = useAppStore((state) => state.setUser);
 
   const location = useLocation();
+   const {fetchData}= useFetchData();
 
   async function testconnection() {
     try {
-      const response = await axios.get(testconnetion, {
-        withCredentials: true,
-      });
+      const response = await fetchData(testconnetion);
       return response.status === 200; // Return true or false based on status check
     } catch (error) {
       console.error("Error testing connection:", error);

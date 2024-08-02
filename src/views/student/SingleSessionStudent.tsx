@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import BackComponent from "@/components/BackComponent";
@@ -7,6 +6,7 @@ import ErrorComponent from "@/components/Error";
 import { useStudentUserDataEffect } from "../student/useStudentUserDataEffect";
 import AttendanceDataTable from "../instructor/AttendanceDataTable";
 import { getSingleSession } from "@/endpoints";
+import useFetchData from "@/lib/fetchData";
 
 export default function SingleSessionStudent() {
   useStudentUserDataEffect();
@@ -17,6 +17,7 @@ export default function SingleSessionStudent() {
   const [attendance, setAttendance] = useState();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
+   const {fetchData}= useFetchData();
 
   // const attendanceUrl: string = `http://localhost:5173/student/addAttendance?sessionId=${id}`;
 
@@ -24,9 +25,7 @@ export default function SingleSessionStudent() {
     try {
       setLoading(true);
       const url = `${getSingleSession}/${id}`;
-      const response = await axios.get(url, {
-        withCredentials: true,
-      });
+      const response = await fetchData(url);
       console.log(response)
 
       setSession(response.data.message);

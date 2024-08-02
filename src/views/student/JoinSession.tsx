@@ -4,6 +4,7 @@ import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useStudentUserDataEffect } from "./useStudentUserDataEffect";
+import usePostData from "@/lib/postData";
 interface ErrorResponse {
   message: string;
 }
@@ -14,6 +15,7 @@ function JoinSession() {
   const { search } = useLocation();
   const params = new URLSearchParams(search);
   const sessionId = params.get("sessionId");
+    const {postData}=usePostData();
 
   useStudentUserDataEffect();
 
@@ -30,16 +32,9 @@ function JoinSession() {
       // await new Promise((resolve) => {
       // setTimeout(async () => {
       try {
-        await axios.post(
+        await postData(
           addSessionMembers,
-          { sessionId: sessionId },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
-            withCredentials: true,
-          },
+          { sessionId: sessionId }
         ).then(res=>console.log(res)
         )
         setSuccess(true);

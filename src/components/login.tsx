@@ -88,6 +88,8 @@ export function LoginForm() {
           },
         )
         .then((res) => {
+          console.log(res);
+          
           if (res.status != 200) {
             setError(res.data.message);
           }

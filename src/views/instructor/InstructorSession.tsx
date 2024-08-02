@@ -2,6 +2,7 @@ import ErrorComponent from "@/components/Error";
 import Loading from "@/components/Loading";
 import SessionCardInstructor from "@/components/SessionCardInstructor";
 import { getInstructorSessions } from "@/endpoints";
+import useFetchData from "@/lib/fetchData";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -10,12 +11,11 @@ export default function InstructorSessions() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
   const [sessions, setSessions] = useState<SessionResponse[] | null>(null);
+  const {fetchData}= useFetchData();
   const fetchSessions = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(getInstructorSessions, {
-        withCredentials: true,
-      });
+      const response = await fetchData(getInstructorSessions);
 
       setSessions(response.data.message);
     } catch (error) {

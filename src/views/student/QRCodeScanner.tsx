@@ -1,6 +1,5 @@
 import ErrorComponent from "@/components/Error";
 import SuccessLogo from "@/components/SuccessLogo";
-import { Button } from "@/components/ui/button";
 import axios from "axios";
 import {
   Html5QrcodeResult,
@@ -8,7 +7,6 @@ import {
   QrcodeSuccessCallback,
 } from "html5-qrcode";
 import { useEffect, useState } from "react";
-import { LiaRedoAltSolid } from "react-icons/lia";
 import { useNavigate } from "react-router-dom";
 
 function QRCodeScanner({ redo }: { redo: boolean }) {

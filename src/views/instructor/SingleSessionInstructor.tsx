@@ -18,6 +18,7 @@ import ErrorComponent from "@/components/Error";
 import SaveImageButton from "@/components/SaveImageButton";
 import CodeModal from "@/components/modals/CodeModal";
 import MembersDataTable from "./MembersDataTable";
+import useFetchData from "@/lib/fetchData";
 type QRCodeData = {
   page: string;
   action: string;
@@ -36,15 +37,15 @@ export default function SingleSessionInstructor() {
   const [error, setError] = useState<string>();
   const [events, setEvents] = useState([]);
   const [members, setMembers] = useState(null);
+
+   const {fetchData}= useFetchData();
   // const attendanceUrl: string = `http://localhost:5173/student/addAttendance?sessionId=${id}`;
 
   const fetchSession = async (id: string | undefined) => {
     try {
       setLoading(true);
       const url = `${getSingleSession}/${id}`;
-      const response = await axios.get(url, {
-        withCredentials: true,
-      });
+      const response = await fetchData(url);
       setSession(response.data.message);
       
       setAttendance(response.data.message.attendance);

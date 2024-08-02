@@ -1,4 +1,3 @@
-
 // types.ts
 // User Model Type
 type UserResponse = {
@@ -90,4 +89,6 @@ type AttendanceResponse = {
 
 interface LoginResponse {
   user: User;
-  userType: "student" | "instructor" | "admin";}
+  userType: "student" | "instructor" | "admin";
+  accessToken: string;
+}
