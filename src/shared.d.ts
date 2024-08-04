@@ -90,6 +90,6 @@ type AttendanceResponse = {
 
 interface LoginResponse {
   user: User;
-  userType: "student" | "instructor" | "admin";
+  userType: "student" | "instructor" | "admin"= "admin";
   accessToken: string;
 }

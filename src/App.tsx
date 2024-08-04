@@ -14,6 +14,11 @@ import Test from "./components/test";
 import SingleSessionStudent from "./views/student/SingleSessionStudent";
 import SingleSessionInstructor from "./views/instructor/SingleSessionInstructor";
 import JoinSession from "./views/student/JoinSession.tsx";
+import AdminView from "./views/admin/admin.tsx";
+import Instructors from "./views/admin/Instructors.tsx";
+import Sessions from "./views/admin/Sessions.tsx";
+import Roles from "./views/admin/Roles.tsx";
+import Rooms from "./views/admin/Rooms.tsx";
 
 //set axios defaults
 axios.defaults.headers.common.Accept = "application/json";
@@ -71,6 +76,20 @@ const App = () => {
             </ErrorBoundary>
           ),
         },
+      ],
+    },
+    {
+      path: "/admin",
+      element: <Wrapper />,
+      children: [
+        { index: true, element: <AdminView /> },
+        { path: "createSession", element: <CreateSession /> },
+        { path: "Instructors", element: <Instructors /> },
+        { path: "Sessions", element: <Sessions /> },
+        { path: "Roles", element: <Roles /> },
+        { path: "Rooms", element: <Rooms /> },
+        { path: "profile", element: <ProfilePage /> },
+        { path: "*", element: <h3>error page. Page not found</h3> },
       ],
     },
   ]);
