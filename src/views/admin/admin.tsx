@@ -1,11 +1,8 @@
 import { Helmet } from "react-helmet";
 import { useAdminDataEffect } from "./useAdminDataEffect";
 import AdminLandingPage from "./AdminLandingPage";
-import { useAppStore } from "@/store";
 export default function AdminView() {
-  // useAdminDataEffect();
-  const setUser= useAppStore.getState().setUser;
-  setUser({user:null, userType: "admin"})
+  useAdminDataEffect();
   return (
     <>
       <Helmet>

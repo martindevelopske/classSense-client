@@ -24,6 +24,13 @@ export const removeSessionMembers = `${api}/sessions/members/remove`;
 export const getUserSessions = `${api}/sessions/user`;
 export const getInstructorSessions = `${api}/sessions/instructor`;
 export const getSingleSession = `${api}/sessions`;
+export const deleteSession = `${api}/sessions`;
+
+//instructors
+export const getAllInstructors = `${api}/instructors/all`;
+
+//roles
+export const getAllRoles = `${api}/roles`;
 
 //locations
 export const getAllLocations = `${api}/location`;
@@ -31,3 +38,7 @@ export const getAllLocations = `${api}/location`;
 //events
 export const attendanceEvents = `${api}/attendance/events`;
 export const testconnetion = `${api}/test-connection`;
+
+//dashboard
+export const getDashboardCounts = `${api}/dashboard/allCounts`;
+export const getTodaySessions = `${api}/dashboard/todaySessions`;

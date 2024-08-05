@@ -87,9 +87,15 @@ type AttendanceResponse = {
   sessionId: string;
   createdAt: Date;
 };
+interface CountsResponse {
+  instructors: number;
+  rooms: number;
+  sessions: number;
+  students: number;
+}
 
 interface LoginResponse {
   user: User;
-  userType: "student" | "instructor" | "admin"= "admin";
+  userType: "student" | "instructor" | "admin" = "admin";
   accessToken: string;
 }

@@ -3,11 +3,12 @@ import {
   addAttendance,
   addSessionMembers,
   attendanceEvents,
+  deleteSession,
   getSingleSession,
 } from "@/endpoints";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AttendanceDataTable from "./AttendanceDataTable";
 import QRCode from "qrcode";
 import { RiFullscreenFill } from "react-icons/ri";
@@ -19,6 +20,8 @@ import SaveImageButton from "@/components/SaveImageButton";
 import CodeModal from "@/components/modals/CodeModal";
 import MembersDataTable from "./MembersDataTable";
 import useFetchData from "@/lib/fetchData";
+import useDeleteData from "@/lib/deleteData";
+import { toast } from "@/components/ui/use-toast";
 type QRCodeData = {
   page: string;
   action: string;
@@ -38,7 +41,9 @@ export default function SingleSessionInstructor() {
   const [events, setEvents] = useState([]);
   const [members, setMembers] = useState(null);
 
+  const { deleteData } = useDeleteData();
   const { fetchData } = useFetchData();
+  const navigate = useNavigate();
   // const attendanceUrl: string = `http://localhost:5173/student/addAttendance?sessionId=${id}`;
 
   const fetchSession = async (id: string | undefined) => {
@@ -65,6 +70,16 @@ export default function SingleSessionInstructor() {
     setCodeTab(tab);
   };
   const handleEditSession = () => {};
+  const handleDelete = async () => {
+    try {
+      await deleteData(`${deleteSession}/${session?.id}`).then((res) => {
+        console.log(res);
+
+        toast({ title: res.data.message });
+      });
+      navigate("/instructor");
+    } catch (err) {}
+  };
 
   useEffect(() => {
     fetchSession(id);
@@ -111,13 +126,16 @@ export default function SingleSessionInstructor() {
       <div className="flex flex-col gap-1 border-t mt-3 w-full p-3 h-auto">
         <div className="flex items-center justify-center w-full ">
           <BackComponent to="/instructor" />
-          <div className="w-full h-[50px] flex items-center justify-end cursor-pointer self-end">
+          <div className="w-full h-[50px] flex gap-3 items-center justify-end cursor-pointer self-end">
             <p
               onClick={handleEditSession}
               className="flex gap-2 items-center border p-2 rounded-md border-purple"
             >
               <FaEdit /> Edit
             </p>
+            <Button variant="destructive" onClick={handleDelete}>
+              Delete
+            </Button>
           </div>
         </div>
         {loading && (
@@ -138,6 +156,7 @@ export default function SingleSessionInstructor() {
               </div>
               <div>{session.id}</div>
               <div className="font-bold text-lg">Status: {session.status}</div>
+              <div className="text-lg">Status: {session.day}</div>
             </div>
           </div>
         )}
@@ -224,7 +243,7 @@ export default function SingleSessionInstructor() {
               <div className="w-full flex">
                 <ul className="w-full flex gap-3 border p-2 text-lg text-purple">
                   <li
-                    className={`border-r px-3 cursor-pointer ${
+                    className={`border-r px-3 cursor-pointer z-10 ${
                       activeTab == "attendance" && "text-primary"
                     }`}
                     onClick={() => setActiveTab("attendance")}
@@ -232,7 +251,7 @@ export default function SingleSessionInstructor() {
                     Attendance
                   </li>
                   <li
-                    className={`border-r px-3 cursor-pointer ${
+                    className={`border-r px-3 cursor-pointer z-10 ${
                       activeTab == "dashboard" && "text-primary"
                     }`}
                     onClick={() => setActiveTab("dashboard")}
@@ -240,7 +259,7 @@ export default function SingleSessionInstructor() {
                     Dashboard
                   </li>
                   <li
-                    className={`border-r px-3 cursor-pointer ${
+                    className={`border-r px-3 cursor-pointer z-10 ${
                       activeTab == "members" && "text-primary"
                     }`}
                     onClick={() => setActiveTab("members")}

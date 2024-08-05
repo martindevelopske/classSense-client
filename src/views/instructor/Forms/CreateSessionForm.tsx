@@ -9,7 +9,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Helmet } from "react-helmet";
-import { ToastContainer, toast } from "react-toastify";
 import { Label } from "@radix-ui/react-label";
 import { ChangeEvent, FormEvent, useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
@@ -17,6 +16,8 @@ import { LoadingButton } from "@/components/LoadingButton";
 import { createSession, getAllLocations } from "@/endpoints";
 import useFetchData from "@/lib/fetchData";
 import usePostData from "@/lib/postData";
+import { toast } from "@/components/ui/use-toast";
+import { Toaster } from "@/components/ui/toaster";
 
 interface ErrorResponse {
   message: string;
@@ -57,10 +58,14 @@ export default function CreateSessionForm() {
     e.preventDefault();
     try {
       setLoading(true);
+      console.log(values);
+
       await postData(createSession, { ...values }).then((res) => {
         setSuccess("session created successfully.");
       });
-      toast("Session created successfully. You can now close this modal.");
+      toast({
+        title: "Session created successfully. You can now close this modal.",
+      });
       //close the modal-figure that out
     } catch (error: unknown) {
       setSuccess(null);
@@ -79,18 +84,7 @@ export default function CreateSessionForm() {
   return (
     <>
       <Card className="w-full h-full">
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
+        <Toaster />
         <Helmet>
           <meta charSet="utf-8" />
           <title>Create Session</title>
@@ -107,19 +101,19 @@ export default function CreateSessionForm() {
                   htmlFor="name"
                   className=" font-bold text-orange-600 text-lg"
                 >
-                  Title
+                  Name
                 </Label>
                 <Input
                   required
                   type="text"
                   name="name"
-                  placeholder="Session title"
+                  placeholder="Session Name"
                   onChange={handleChange}
                 />
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label
-                  htmlFor="name"
+                  htmlFor="status"
                   className=" font-bold text-orange-600 text-lg"
                 >
                   status
@@ -127,7 +121,7 @@ export default function CreateSessionForm() {
                 <div className="flex gap-2 items-center ">
                   <Input
                     required
-                    name="password"
+                    name="status"
                     placeholder="status"
                     onChange={handleChange}
                     disabled
@@ -137,22 +131,22 @@ export default function CreateSessionForm() {
             </div>
             <div className="flex flex-col space-y-1.5 mt-5">
               <Label
-                htmlFor="days"
+                htmlFor="day"
                 className=" font-bold text-orange-600 text-lg"
               >
                 Day:
               </Label>
               <select
-                name="days"
+                name="day"
                 onChange={handleChange}
                 className="border rounded-md p-2"
               >
                 <option value=""></option>
-                <option value="monday">Monday</option>
-                <option value="tuesday">Tuesday</option>
-                <option value="wednesday">Wednesday</option>
-                <option value="thursday">Thursday</option>
-                <option value="friday">Friday</option>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
               </select>
             </div>
             <div className="flex flex-col space-y-1.5 mt-5">

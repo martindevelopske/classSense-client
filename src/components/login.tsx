@@ -18,6 +18,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { EyeOpenIcon, EyeClosedIcon } from "@radix-ui/react-icons";
 import { useAppStore } from "@/store";
+import { Toaster } from "./ui/toaster";
+import { toast } from "./ui/use-toast";
 
 interface ErrorResponse {
   message: string;
@@ -51,8 +53,8 @@ export function LoginForm() {
       user.userType === "student"
         ? navigate("/student", { replace: true })
         : user.userType === "instructor"
-          ? navigate("/instructor", { replace: true })
-          : navigate("/");
+        ? navigate("/instructor", { replace: true })
+        : navigate("/");
     }
   };
   useEffect(checkuser, []);
@@ -85,11 +87,11 @@ export function LoginForm() {
               "Content-Type": "application/json",
             },
             withCredentials: true,
-          },
+          }
         )
         .then((res) => {
           console.log(res);
-          
+
           if (res.status != 200) {
             setError(res.data.message);
           }
@@ -97,6 +99,10 @@ export function LoginForm() {
           const userData: LoginResponse = res.data.message;
 
           setSuccess("Login successfull. Redirecting....");
+          toast({
+            title: "Login successfull",
+            description: "Redirecting...",
+          });
 
           //update state on zustand
           setUser(userData);
@@ -112,6 +118,9 @@ export function LoginForm() {
                 break;
               case "instructor":
                 navigate("/instructor", { replace: true });
+                break;
+              case "admin":
+                navigate("/admin", { replace: true });
                 break;
               default:
                 navigate("/", { replace: true });
@@ -141,6 +150,7 @@ export function LoginForm() {
 
   return (
     <Card className=" w-full">
+      <Toaster></Toaster>
       <Helmet>
         <meta charSet="utf-8" />
         <title>Login</title>
@@ -160,11 +170,12 @@ export function LoginForm() {
                 </div>
               </div>
             )}
-            {success && (
-              <div className="flex flex-col space-y-1.5 border border-green-600 p-2 text-green-600">
-                Login successfull. Redirecting...
-              </div>
-            )}
+            {/* {success && (
+              // <div className="flex flex-col space-y-1.5 border border-green-600 p-2 text-green-600">
+              //   Login successfull. Redirecting...
+              // </div>
+              
+            )} */}
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Email</Label>
               <Input
