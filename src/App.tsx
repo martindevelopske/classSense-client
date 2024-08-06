@@ -19,6 +19,7 @@ import Instructors from "./views/admin/Instructors.tsx";
 import Sessions from "./views/admin/Sessions.tsx";
 import Roles from "./views/admin/Roles.tsx";
 import Rooms from "./views/admin/Rooms.tsx";
+import InstructorSessions from "./views/instructor/InstructorSession.tsx";
 
 //set axios defaults
 axios.defaults.headers.common.Accept = "application/json";
@@ -35,6 +36,10 @@ const App = () => {
       children: [
         { index: true, element: <InstructorView /> },
         { path: "createSession", element: <CreateSession /> },
+        {
+          path: "sessions",
+          element: <InstructorSessions />,
+        },
         {
           path: "sessions/:id",
           element: <SingleSessionInstructor />,

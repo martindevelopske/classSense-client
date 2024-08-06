@@ -62,7 +62,7 @@ function MembersDataTable({ sessionId }: { sessionId: string }) {
     <Loading loadingState={loading} />
   ) : data && data?.length > 0 ? (
     <Table>
-      <TableCaption>A list of your recent Attendances.</TableCaption>
+      <TableCaption>A list of your Session Members.</TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead className="text-right font-bold">Firstname</TableHead>
@@ -73,13 +73,15 @@ function MembersDataTable({ sessionId }: { sessionId: string }) {
       </TableHeader>
       <TableBody>
         {data?.map((item: SessionMembersResponse) => {
-          const { firstname, lastname, email, id } = item.user;
+          const { firstname, lastname, email, id, createdAt } = item.user;
           return (
             <TableRow key={id}>
               <TableCell className="">{firstname}</TableCell>
               <TableCell>{lastname}</TableCell>
               <TableCell>{email}</TableCell>
-              <TableCell>date joined</TableCell>
+              <TableCell>
+                {createdAt ? new Date(createdAt).toLocaleDateString() : "N/A"}
+              </TableCell>
               <TableCell>
                 <Button
                   variant="destructive"

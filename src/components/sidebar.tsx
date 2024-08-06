@@ -13,21 +13,21 @@ const Sidebar = ({ role, expanded }: sidebarProps) => {
           { label: "Profile", to: "/student/profile" },
         ]
       : currentRole === "instructor"
-        ? [
-            { label: "Home", to: "/instructor" },
-            { label: "Dashboard", to: "dashboard" },
-          ]
-        : currentRole === "admin"
-          ? [
-              { label: "Home", to: "/admin" },
-              { label: "Instructors", to: "/admin/instructors" },
-              { label: "Sessions", to: "/admin/sessions" },
-              { label: "Roles", to: "/admin/roles" },
-              { label: "Rooms", to: "/admin/rooms" },
-            ]
-          : !currentRole
-            ? [{ label: "Login", to: "/" }]
-            : []; // default value if currentRole doesn't match any condition
+      ? [
+          { label: "Home", to: "/instructor" },
+          // { label: "Sessions", to: "/instructor/sessions" },
+        ]
+      : currentRole === "admin"
+      ? [
+          { label: "Home", to: "/admin" },
+          { label: "Instructors", to: "/admin/instructors" },
+          { label: "Sessions", to: "/admin/sessions" },
+          { label: "Roles", to: "/admin/roles" },
+          { label: "Rooms", to: "/admin/rooms" },
+        ]
+      : !currentRole
+      ? [{ label: "Login", to: "/" }]
+      : []; // default value if currentRole doesn't match any condition
 
   return (
     <div className="min-h-[500px] w-full text-white bg-purple">

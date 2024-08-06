@@ -25,6 +25,7 @@ export const getUserSessions = `${api}/sessions/user`;
 export const getInstructorSessions = `${api}/sessions/instructor`;
 export const getSingleSession = `${api}/sessions`;
 export const deleteSession = `${api}/sessions`;
+export const updateSession = `${api}/sessions`;
 
 //instructors
 export const getAllInstructors = `${api}/instructors/all`;

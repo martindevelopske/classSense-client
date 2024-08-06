@@ -15,6 +15,7 @@ export default function InstructorSessions() {
     try {
       setLoading(true);
       const response = await fetchData(getInstructorSessions);
+      console.log(response);
 
       setSessions(response.data.message);
     } catch (error) {

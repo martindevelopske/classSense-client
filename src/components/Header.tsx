@@ -22,9 +22,9 @@ type navbarProps = {
   user: LoginResponse | null;
 };
 const Navbar = ({ role, user }: navbarProps) => {
-  const currentUser: UserResponse| undefined = user?.user;
+  const currentUser: UserResponse | undefined = user?.user;
   const setUser = useAppStore((state) => state?.setUser);
-  const {postData}=usePostData();
+  const { postData } = usePostData();
 
   const navigate = useNavigate();
   //handle logout
@@ -100,34 +100,36 @@ const Navbar = ({ role, user }: navbarProps) => {
           )}
           <div className="flex items-center justify-center gap-3 mr-3">
             <BellIcon width={20} height={20} />
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost">
-                  <GearIcon width={20} height={20} />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56 bg-slate-300 mt-3 p-2 rounded-sm">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator className="mt-2" />
-                <DropdownMenuGroup>
-                  <DropdownMenuItem className="hover:bg-slate-500 p-2 rounded-sm cursor-pointer">
-                    Profile
-                  </DropdownMenuItem>
+            <div className="z-50">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost">
+                    <GearIcon width={20} height={20} />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56 bg-slate-300 mt-3 p-2 rounded-sm z-50 border">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
                   <DropdownMenuSeparator className="mt-2" />
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem className="hover:bg-slate-500 p-2 rounded-sm cursor-pointer">
+                      Profile
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator className="mt-2" />
 
-                  <DropdownMenuItem className="hover:bg-slate-500 p-2 rounded-sm cursor-pointer">
-                    Settings
+                    <DropdownMenuItem className="hover:bg-slate-500 p-2 rounded-sm cursor-pointer">
+                      Settings
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                  <DropdownMenuSeparator className="mt-2" />
+                  <DropdownMenuItem
+                    onClick={handleLogout}
+                    className="hover:bg-slate-500 p-2 rounded-sm cursor-pointer"
+                  >
+                    Log out
                   </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator className="mt-2" />
-                <DropdownMenuItem
-                  onClick={handleLogout}
-                  className="hover:bg-slate-500 p-2 rounded-sm cursor-pointer"
-                >
-                  Log out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </div>
         </div>
       </div>

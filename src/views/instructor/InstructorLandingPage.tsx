@@ -16,7 +16,7 @@ export default function InstructorLandingPage() {
           <h2 className="text-purple text-2xl font-bold">Your Sessions</h2>
           <Button
             variant="default"
-            className="flex items-center gap-2 justify-center"
+            className="flex items-center gap-2 justify-center ml-[150px]"
             onClick={() => setShowCreateSessionModal(true)}
           >
             {/* <Link

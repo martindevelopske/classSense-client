@@ -22,6 +22,7 @@ import MembersDataTable from "./MembersDataTable";
 import useFetchData from "@/lib/fetchData";
 import useDeleteData from "@/lib/deleteData";
 import { toast } from "@/components/ui/use-toast";
+import EditSessionModal from "@/components/modals/EditSessionModal";
 type QRCodeData = {
   page: string;
   action: string;
@@ -40,6 +41,7 @@ export default function SingleSessionInstructor() {
   const [error, setError] = useState<string>();
   const [events, setEvents] = useState([]);
   const [members, setMembers] = useState(null);
+  const [showEditModal, setShowEditModal] = useState<boolean>(false);
 
   const { deleteData } = useDeleteData();
   const { fetchData } = useFetchData();
@@ -126,10 +128,10 @@ export default function SingleSessionInstructor() {
       <div className="flex flex-col gap-1 border-t mt-3 w-full p-3 h-auto">
         <div className="flex items-center justify-center w-full ">
           <BackComponent to="/instructor" />
-          <div className="w-full h-[50px] flex gap-3 items-center justify-end cursor-pointer self-end">
+          <div className="w-full h-[50px] flex gap-3 items-center justify-end cursor-pointer self-end ml-[150px]">
             <p
-              onClick={handleEditSession}
-              className="flex gap-2 items-center border p-2 rounded-md border-purple"
+              onClick={() => setShowEditModal(true)}
+              className="flex gap-2 items-center border p-2 rounded-md border-purple z-10"
             >
               <FaEdit /> Edit
             </p>
@@ -285,6 +287,16 @@ export default function SingleSessionInstructor() {
               )}
             </div>
           </div>
+        )}
+        {showEditModal && (
+          <EditSessionModal
+            setShowEditSessionModal={setShowEditModal}
+            showEditSessionModal={showEditModal}
+            name={session!.name}
+            status={session!.status}
+            locationId={session!.locationId}
+            day={session!.day}
+          />
         )}
       </div>
     </>

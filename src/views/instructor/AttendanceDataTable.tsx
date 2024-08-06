@@ -1,5 +1,4 @@
 import ErrorComponent from "@/components/Error";
-import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -11,54 +10,103 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { deleteAttendance } from "@/endpoints";
-import { useAppStore } from "@/store";
 import axios from "axios";
 
+interface EmailCount {
+  email: string;
+  count: number;
+  firstNames: string[];
+  lastNames: string[];
+}
+
 const HandleDeleteAttendance = async (attendanceId: string) => {
-  //send the request
+  // Send the request
   try {
     await axios.delete(`${deleteAttendance}/${attendanceId}`, {
       withCredentials: true,
     });
-  } catch (err) {}
-  //filter the data
+  } catch (err) {
+    console.error("Failed to delete attendance", err);
+  }
 };
-export function AttendanceDataTable({ data }: { data: AttendanceResponse[] }) {
-  return data?.length > 0 ? (
+
+// Function to count email occurrences and track names
+const countEmailOccurrences = (
+  data: AttendanceResponse[]
+): Record<
+  string,
+  { count: number; firstNames: string[]; lastNames: string[] }
+> => {
+  return data.reduce((acc, item) => {
+    const { email, firstname, lastname } = item.user;
+    if (acc[email]) {
+      acc[email].count += 1;
+      if (!acc[email].firstNames.includes(firstname)) {
+        acc[email].firstNames.push(firstname);
+      }
+      if (!acc[email].lastNames.includes(lastname)) {
+        acc[email].lastNames.push(lastname);
+      }
+    } else {
+      acc[email] = {
+        count: 1,
+        firstNames: [firstname],
+        lastNames: [lastname],
+      };
+    }
+    return acc;
+  }, {} as Record<string, { count: number; firstNames: string[]; lastNames: string[] }>);
+};
+
+// Convert email counts to an array of objects
+const getEmailCountArray = (
+  emailCounts: Record<
+    string,
+    { count: number; firstNames: string[]; lastNames: string[] }
+  >
+): EmailCount[] => {
+  return Object.keys(emailCounts).map((email) => ({
+    email,
+    count: emailCounts[email].count,
+    firstNames: emailCounts[email].firstNames,
+    lastNames: emailCounts[email].lastNames,
+  }));
+};
+
+interface AttendanceDataTableProps {
+  data: AttendanceResponse[];
+}
+
+export function AttendanceDataTable({ data }: AttendanceDataTableProps) {
+  const emailCounts = countEmailOccurrences(data);
+  const emailCountArray = getEmailCountArray(emailCounts);
+
+  return emailCountArray.length > 0 ? (
     <Table>
-      <TableCaption>A list of your recent Attendances.</TableCaption>
+      <TableCaption>
+        A list of email attendance counts with associated names.
+      </TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead className="text-right font-bold">Firstname</TableHead>
-          <TableHead className="w-[100px]">Lastname</TableHead>
+          <TableHead>First Names</TableHead>
+          <TableHead>Last Names</TableHead>
           <TableHead>Email</TableHead>
-          <TableHead>Date</TableHead>
+          <TableHead>Count</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data?.map((item: AttendanceResponse) => {
-          const { firstname, lastname, email, id, createdAt } = item.user;
-          return (
-            <TableRow key={id}>
-              <TableCell className="">{firstname}</TableCell>
-              <TableCell>{lastname}</TableCell>
-              <TableCell>{email}</TableCell>
-              <TableCell>{createdAt?.toString()}</TableCell>
-              <TableCell>
-                <Button
-                  variant="destructive"
-                  onClick={() => HandleDeleteAttendance(id)}
-                >
-                  Delete
-                </Button>
-              </TableCell>
-            </TableRow>
-          );
-        })}
+        {emailCountArray.map(({ email, count, firstNames, lastNames }) => (
+          <TableRow key={email}>
+            <TableCell>{firstNames.join(", ")}</TableCell>
+            <TableCell>{lastNames.join(", ")}</TableCell>
+            <TableCell>{email}</TableCell>
+            <TableCell className="text-right">{count}</TableCell>
+          </TableRow>
+        ))}
       </TableBody>
       <TableFooter>
         <TableRow>
-          <TableCell colSpan={3}>Total</TableCell>
+          <TableCell colSpan={3}>Total Emails</TableCell>
           <TableCell className="text-right">{data.length}</TableCell>
         </TableRow>
       </TableFooter>
@@ -67,4 +115,5 @@ export function AttendanceDataTable({ data }: { data: AttendanceResponse[] }) {
     <ErrorComponent errorMessage="No attendance Records" />
   );
 }
+
 export default AttendanceDataTable;
