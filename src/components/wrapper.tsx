@@ -8,7 +8,7 @@ import { Outlet } from "react-router-dom";
 export default function Wrapper() {
   const [expanded, setExpanded] = useState<boolean>(false);
   const [isMediumScreen, setIsMediumScreen] = useState<boolean>(false);
-  const user:LoginResponse | null = useAppStore((state) => state.user);
+  const user: LoginResponse | null = useAppStore((state) => state.user);
 
   const handleExpand = () => {
     setExpanded((prev) => !prev);
@@ -47,7 +47,7 @@ export default function Wrapper() {
               </button>
             </div>
             <div className="flex items-center justify-center text-white w-full ">
-              <div className="mt-6 w-full h-auto">
+              <div className="mt-6 h-auto fixed top-[80px] left-0 w-[200px]">
                 <Sidebar role={user?.userType} expanded={expanded} />
               </div>
               {/* )} */}

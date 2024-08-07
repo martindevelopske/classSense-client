@@ -37,9 +37,9 @@ function Sessions() {
                 return (
                   <div
                     key={session.id}
-                    className="flex flex-col justify-center items-start rounded-lg h-auto w-full"
+                    className="flex flex-col justify-center items-start rounded-lg h-auto w-full gap-2"
                   >
-                    <div className="flex gap-2 items-center w-full justify-between bg-slate-200 ">
+                    <div className="flex p-2 items-center w-full justify-between bg-slate-200 border m-2">
                       <h2>{++count}.</h2>
                       <h2 className="font-bold">{session.name}</h2>
                       <h2>

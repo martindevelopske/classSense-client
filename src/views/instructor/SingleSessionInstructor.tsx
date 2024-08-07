@@ -131,7 +131,7 @@ export default function SingleSessionInstructor() {
           <div className="w-full h-[50px] flex gap-3 items-center justify-end cursor-pointer self-end ml-[150px]">
             <p
               onClick={() => setShowEditModal(true)}
-              className="flex gap-2 items-center border p-2 rounded-md border-purple z-10"
+              className="flex gap-2 items-center border p-2 rounded-md border-purple"
             >
               <FaEdit /> Edit
             </p>
@@ -151,7 +151,7 @@ export default function SingleSessionInstructor() {
           </div>
         )}
         {!loading && session && (
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3  p-2">
             <div>
               <div className="font-bold text-2xl text-purple">
                 {session.name}
@@ -164,13 +164,15 @@ export default function SingleSessionInstructor() {
         )}
         <br></br>
         {!loading && session && (
-          <div className="flex gap-3 p-2  border">
+          <div className="flex gap-3 p-2">
             <Button
               onClick={() => {
                 generateCode(`${session.id}/addAttendance`);
                 handleTabChange("sign-in");
               }}
               variant="default"
+              className="z-10"
+              disabled={loading || !session}
             >
               Sign In Code
             </Button>
@@ -179,6 +181,8 @@ export default function SingleSessionInstructor() {
                 generateCode(`${session.id}/join`);
                 handleTabChange("joining");
               }}
+              className="z-10"
+              disabled={loading || !session}
             >
               Invite Code
             </Button>
@@ -253,7 +257,7 @@ export default function SingleSessionInstructor() {
                     Attendance
                   </li>
                   <li
-                    className={`border-r px-3 cursor-pointer z-10 ${
+                    className={`border-r px-3 cursor-pointer z-10 hidden ${
                       activeTab == "dashboard" && "text-primary"
                     }`}
                     onClick={() => setActiveTab("dashboard")}
@@ -273,7 +277,7 @@ export default function SingleSessionInstructor() {
               {activeTab == "attendance" && (
                 <div>
                   {!loading && attendance ? (
-                    <AttendanceDataTable data={attendance} />
+                    <AttendanceDataTable data={attendance} session={session} />
                   ) : (
                     <ErrorComponent errorMessage="Failed to Fetch attendance Data. Please Refresh the page." />
                   )}
@@ -282,7 +286,7 @@ export default function SingleSessionInstructor() {
               {activeTab == "dashboard" && <div>Dashboard</div>}
               {activeTab == "members" && (
                 <div className="h-full w-full flex items-center justify-center">
-                  {id && <MembersDataTable sessionId={id} />}
+                  {id && <MembersDataTable sessionId={id} session={session} />}
                 </div>
               )}
             </div>

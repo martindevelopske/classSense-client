@@ -13,8 +13,12 @@ const usePostData = () => {
         const response = await apiclient.post(url, data, {
           withCredentials: true,
         });
+        console.log(response);
+
         return response;
       } catch (err) {
+        console.log(err);
+
         if (err == "login") {
           // Clear the current user data if any
           setUser(null);

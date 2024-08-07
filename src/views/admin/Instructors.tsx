@@ -29,10 +29,13 @@ function Instructors() {
   let count = 0;
   return (
     <>
-      <div className="flex items-center justify-between w-ful h-auto p-2">
-        <div className="w-3/4">
+      <div className="flex flex-col items-center justify-between w-ful h-auto p-2">
+        <div className="flex p-2 justify-between w-full items-center">
           <h2 className="text-purple text-2xl font-bold">All Instructors</h2>
-          <div className="flex flex-col justify-center items-start rounded-md h-auto w-full p-2">
+          <Button>Create New Instructor</Button>
+        </div>
+        <div className="w-full">
+          <div className="flex flex-col justify-center items-start rounded-md h-auto w-full p-2 gap-2">
             {!loading &&
               instructors &&
               instructors.length > 0 &&
@@ -54,9 +57,6 @@ function Instructors() {
               })}
             {loading && <FadeLoader />}
           </div>
-        </div>
-        <div>
-          <Button>Create New Instructor</Button>
         </div>
       </div>
     </>

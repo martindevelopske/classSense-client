@@ -29,12 +29,12 @@ function TodaySessions() {
   return (
     <div className="flex w-full h-auto p-2">
       {!loading && todaySessions && todaySessions.length > 0 && (
-        <div className="flex flex-col justify-center items-start rounded-md h-auto bg-slate-400 w-full p-2">
+        <div className="flex flex-col gap-2 justify-center items-start rounded-md h-auto  w-full p-2">
           {todaySessions.map((session) => {
             return (
               <div
                 key={session.id}
-                className="flex flex-col justify-center items-start rounded-lg h-auto w-full"
+                className="flex flex-col justify-center items-start rounded-lg h-auto w-full bg-green-400 p-2"
               >
                 <h2 className="font-bold">{session.name}</h2>
                 <p>

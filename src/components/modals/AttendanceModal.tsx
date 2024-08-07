@@ -17,14 +17,14 @@ function AttendanceModal({ loading, error, success }: props) {
         {loading && <FadeLoader color="#36d7b7" />}
         {loading && <p>loading....</p>}
         {error && (
-          <div>
+          <div className="w-3/4 flex ">
             <ErrorComponent errorMessage={error} />
           </div>
         )}
         {success && !loading ? (
-          <div className="flex flex-col items-center gap-3 justify-center p-2">
+          <div className="flex flex-col items-center gap-3 justify-center p-2 w-full">
             <PiSealCheckFill size={150} color="green" />
-            <div className="text-lg">{success}</div>
+            <div className="text-lg ">{success}</div>
           </div>
         ) : (
           ""

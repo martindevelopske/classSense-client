@@ -17,7 +17,7 @@ export default function SingleSessionStudent() {
   const [attendance, setAttendance] = useState();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
-   const {fetchData}= useFetchData();
+  const { fetchData } = useFetchData();
 
   // const attendanceUrl: string = `http://localhost:5173/student/addAttendance?sessionId=${id}`;
 
@@ -26,7 +26,7 @@ export default function SingleSessionStudent() {
       setLoading(true);
       const url = `${getSingleSession}/${id}`;
       const response = await fetchData(url);
-      console.log(response)
+      console.log(response);
 
       setSession(response.data.message);
 
@@ -79,7 +79,7 @@ export default function SingleSessionStudent() {
               <div className="font-bold text-lg">Status: {session.status}</div>
             </div>
             {attendance ? (
-              <AttendanceDataTable data={attendance} />
+              <AttendanceDataTable data={attendance} session={session} />
             ) : (
               <ErrorComponent errorMessage="Failed to Fetch attendance Data. Please Refresh the page." />
             )}

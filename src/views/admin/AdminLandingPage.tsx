@@ -32,27 +32,23 @@ export default function AdminLandingPage() {
               <Card
                 title="Students"
                 value={countsData?.students}
-                description="up by 20% from last week"
+                description=""
               />
               <Card
                 title="Intructors"
                 value={countsData?.instructors}
-                description="up by 20% from last week"
+                description=""
               />
               <Card
                 title="Sessions"
                 value={countsData?.sessions}
-                description="up by 20% from last week"
+                description=""
               />
-              <Card
-                title="Rooms"
-                value={countsData?.rooms}
-                description="up by 20% from last week"
-              />
+              <Card title="Rooms" value={countsData?.rooms} description="" />
             </div>
             <div className="w-1/2 flex flex-col mt-10">
-              <div>Overall Attendance Overview</div>
-              <Chart />
+              {/* <div>Overall Attendance Overview</div> */}
+              {/* <Chart /> */}
             </div>
           </div>
           <div className="w-1/4 border">

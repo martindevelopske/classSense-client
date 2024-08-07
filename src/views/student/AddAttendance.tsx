@@ -33,6 +33,8 @@ function AddAttendance() {
       // setTimeout(async () => {
       try {
         await postData(addAttendance, { sessionId: sessionId }).then((res) => {
+          console.log(res.data);
+
           if (typeof res.data.message === "string") {
             setSuccess(res.data.message);
           } else {
@@ -40,6 +42,10 @@ function AddAttendance() {
           }
         });
       } catch (err: unknown) {
+        console.log(err);
+        // if (err.data.message) {
+        //   setSuccess(err.data.message);
+        // }
         if (axios.isAxiosError(err)) {
           const axiosErr = err as AxiosError<ErrorResponse>; // Cast err to AxiosError with ErrorResponse type
           if (axiosErr.response && axiosErr.response.data) {
@@ -50,7 +56,9 @@ function AddAttendance() {
             setError("An error occurred");
           }
         } else {
-          setError("An unexpected error occurred");
+          setError(
+            "An unexpected error occurred. Try again and also check if you are a member of this session"
+          );
         }
       } finally {
         setLoading(false);

@@ -27,10 +27,13 @@ function Rooms() {
   let count = 0;
   return (
     <>
-      <div className="flex items-center justify-between w-ful h-auto p-2">
-        <div className="w-3/4">
-          <h2 className="text-purple text-2xl font-bold">All rooms</h2>
-          <div className="flex flex-col justify-center items-start rounded-md h-auto w-full p-2">
+      <div className="flex flex-col items-center justify-between w-ful h-auto p-2">
+        <div className="flex p-2 justify-between w-full items-center">
+          <h2 className="text-purple text-2xl font-bold">All Rooms</h2>
+          <Button>Create New Room</Button>
+        </div>
+        <div className="w-full">
+          <div className="flex flex-col justify-center items-start rounded-md h-auto w-full p-2 gap-2">
             {!loading &&
               rooms &&
               rooms.length > 0 &&
@@ -38,9 +41,9 @@ function Rooms() {
                 return (
                   <div
                     key={rooms.id}
-                    className="flex flex-col justify-between items-start rounded-lg h-auto w-full bg-slate-200 p-2"
+                    className="flex flex-col justify-start items-start rounded-lg h-auto w-full bg-slate-200 p-2"
                   >
-                    <div className="flex gap-2 justify-between items-center w-full">
+                    <div className="flex justify-between items-center w-full">
                       <h2>{++count}.</h2>
                       <h2 className="font-bold">{rooms.locationName}</h2>
                       <p>{rooms.locationDescription}</p>
@@ -50,9 +53,6 @@ function Rooms() {
               })}
             {loading && <FadeLoader />}
           </div>
-        </div>
-        <div>
-          <Button>Create New Instructor</Button>
         </div>
       </div>
     </>
