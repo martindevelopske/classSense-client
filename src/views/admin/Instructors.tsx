@@ -1,3 +1,4 @@
+import CreateInstructorModal from "@/components/modals/CreateInstructorModal";
 import { Button } from "@/components/ui/button";
 import { getAllInstructors } from "@/endpoints";
 import useFetchData from "@/lib/fetchData";
@@ -8,6 +9,8 @@ function Instructors() {
   const [instructors, setInstructors] = useState<InstructorResponse[] | null>(
     null
   );
+  const [showCreateInstructorModal, setShowCreateInstructorModal] =
+    useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const { fetchData } = useFetchData();
   const getInstructors = async () => {
@@ -32,7 +35,9 @@ function Instructors() {
       <div className="flex flex-col items-center justify-between w-ful h-auto p-2">
         <div className="flex p-2 justify-between w-full items-center">
           <h2 className="text-purple text-2xl font-bold">All Instructors</h2>
-          <Button>Create New Instructor</Button>
+          <Button onClick={() => setShowCreateInstructorModal(true)}>
+            Create New Instructor
+          </Button>
         </div>
         <div className="w-full">
           <div className="flex flex-col justify-center items-start rounded-md h-auto w-full p-2 gap-2">
@@ -58,6 +63,10 @@ function Instructors() {
             {loading && <FadeLoader />}
           </div>
         </div>
+        <CreateInstructorModal
+          showCreateInstructorModal={showCreateInstructorModal}
+          setShowCreateInstructorModal={setShowCreateInstructorModal}
+        />
       </div>
     </>
   );

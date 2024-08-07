@@ -30,7 +30,7 @@ function Rooms() {
       <div className="flex flex-col items-center justify-between w-ful h-auto p-2">
         <div className="flex p-2 justify-between w-full items-center">
           <h2 className="text-purple text-2xl font-bold">All Rooms</h2>
-          <Button>Create New Room</Button>
+          {/* <Button>Create New Room</Button> */}
         </div>
         <div className="w-full">
           <div className="flex flex-col justify-center items-start rounded-md h-auto w-full p-2 gap-2">

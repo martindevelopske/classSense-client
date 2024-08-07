@@ -30,7 +30,7 @@ function Roles() {
       <div className="flex flex-col justify-between w-full p-2">
         <div className="flex items-center justify-between w-full">
           <h2 className="text-purple text-2xl font-bold">All Roles</h2>
-          <Button>Create New Role</Button>
+          {/* <Button>Create New Role</Button> */}
         </div>
         <div className="w-full">
           <div className="flex flex-col gap-2 rounded-md h-auto w-full p-2">
